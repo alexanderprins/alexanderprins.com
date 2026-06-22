@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { projects, getProject } from "@/lib/projects";
 import { ProjectMeta } from "@/components/ProjectMeta";
+import { Media } from "@/components/Media";
 
 export const dynamicParams = false;
 
@@ -64,17 +65,10 @@ export default async function WorkPage({ params }: Props) {
         {project.images.map((img, i) => (
           <div
             key={i}
-            className={`flex items-center justify-center bg-black/[0.04] text-center text-sm text-black/40 ${
-              img.type === "cover" ? "aspect-video" : "aspect-[4/3]"
-            }`}
+            className="flex aspect-video items-center justify-center bg-black/[0.04] text-center text-sm text-black/40"
           >
             {img.src ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={img.src}
-                alt={img.alt}
-                className="h-full w-full object-cover"
-              />
+              <Media img={img} className="h-full w-full object-cover" />
             ) : (
               <span className="p-6">{img.alt}</span>
             )}

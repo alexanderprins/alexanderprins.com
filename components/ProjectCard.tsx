@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Project, ProjectImage } from "@/lib/projects";
 import { ProjectMeta } from "@/components/ProjectMeta";
+import { Media } from "@/components/Media";
 
 // Rich gallery block for index pages. Spacing per Alexander's 4pt spec:
 // pill->descriptor 16px, header->image group 32px, image->sidebar 16px,
@@ -21,8 +22,7 @@ function Slot({
       className={`flex items-center justify-center bg-black/[0.04] p-2 text-center ${textSize} text-black/40 ${className}`}
     >
       {img.src ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={img.src} alt={img.alt} className="h-full w-full object-cover" />
+        <Media img={img} className="h-full w-full object-cover" />
       ) : (
         <span>{img.alt}</span>
       )}

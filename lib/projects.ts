@@ -34,7 +34,11 @@ export type Testimonial = {
 export type ProjectImage = {
   // src is empty until the real asset is produced; UI renders a labeled
   // placeholder box in the meantime so the layout/plan is visible.
+  // A src ending in .mp4/.webm/.mov renders as a looping muted <video>;
+  // anything else renders as <img>. `poster` is the still shown before a
+  // video paints (optional).
   src?: string;
+  poster?: string;
   alt: string;
   type: "cover" | "interface" | "lifestyle" | "detail" | "motion";
 };
@@ -149,16 +153,55 @@ export const projects: Project[] = [
     disciplines: ["Branding", "Identity", "Strategy", "3D", "Motion", "Web"],
     tools: ["Illustrator", "Spline", "Photoshop", "Final Cut Pro", "Framer"],
     // TODO: testimonial exists (owner wrote one for Contra profile). Paste text + confirm name/title.
+    // Order keeps the cover + first 3 thumbs (the homepage card) all real;
+    // the two pending videos (color system, teardrop) sit deeper as labeled
+    // placeholders until they land. Reorder freely once they're in.
     images: [
-      { type: "cover", alt: "Gold 3D teardrop on dark auditorium screen" },
-      { type: "detail", alt: "Teardrop system primitives" },
-      { type: "lifestyle", alt: "Trade-show booth" },
-      { type: "motion", alt: "Spinning 3D logo" },
-      { type: "detail", alt: "Logo evolution" },
-      { type: "detail", alt: "Digital business card" },
-      { type: "detail", alt: "Internal document templates" },
-      { type: "lifestyle", alt: "Social media set" },
-      { type: "motion", alt: "Profile video" },
+      {
+        type: "cover",
+        src: "/work/patient-pipeline/01-cover-auditorium.jpg",
+        alt: "Gold 3D teardrop logo projected on a dark auditorium screen",
+      },
+      {
+        type: "motion",
+        src: "/work/patient-pipeline/02-logo-evolution.mp4",
+        poster: "/work/patient-pipeline/02-logo-evolution.jpg",
+        alt: "The old logo transforming into the new mark found in its negative space",
+      },
+      {
+        type: "detail",
+        src: "/work/patient-pipeline/03-brand-statement.jpg",
+        alt: "Industry Leading Results brand statement with blue waveform teardrop",
+      },
+      {
+        type: "motion",
+        src: "/work/patient-pipeline/04-logo-3d-spin.mp4",
+        poster: "/work/patient-pipeline/04-logo-3d-spin.jpg",
+        alt: "Slow 3D render of the gold teardrop logo rotating",
+      },
+      {
+        type: "interface",
+        src: "/work/patient-pipeline/05-website-hero.jpg",
+        alt: "Patient Pipeline website hero, We Deliver Real LASIK Patients",
+      },
+      {
+        type: "motion",
+        alt: "Color system: RGB primaries through blend modes (video in progress)",
+      },
+      {
+        type: "motion",
+        alt: "The Teardrop generative system in motion (video in progress)",
+      },
+      {
+        type: "detail",
+        src: "/work/patient-pipeline/08-lanyard-credential.jpg",
+        alt: "ASCRS conference lanyard credential with the Patient Pipeline mark",
+      },
+      {
+        type: "lifestyle",
+        src: "/work/patient-pipeline/09-social-set.jpg",
+        alt: "Instagram blog-post set applying the brand across social",
+      },
     ],
 
   },
