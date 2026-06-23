@@ -2,10 +2,43 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { projects, getProject } from "@/lib/projects";
+import type { ProjectImage } from "@/lib/projects";
 import { ProjectMeta } from "@/components/ProjectMeta";
 import { Media } from "@/components/Media";
 
 export const dynamicParams = false;
+
+// Group images into gallery rows: a landscape image is its own full-width row;
+// two consecutive portraits share a 2-up row (full 9:16, side by side). A lone
+// portrait falls back to a single 9:16 row.
+function buildRows(images: ProjectImage[]): ProjectImage[][] {
+  const rows: ProjectImage[][] = [];
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i];
+    const next = images[i + 1];
+    if (img.aspect === "portrait" && next?.aspect === "portrait") {
+      rows.push([img, next]);
+      i++;
+    } else {
+      rows.push([img]);
+    }
+  }
+  return rows;
+}
+
+function GallerySlot({ img, ratio }: { img: ProjectImage; ratio: string }) {
+  return (
+    <div
+      className={`flex ${ratio} items-center justify-center bg-black/[0.04] text-center text-sm text-black/40`}
+    >
+      {img.src ? (
+        <Media img={img} className="h-full w-full object-cover" />
+      ) : (
+        <span className="p-6">{img.alt}</span>
+      )}
+    </div>
+  );
+}
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -60,20 +93,28 @@ export default async function WorkPage({ params }: Props) {
         )}
       </div>
 
-      {/* Art gallery: images go big. Labeled placeholders until real assets land. */}
+      {/* Art gallery: images go big. Landscape images are full-width 16:9;
+          consecutive portraits auto-pair into a 2-up row (full 9:16) that
+          stacks on mobile. One uniform 24px gap everywhere. Labeled
+          placeholders until real assets land. */}
       <div className="mt-12 space-y-6">
-        {project.images.map((img, i) => (
-          <div
-            key={i}
-            className="flex aspect-video items-center justify-center bg-black/[0.04] text-center text-sm text-black/40"
-          >
-            {img.src ? (
-              <Media img={img} className="h-full w-full object-cover" />
-            ) : (
-              <span className="p-6">{img.alt}</span>
-            )}
-          </div>
-        ))}
+        {buildRows(project.images).map((row, r) =>
+          row.length === 2 ? (
+            <div key={r} className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              {row.map((img, i) => (
+                <GallerySlot key={i} img={img} ratio="aspect-[9/16]" />
+              ))}
+            </div>
+          ) : (
+            <GallerySlot
+              key={r}
+              img={row[0]}
+              ratio={
+                row[0].aspect === "portrait" ? "aspect-[9/16]" : "aspect-video"
+              }
+            />
+          ),
+        )}
       </div>
 
       <div className="mx-auto mt-16 max-w-2xl space-y-6 text-[15px] leading-relaxed text-black/80">

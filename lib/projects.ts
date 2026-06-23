@@ -41,6 +41,10 @@ export type ProjectImage = {
   poster?: string;
   alt: string;
   type: "cover" | "interface" | "lifestyle" | "detail" | "motion";
+  // Display aspect in the /work gallery. Default (undefined) renders 16:9.
+  // `portrait` renders the image at full 9:16; consecutive portraits are
+  // auto-paired side by side (and stack on mobile). See app/work/[slug].
+  aspect?: "portrait";
   // Homepage-card selection, independent of gallery (story) order.
   // `card: "cover"` = the big card image; `card: "thumb"` = one of the 3-up
   // thumbnail strip. The /work gallery ALWAYS renders every image in array
@@ -136,16 +140,118 @@ export const projects: Project[] = [
     status: "Shipped",
     disciplines: ["Branding", "Identity", "Packaging", "Motion", "Web"],
     tools: ["Illustrator", "Photoshop", "After Effects", "Figma"],
+    // Real assets wired from the NV selections set, in Alexander's gallery
+    // order. Homepage card is explicit: cover = window-signage hero; thumbs =
+    // retail bags, shapes-fill, wordmark (card order follows array order here).
+    // Images 04/05 and 15/16 are portrait and auto-pair side by side; see
+    // app/work/[slug]/page.tsx.
     images: [
-      { type: "cover", alt: "Home Blend packaging flat-lay" },
-      { type: "detail", alt: "Coffee Club app icon" },
-      { type: "detail", alt: "Shapes pattern, all shapes and sizes" },
-      { type: "lifestyle", alt: "Signage and window display" },
-      { type: "motion", alt: "Logo suite animation" },
-      { type: "detail", alt: "To-go cups" },
-      { type: "lifestyle", alt: "Retail shelf" },
-      { type: "detail", alt: "Menu and neck tags" },
-      { type: "motion", alt: "Coffee Club branding cycle" },
+      {
+        type: "lifestyle",
+        card: "cover",
+        src: "/work/northern-vessel/00-hero-window-signage.png",
+        alt: "Northern Vessel storefront windows: a vinyl wordmark beside repeating COFFEE COFFEE COFFEE lettering",
+      },
+      {
+        type: "detail",
+        src: "/work/northern-vessel/01-full-lockup.png",
+        alt: "Northern Vessel logomark and wordmark lockup with the Forward, Together tagline, white on sage green",
+      },
+      {
+        type: "detail",
+        src: "/work/northern-vessel/02-to-go-cups.png",
+        alt: "Two sage green Northern Vessel to-go cups, one with latte art, on white",
+      },
+      {
+        type: "motion",
+        src: "/work/northern-vessel/03-logo-suite.mp4",
+        poster: "/work/northern-vessel/03-logo-suite.jpg",
+        alt: "The Northern Vessel logo suite animating through its marks",
+      },
+      {
+        type: "lifestyle",
+        aspect: "portrait",
+        src: "/work/northern-vessel/04-green-shirts.png",
+        alt: "Two people in sage green Northern Vessel tees, seated and laughing",
+      },
+      {
+        type: "lifestyle",
+        aspect: "portrait",
+        src: "/work/northern-vessel/05-a-frame-sign.png",
+        alt: "Black A-frame sidewalk sign reading COFFEE COFFEE COFFEE with the Northern Vessel mark",
+      },
+      {
+        type: "detail",
+        src: "/work/northern-vessel/06-neck-tag.png",
+        alt: "Screen-printed neck tag inside a green tee: 100% cotton, hand printed in Des Moines",
+      },
+      {
+        type: "detail",
+        card: "thumb",
+        src: "/work/northern-vessel/07-retail-coffee-bags.png",
+        alt: "Home Blend retail coffee bags in a repeating flat-lay, dark green on green with the shapes pattern",
+      },
+      {
+        type: "detail",
+        src: "/work/northern-vessel/08-menu.png",
+        alt: "Northern Vessel printed menu, Summer 23, with the full drink list layout",
+      },
+      {
+        type: "lifestyle",
+        src: "/work/northern-vessel/09-bw-shirts.png",
+        alt: "Two people wearing the cream Optimist Society long sleeve and the navy Optimist Society tee",
+      },
+      {
+        type: "detail",
+        src: "/work/northern-vessel/10-optimist-white-back.png",
+        alt: "Back print of the cream Optimist Society long sleeve: a smiling rain cloud, Rain or Shine",
+      },
+      {
+        type: "motion",
+        card: "thumb",
+        src: "/work/northern-vessel/11-shapes-fill.mp4",
+        poster: "/work/northern-vessel/11-shapes-fill.jpg",
+        alt: "The Northern Vessel shapes pattern filling the frame, a brand motion loop",
+      },
+      {
+        type: "detail",
+        card: "thumb",
+        src: "/work/northern-vessel/12-coffee-club-wordmark.jpg",
+        alt: "The Coffee Club script wordmark in white on near-black",
+      },
+      {
+        type: "lifestyle",
+        src: "/work/northern-vessel/13-window-posters.png",
+        alt: "Storefront window with two posters: the Coffee Club app and a Lavender Cold Brew Latte feature",
+      },
+      {
+        type: "motion",
+        src: "/work/northern-vessel/14-cheers-cups.mp4",
+        poster: "/work/northern-vessel/14-cheers-cups.jpg",
+        alt: "Two Coffee Club cups clinking in a cheers, a line-art brand animation",
+      },
+      {
+        type: "lifestyle",
+        aspect: "portrait",
+        src: "/work/northern-vessel/15-bottle-and-cup.png",
+        alt: "Northern Vessel cold brew bottle and a Coffee Club glass on a marble counter",
+      },
+      {
+        type: "detail",
+        aspect: "portrait",
+        src: "/work/northern-vessel/16-optimist-black-back.png",
+        alt: "Back print of the black Optimist Society tee on a wooden rack",
+      },
+      {
+        type: "detail",
+        src: "/work/northern-vessel/17-coffee-club-icons.jpg",
+        alt: "Custom Coffee Club icon set: cheers cups, branded tee with beans, milk bottle, and steaming mug",
+      },
+      {
+        type: "lifestyle",
+        src: "/work/northern-vessel/18-tagline-poster.jpg",
+        alt: "Experience coffee differently poster mounted on a cedar-clad shopfront exterior",
+      },
     ],
   },
   {
