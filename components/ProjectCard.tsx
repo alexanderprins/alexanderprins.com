@@ -31,8 +31,17 @@ function Slot({
 }
 
 export function ProjectCard({ project }: { project: Project }) {
-  const [cover, ...rest] = project.images;
-  const thumbs = rest.slice(0, 3);
+  // Card selection is decoupled from gallery order. Prefer explicit `card`
+  // flags; fall back to the old "first image = cover, next 3 = thumbs" when a
+  // project hasn't been flagged yet.
+  const cover =
+    project.images.find((img) => img.card === "cover") ?? project.images[0];
+  const flaggedThumbs = project.images.filter((img) => img.card === "thumb");
+  const thumbs = (
+    flaggedThumbs.length > 0
+      ? flaggedThumbs
+      : project.images.filter((img) => img !== cover)
+  ).slice(0, 3);
   const href = `/work/${project.slug}`;
 
   return (

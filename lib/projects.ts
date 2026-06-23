@@ -41,6 +41,14 @@ export type ProjectImage = {
   poster?: string;
   alt: string;
   type: "cover" | "interface" | "lifestyle" | "detail" | "motion";
+  // Homepage-card selection, independent of gallery (story) order.
+  // `card: "cover"` = the big card image; `card: "thumb"` = one of the 3-up
+  // thumbnail strip. The /work gallery ALWAYS renders every image in array
+  // order regardless of these flags, so you can place an image early in the
+  // story without forcing it into the card. If a project has no flags, the
+  // card falls back to the old behavior: first image = cover, next 3 = thumbs.
+  // Flag exactly one cover and three thumbs for a full card.
+  card?: "cover" | "thumb";
 };
 
 export type Project = {
@@ -159,6 +167,7 @@ export const projects: Project[] = [
     images: [
       {
         type: "cover",
+        card: "cover",
         src: "/work/patient-pipeline/01-cover-auditorium.jpg",
         alt: "Gold 3D teardrop logo projected on a dark auditorium screen",
       },
@@ -170,11 +179,13 @@ export const projects: Project[] = [
       },
       {
         type: "detail",
+        card: "thumb",
         src: "/work/patient-pipeline/03-brand-statement.jpg",
         alt: "Industry Leading Results brand statement with blue waveform teardrop",
       },
       {
         type: "motion",
+        card: "thumb",
         src: "/work/patient-pipeline/04-logo-3d-spin.mp4",
         poster: "/work/patient-pipeline/04-logo-3d-spin.jpg",
         alt: "Slow 3D render of the gold teardrop logo rotating",
@@ -190,6 +201,7 @@ export const projects: Project[] = [
       },
       {
         type: "motion",
+        card: "thumb",
         alt: "The Teardrop generative system in motion (video in progress)",
       },
       {
