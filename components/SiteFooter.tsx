@@ -2,9 +2,7 @@ import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { CtaEmail } from "@/components/CtaEmail";
 
 const LINKEDIN = "https://www.linkedin.com/in/alexander-prins-81694a259/";
-// TODO: real GitHub URL once the account exists (pushing this repo there
-// publicly would be strong proof for an AI-native role).
-const GITHUB = "#";
+const GITHUB = "https://github.com/alexanderprins";
 
 export function SiteFooter() {
   return (
