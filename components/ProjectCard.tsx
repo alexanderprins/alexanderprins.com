@@ -36,7 +36,9 @@ export function ProjectCard({ project }: { project: Project }) {
   // project hasn't been flagged yet.
   const cover =
     project.images.find((img) => img.card === "cover") ?? project.images[0];
-  const flaggedThumbs = project.images.filter((img) => img.card === "thumb");
+  const flaggedThumbs = project.images
+    .filter((img) => img.card === "thumb")
+    .sort((a, b) => (a.cardOrder ?? 0) - (b.cardOrder ?? 0));
   const thumbs = (
     flaggedThumbs.length > 0
       ? flaggedThumbs

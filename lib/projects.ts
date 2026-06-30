@@ -53,6 +53,10 @@ export type ProjectImage = {
   // card falls back to the old behavior: first image = cover, next 3 = thumbs.
   // Flag exactly one cover and three thumbs for a full card.
   card?: "cover" | "thumb";
+  // Optional explicit left-to-right order for the 3-up thumb strip, decoupled
+  // from gallery array order. Lower = earlier. Thumbs without it fall back to
+  // array order. Only meaningful on `card: "thumb"` images.
+  cardOrder?: number;
 };
 
 export type Project = {
@@ -91,16 +95,97 @@ export const projects: Project[] = [
       author: "Daniel Wills",
       title: "CFO, Lily Development",
     },
+    // Real assets wired from the updated LD selections set, in Alexander's
+    // curated order (the selection filenames carry the intent). Homepage card:
+    // cover = 01 worksite; thumbs ordered 04 (wordmark morph) -> 02 (laptop) ->
+    // 07 (flower) via cardOrder. 04 and 11 are finished videos (type "motion"
+    // with poster). 07 is the flower build animation — STILL IN PROGRESS, so it
+    // sits as a reserved, src-less placeholder (renders its alt label); swap in
+    // the .mp4 + poster when the clip lands.
     images: [
-      { type: "cover", alt: "Lotus / Now Leasing construction hoarding" },
-      { type: "interface", alt: "Website hero, browser-framed" },
-      { type: "interface", alt: "Website, mobile" },
-      { type: "detail", alt: "Wordmark refinement, before / after" },
-      { type: "motion", alt: "Flower logo grid-build animation" },
-      { type: "lifestyle", alt: "Billboard" },
-      { type: "detail", alt: "Business cards and letterhead" },
-      { type: "lifestyle", alt: "Branded hardhat" },
-      { type: "detail", alt: "Embroidered cap" },
+      {
+        type: "cover",
+        card: "cover",
+        src: "/work/lily-development/01-worksite.jpg",
+        alt: "The Lily brand on a worksite, the new identity in context",
+      },
+      {
+        type: "interface",
+        card: "thumb",
+        cardOrder: 2,
+        src: "/work/lily-development/02-laptop.jpg",
+        alt: "Lily Development website on a laptop, the new brand in context",
+      },
+      {
+        type: "lifestyle",
+        src: "/work/lily-development/03-construction-wall.jpg",
+        alt: "Branded construction hoarding with the Lily flower mark and wordmark",
+      },
+      {
+        type: "motion",
+        card: "thumb",
+        cardOrder: 1,
+        src: "/work/lily-development/04-wordmark-morph.mp4",
+        poster: "/work/lily-development/04-wordmark-morph.jpg",
+        alt: "The Lily wordmark refining from the old thin serif into the new sturdier cut",
+      },
+      {
+        type: "detail",
+        src: "/work/lily-development/05-primary-lockup.jpg",
+        alt: "Lily Development primary logo lockup: the flower mark above the wordmark",
+      },
+      {
+        type: "detail",
+        src: "/work/lily-development/06-logomark.jpg",
+        alt: "The Lily flower logomark",
+      },
+      {
+        type: "motion",
+        card: "thumb",
+        cardOrder: 3,
+        alt: "Lily flower mark build animation (in progress)",
+      },
+      {
+        type: "detail",
+        src: "/work/lily-development/08-brick.jpg",
+        alt: "The Lily flower mark embossed into a clay construction brick",
+      },
+      {
+        type: "detail",
+        src: "/work/lily-development/09-letterhead.jpg",
+        alt: "Lily Development letterhead",
+      },
+      {
+        type: "interface",
+        src: "/work/lily-development/10-site-lotus.jpg",
+        alt: "Lily Development website, the Lotus project page",
+      },
+      {
+        type: "motion",
+        src: "/work/lily-development/11-site-scroll.mp4",
+        poster: "/work/lily-development/11-site-scroll.jpg",
+        alt: "Scrolling through the Lily Development website",
+      },
+      {
+        type: "detail",
+        src: "/work/lily-development/12-business-card.jpg",
+        alt: "Lily Development business card",
+      },
+      {
+        type: "interface",
+        src: "/work/lily-development/13-linkedin.jpg",
+        alt: "Lily Development LinkedIn profile and banner",
+      },
+      {
+        type: "lifestyle",
+        src: "/work/lily-development/14-hard-hat.jpg",
+        alt: "A white hard hat branded with the Lily flower mark",
+      },
+      {
+        type: "detail",
+        src: "/work/lily-development/15-embroidery.jpg",
+        alt: "The Lily flower mark embroidered on apparel",
+      },
     ],
   },
   {
@@ -116,16 +201,74 @@ export const projects: Project[] = [
     liveUrl: "https://www.cascatagroup.com",
     disciplines: ["Branding", "Identity", "Web", "Copywriting", "Strategy"],
     tools: ["Figma", "Framer", "Illustrator"],
+    // Real assets wired from the CG selections set, in Alexander's order (1-11).
+    // Homepage card: cover = big wall; thumbs ordered 03 (logo) -> 08 (site
+    // video) -> 05 (wordmark) via cardOrder. 08 is the finished site-scroll
+    // video with a still poster grabbed from the clip.
     images: [
-      { type: "cover", alt: "Cascata wall mark, navy and liquid chrome" },
-      { type: "interface", alt: "Website screens, refreshed" },
-      { type: "interface", alt: "Website, mobile" },
-      { type: "detail", alt: "Cascata logomark close-up" },
-      { type: "detail", alt: "Type system specimen" },
-      { type: "lifestyle", alt: "Scaffolding poster in context" },
-      { type: "lifestyle", alt: "Street poster" },
-      { type: "detail", alt: "Waves brand element" },
-      { type: "detail", alt: "Color and system close-up" },
+      {
+        type: "cover",
+        card: "cover",
+        src: "/work/cascata-group/01-big-wall.jpg",
+        alt: "Cascata Group brand mark on a construction hoarding under a bridge, navy lockup with a liquid-chrome wave",
+      },
+      {
+        type: "lifestyle",
+        src: "/work/cascata-group/02-scaffolding-banner.jpg",
+        alt: "Navy Cascata Group banner mounted on building scaffolding, Capital Strategy and Deal Execution",
+      },
+      {
+        type: "detail",
+        card: "thumb",
+        cardOrder: 1,
+        src: "/work/cascata-group/03-logo-lines.jpg",
+        alt: "Cascata logomark centered over concentric line waves on deep navy",
+      },
+      {
+        type: "detail",
+        src: "/work/cascata-group/04-logomark-binary.jpg",
+        alt: "Cascata logomark shown in black on white to isolate its form",
+      },
+      {
+        type: "detail",
+        card: "thumb",
+        cardOrder: 3,
+        src: "/work/cascata-group/05-wordmark-grid.jpg",
+        alt: "Cascata Group wordmark over its typographic construction grid",
+      },
+      {
+        type: "detail",
+        src: "/work/cascata-group/06-dark-lockup.jpg",
+        alt: "Cascata Group lockup in cream on a dark liquid-chrome wave, Finance Strategy Results",
+      },
+      {
+        type: "interface",
+        src: "/work/cascata-group/07-laptop-desk.jpg",
+        alt: "Cascata Group website on a laptop in a boardroom, Capital Strategy and Deal Execution hero",
+      },
+      {
+        type: "motion",
+        card: "thumb",
+        cardOrder: 2,
+        src: "/work/cascata-group/08-site-scroll.mp4",
+        poster: "/work/cascata-group/08-site-scroll.jpg",
+        alt: "Screen recording scrolling through the Cascata Group website",
+      },
+      {
+        type: "interface",
+        src: "/work/cascata-group/09-site-mobile.jpg",
+        alt: "Cascata Group website on mobile, Capital Strategy and Deal Execution",
+      },
+      {
+        type: "lifestyle",
+        src: "/work/cascata-group/10-linkedin.jpg",
+        alt: "Cascata Group LinkedIn company page with the brand banner and mark",
+      },
+      {
+        type: "lifestyle",
+        src: "/work/cascata-group/11-street-poster.jpg",
+        alt: "Cascata Group bus-stop poster on a Paris street, Expert Financial Oversight",
+      },
     ],
   },
   {
