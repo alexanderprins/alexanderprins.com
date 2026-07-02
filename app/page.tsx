@@ -7,14 +7,16 @@ export default function Home() {
 
   return (
     <main className="mx-auto w-full max-w-[1440px] px-6">
-      <section className="flex flex-col items-center pt-[90px] text-center">
-        <p className="font-mono text-sm uppercase tracking-[0.18em] text-black/60">
-          Brand designer who ships in code
-        </p>
-        <h1 className="mt-8 font-serif text-sm font-medium tracking-tight text-black">
+      {/* Hero: left-aligned identity block per the design mockup —
+          name, role line, then a narrow bio column. */}
+      <section className="pt-[90px]">
+        <h1 className="font-serif text-sm font-medium text-black">
           Alexander Prins
         </h1>
-        <p className="mt-5 max-w-xl text-sm text-black/60">{positioning}</p>
+        <p className="mt-1 text-sm text-black/60">Brand designer</p>
+        <p className="mt-6 max-w-[420px] text-sm leading-relaxed text-black/60">
+          {positioning}
+        </p>
       </section>
 
       <section className="mt-32 space-y-20 pb-24">

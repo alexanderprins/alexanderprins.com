@@ -81,9 +81,9 @@ export const projects: Project[] = [
     title: "Lily Development",
     descriptor: "Rebranding a Legacy Multifamily Developer",
     subtitle:
-      "A brand refresh and new website for a Philadelphia multifamily developer, designed and built with an AI-native workflow.",
-    description: `Lily had real work to show and a brand that wasn't doing it justice. The old site read as dated to the exact people Lily needs to impress: lenders, investors, and partners. I refined the identity, designed a clean and confident website, and built it with an AI-native workflow, so the company finally looks the part.`,
-    role: `I created the Lily flower logomark and refined their existing serif wordmark for strength and legibility at small and digital sizes, while keeping the feel and recognition of the original. I expanded that into a fuller brand system, designed and built the website, and wrote all the site copy myself. The site was built in Framer, driven by Claude Code through the Framer MCP, an AI-native build workflow.`,
+      "A brand refresh and new website for a Philadelphia multifamily developer.",
+    description: `Lily had real work to show and a brand that wasn't doing it justice. The old site read as dated to the exact people Lily needs to impress: lenders, investors, and partners. I refined the identity, designed a clean and confident website, so the company finally looks the part.`,
+    role: `I created the Lily flower logomark and refined their existing serif wordmark for strength and legibility at small and digital sizes, while keeping the feel and recognition of the original. I expanded that into a fuller brand system, designed and built the website, and wrote the site copy primarily myself with help from Claude, and in collaboration with the client. The site was built in Framer, driven by Claude Code through the Framer MCP.`,
     impact: `Lily's old site was outdated and confusing to the lenders and investors they depend on, and it no longer represented what the company is today. The CFO recognized a serious need to fix it. I rebuilt their presence to be clear, current, and credible, so a 28-year developer finally looks as solid online as they are in the room. Shipped and launching.`,
     status: "Shipped",
     liveUrl: "https://lilydevelopment.framer.website",

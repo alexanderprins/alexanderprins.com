@@ -7,10 +7,10 @@ import { lilyOld, lilyNew, lilyWordmarkViewBox } from "@/lib/lilyWordmark";
 export default function WordmarkLabPage() {
   return (
     <main className="mx-auto w-full max-w-[1440px] px-6 py-16">
-      <p className="font-mono text-sm uppercase tracking-[0.18em] text-black/60">
+      <p className="font-mono text-sm text-black/60">
         Lab preview
       </p>
-      <h1 className="mt-2 font-serif text-sm font-medium tracking-tight text-black">
+      <h1 className="mt-2 font-serif text-sm font-medium text-black">
         Lily wordmark, refined
       </h1>
       <p className="mt-4 max-w-2xl text-sm leading-relaxed text-black/60">
@@ -29,7 +29,7 @@ export default function WordmarkLabPage() {
           duration={1600}
           hold={1100}
         />
-        <figcaption className="mt-4 font-mono text-sm uppercase tracking-[0.08em] text-black/60">
+        <figcaption className="mt-4 font-mono text-sm text-black/60">
           Looping old &harr; new
         </figcaption>
       </figure>
@@ -46,7 +46,7 @@ export default function WordmarkLabPage() {
               <path key={i} d={d} />
             ))}
           </svg>
-          <figcaption className="font-mono text-sm uppercase tracking-[0.08em] text-black/60">
+          <figcaption className="font-mono text-sm text-black/60">
             Old (static)
           </figcaption>
         </figure>
@@ -61,7 +61,7 @@ export default function WordmarkLabPage() {
               <path key={i} d={d} />
             ))}
           </svg>
-          <figcaption className="font-mono text-sm uppercase tracking-[0.08em] text-black/60">
+          <figcaption className="font-mono text-sm text-black/60">
             New (static)
           </figcaption>
         </figure>

@@ -15,9 +15,7 @@ function MetaList({
       {/* title/icon box with bottom line; icon 8px from label */}
       <div className="flex items-center gap-2 border-b border-black/15 pb-1 text-black/60">
         {icon}
-        <span className="font-mono text-xs uppercase tracking-[0.08em]">
-          {label}
-        </span>
+        <span className="font-mono text-sm">{label}</span>
       </div>
       {/* 12px from the title box to the list */}
       <ul className="mt-3 space-y-1 text-sm text-black/60">
@@ -29,10 +27,23 @@ function MetaList({
   );
 }
 
-export function ProjectMeta({ project }: { project: Project }) {
+export function ProjectMeta({
+  project,
+  orientation = "column",
+}: {
+  project: Project;
+  orientation?: "row" | "column";
+}) {
   return (
-    // Skills list 72px from Tools list
-    <div className="flex flex-col gap-[72px]">
+    // column (homepage card): Skills stacked 72px above Tools.
+    // row (project page): Skills and Tools side by side, 80px apart.
+    <div
+      className={
+        orientation === "row"
+          ? "flex flex-row gap-20"
+          : "flex flex-col gap-[72px]"
+      }
+    >
       <MetaList
         icon={
           // Custom SVGs live in /public. eslint-disable-next-line keeps the

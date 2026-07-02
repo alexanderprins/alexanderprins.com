@@ -36,10 +36,10 @@ export default async function CampaignPage({ params }: Props) {
     <main className="mx-auto w-full max-w-[1440px] px-6">
       {/* hero: 90px from nav; eyebrow 32px above H1 */}
       <section className="flex flex-col items-center pt-[90px] text-center">
-        <p className="max-w-md font-mono text-sm uppercase tracking-[0.18em] text-black/60">
+        <p className="max-w-md text-sm text-black/60">
           For your consideration for the role of {job.role}
         </p>
-        <h1 className="mt-8 font-serif text-sm font-medium tracking-tight text-black">
+        <h1 className="mt-8 font-serif text-sm font-medium text-black">
           Hi, {job.company}.
         </h1>
       </section>

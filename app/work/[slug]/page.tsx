@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { projects, getProject } from "@/lib/projects";
 import type { ProjectImage } from "@/lib/projects";
 import { ProjectMeta } from "@/components/ProjectMeta";
@@ -59,36 +58,28 @@ export default async function WorkPage({ params }: Props) {
   if (!project) notFound();
 
   return (
-    <main className="mx-auto w-full max-w-[1440px] px-6 pb-24 pt-2">
-      <Link
-        href="/"
-        className="font-mono text-sm uppercase tracking-[0.08em] text-black/60 hover:text-black"
-      >
-        All work
-      </Link>
-
-      <header className="mt-10 max-w-3xl">
-        <p className="font-mono text-sm uppercase tracking-[0.08em] text-black/60">
+    <main className="mx-auto w-full max-w-[1440px] px-6 pb-24 pt-[90px]">
+      <header className="max-w-3xl">
+        <h1 className="font-serif text-sm font-medium leading-tight text-black">
           {project.title}
-        </p>
-        <h1 className="mt-2 font-serif text-sm font-medium leading-tight tracking-tight text-black">
-          {project.descriptor}
         </h1>
-        <p className="mt-4 text-sm leading-relaxed text-black/60">
+        <p className="mt-1 text-sm leading-relaxed text-black/60">
           {project.subtitle}
         </p>
       </header>
 
       <div className="mt-8 flex flex-wrap items-start justify-between gap-8">
-        <ProjectMeta project={project} />
+        <ProjectMeta project={project} orientation="row" />
         {project.liveUrl && (
           <a
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono text-sm uppercase tracking-[0.08em] text-black/60 underline underline-offset-4 hover:text-black"
+            className="inline-flex items-center gap-2 text-sm text-black/60 hover:text-black"
           >
             Visit live site
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/link_new_tab.svg" alt="" className="h-[18px] w-auto" />
           </a>
         )}
       </div>
@@ -117,31 +108,30 @@ export default async function WorkPage({ params }: Props) {
         )}
       </div>
 
-      <div className="mx-auto mt-16 max-w-2xl space-y-6 text-sm leading-relaxed text-black/60">
-        <p>{project.description}</p>
+      {/* Writeup in three columns: Scope / Role / Impact */}
+      <div className="mt-16 grid max-w-4xl gap-20 text-sm leading-relaxed text-black/60 sm:grid-cols-3">
         <div>
-          <h2 className="mb-1 text-sm font-medium text-black">
-            Role
-          </h2>
+          <h2 className="mb-1 text-sm font-medium text-black">Scope</h2>
+          <p>{project.description}</p>
+        </div>
+        <div>
+          <h2 className="mb-1 text-sm font-medium text-black">Role</h2>
           <p>{project.role}</p>
         </div>
         <div>
-          <h2 className="mb-1 text-sm font-medium text-black">
-            Impact
-          </h2>
+          <h2 className="mb-1 text-sm font-medium text-black">Impact</h2>
           <p>{project.impact}</p>
         </div>
-        {project.testimonial && (
-          <blockquote className="border-l-2 border-black/20 pl-4 text-black/60">
-            <p className="font-serif text-sm italic leading-snug">
-              {project.testimonial.quote}
-            </p>
-            <footer className="mt-2 font-mono text-sm uppercase tracking-[0.08em] text-black/60">
-              {project.testimonial.author}, {project.testimonial.title}
-            </footer>
-          </blockquote>
-        )}
       </div>
+
+      {project.testimonial && (
+        <blockquote className="mt-12 max-w-2xl border-l-2 border-black/20 pl-4 text-sm leading-snug text-black/60">
+          <p>&ldquo;{project.testimonial.quote}&rdquo;</p>
+          <footer className="mt-2 text-sm text-black/60">
+            {project.testimonial.author}, {project.testimonial.title}
+          </footer>
+        </blockquote>
+      )}
     </main>
   );
 }

@@ -48,21 +48,23 @@ export function ProjectCard({ project }: { project: Project }) {
 
   return (
     <article className="group">
-      <header className="mb-8">
-        {project.status && (
-          <span className="inline-block rounded-full border border-black/20 px-2.5 py-0.5 font-mono text-xs uppercase tracking-[0.08em] text-black/60">
-            {project.status}
-          </span>
-        )}
-        <Link href={href}>
-          <h2 className="mt-4 font-serif text-sm font-medium tracking-tight text-black">
-            {project.descriptor}
-          </h2>
-        </Link>
-      </header>
-
       <div className="flex flex-col gap-4 md:flex-row">
         <div className="flex-1 space-y-4">
+          {/* descriptor left, status pill right — this row spans the image
+              column so the pill aligns to the image's right edge (not the
+              sidebar). 16px sits above the image via the space-y-4. */}
+          <header className="flex items-center justify-between gap-4">
+            <Link href={href}>
+              <h2 className="font-serif text-sm font-medium text-black">
+                {project.descriptor}
+              </h2>
+            </Link>
+            {project.status && (
+              <span className="inline-block shrink-0 rounded-full border border-black/20 px-2.5 py-0.5 font-mono text-sm text-black/60">
+                {project.status}
+              </span>
+            )}
+          </header>
           {cover && (
             <Link
               href={href}
@@ -85,7 +87,9 @@ export function ProjectCard({ project }: { project: Project }) {
             </div>
           )}
         </div>
-        <aside className="shrink-0 md:w-fit">
+        {/* md:mt offset drops the Skills/Tools sidebar to the image top,
+            clearing the title/pill row that now lives in the image column. */}
+        <aside className="shrink-0 md:mt-[42px] md:w-fit">
           <ProjectMeta project={project} />
         </aside>
       </div>
