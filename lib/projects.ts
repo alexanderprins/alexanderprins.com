@@ -210,7 +210,7 @@ export const projects: Project[] = [
         type: "cover",
         card: "cover",
         src: "/work/cascata-group/01-big-wall.jpg",
-        alt: "Cascata Group brand mark on a construction hoarding under a bridge, navy lockup with a liquid-chrome wave",
+        alt: "Cascata Group brand mark on a construction hoarding under a bridge, navy lockup and Capital Strategy Execution tagline with a liquid-chrome wave",
       },
       {
         type: "lifestyle",
