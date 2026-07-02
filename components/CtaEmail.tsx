@@ -24,11 +24,11 @@ export function CtaEmail() {
     <button
       onClick={copy}
       aria-label="Copy email address"
-      className="group mt-4 inline-flex items-center gap-3 font-serif text-4xl tracking-tight sm:text-5xl"
+      className="group mt-4 inline-flex items-center gap-2 font-serif text-sm font-medium tracking-tight text-black"
     >
       <span>{EMAIL}</span>
       <span className="text-black/30 transition-colors group-hover:text-black/60">
-        {copied ? <Check size={24} /> : <Copy size={24} />}
+        {copied ? <Check size={14} /> : <Copy size={14} />}
       </span>
     </button>
   );

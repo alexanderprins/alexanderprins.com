@@ -11,13 +11,15 @@
 }
 
 /* "black" = #1e1e1e sitewide (per design); white stays #ffffff.
-   Font tokens emitted so font-sans/serif/mono resolve to our self-hosted
-   faces. --font-pp-editorial is set on <html> by next/font/local. */
+   ONE typeface sitewide: all three font tokens resolve to Aktiv Grotesk, so
+   the legacy font-sans / font-serif / font-mono utilities scattered through
+   the components all render the same face. "aktiv-grotesk" is loaded from
+   Adobe Fonts via the Typekit <link> in app/layout.tsx. */
 @theme {
   --color-black: #1e1e1e;
-  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --font-serif: var(--font-pp-editorial), Georgia, "Times New Roman", serif;
+  --font-sans: "aktiv-grotesk", system-ui, sans-serif;
+  --font-mono: "aktiv-grotesk", system-ui, sans-serif;
+  --font-serif: "aktiv-grotesk", system-ui, sans-serif;
 }
 
 body {

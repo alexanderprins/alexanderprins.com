@@ -36,17 +36,17 @@ export default async function CampaignPage({ params }: Props) {
     <main className="mx-auto w-full max-w-[1440px] px-6">
       {/* hero: 90px from nav; eyebrow 32px above H1 */}
       <section className="flex flex-col items-center pt-[90px] text-center">
-        <p className="max-w-md font-mono text-[11px] uppercase tracking-[0.18em] text-black/40">
+        <p className="max-w-md font-mono text-sm uppercase tracking-[0.18em] text-black/60">
           For your consideration for the role of {job.role}
         </p>
-        <h1 className="mt-8 font-serif text-5xl tracking-tight sm:text-6xl">
+        <h1 className="mt-8 font-serif text-sm font-medium tracking-tight text-black">
           Hi, {job.company}.
         </h1>
       </section>
 
       {/* intro: 64px below the hero group; left-aligned, max 600px; 14/24 body */}
       <section className="mt-20">
-        <div className="max-w-[600px] space-y-4 text-[14px] leading-6 text-black/80">
+        <div className="max-w-[600px] space-y-4 text-sm leading-6 text-black/60">
           {job.intro.map((p, i) => (
             <p key={i}>{p}</p>
           ))}

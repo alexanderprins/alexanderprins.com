@@ -8,13 +8,13 @@ export default function Home() {
   return (
     <main className="mx-auto w-full max-w-[1440px] px-6">
       <section className="flex flex-col items-center pt-[90px] text-center">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-black/40">
+        <p className="font-mono text-sm uppercase tracking-[0.18em] text-black/60">
           Brand designer who ships in code
         </p>
-        <h1 className="mt-8 font-serif text-5xl tracking-tight sm:text-6xl">
+        <h1 className="mt-8 font-serif text-sm font-medium tracking-tight text-black">
           Alexander Prins
         </h1>
-        <p className="mt-5 max-w-xl text-black/60">{positioning}</p>
+        <p className="mt-5 max-w-xl text-sm text-black/60">{positioning}</p>
       </section>
 
       <section className="mt-32 space-y-20 pb-24">

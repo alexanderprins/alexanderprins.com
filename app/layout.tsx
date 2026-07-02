@@ -1,34 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import localFont from "next/font/local";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-// Self-hosted PP Editorial New. --font-pp-editorial is consumed by
-// --font-serif in globals.css (which the `font-serif` utility reads).
-const ppEditorial = localFont({
-  src: [
-    { path: "./fonts/PPEditorialNew-Ultralight.ttf", weight: "200", style: "normal" },
-    { path: "./fonts/PPEditorialNew-UltralightItalic.ttf", weight: "200", style: "italic" },
-    { path: "./fonts/PPEditorialNew-Regular.ttf", weight: "400", style: "normal" },
-    { path: "./fonts/PPEditorialNew-Italic.ttf", weight: "400", style: "italic" },
-    { path: "./fonts/PPEditorialNew-Bold.ttf", weight: "700", style: "normal" },
-    { path: "./fonts/PPEditorialNew-BoldItalic.ttf", weight: "700", style: "italic" },
-  ],
-  variable: "--font-pp-editorial",
-  display: "swap",
-});
+// Single typeface sitewide: Aktiv Grotesk, served from Adobe Fonts (licensed
+// through Creative Cloud). It loads via the Typekit <link> in <head> below —
+// no font files in this repo. globals.css points --font-sans / --font-serif /
+// --font-mono at the "aktiv-grotesk" family, so every font-sans/serif/mono
+// utility resolves to this one face. Weights in the kit: 400 + 500, each with
+// italic (400i = testimonial quote, 500 = h1/h2).
 
 export const metadata: Metadata = {
   title: "Alexander Prins",
@@ -56,10 +36,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${ppEditorial.variable} h-full antialiased`}
-    >
+    <html lang="en" className="h-full antialiased">
+      <head>
+        {/* Aktiv Grotesk via Adobe Fonts CDN (licensed through Creative Cloud). */}
+        <link
+          rel="preconnect"
+          href="https://use.typekit.net"
+          crossOrigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://use.typekit.net/nsl4rke.css" />
+      </head>
       <body className="flex min-h-full flex-col">
         <SiteHeader />
         <div className="flex-1">{children}</div>

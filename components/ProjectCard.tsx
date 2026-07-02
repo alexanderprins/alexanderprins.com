@@ -11,7 +11,7 @@ import { Media } from "@/components/Media";
 function Slot({
   img,
   className,
-  textSize = "text-xs",
+  textSize = "text-sm",
 }: {
   img: ProjectImage;
   className: string;
@@ -19,7 +19,7 @@ function Slot({
 }) {
   return (
     <div
-      className={`flex items-center justify-center bg-black/[0.04] p-2 text-center ${textSize} text-black/40 ${className}`}
+      className={`flex items-center justify-center bg-black/[0.04] p-2 text-center ${textSize} text-black/60 ${className}`}
     >
       {img.src ? (
         <Media img={img} className="h-full w-full object-cover" />
@@ -50,12 +50,12 @@ export function ProjectCard({ project }: { project: Project }) {
     <article className="group">
       <header className="mb-8">
         {project.status && (
-          <span className="inline-block rounded-full border border-black/20 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.08em] text-black/50">
+          <span className="inline-block rounded-full border border-black/20 px-2.5 py-0.5 font-mono text-xs uppercase tracking-[0.08em] text-black/60">
             {project.status}
           </span>
         )}
         <Link href={href}>
-          <h2 className="mt-4 font-serif text-3xl tracking-tight sm:text-4xl">
+          <h2 className="mt-4 font-serif text-sm font-medium tracking-tight text-black">
             {project.descriptor}
           </h2>
         </Link>
@@ -79,7 +79,7 @@ export function ProjectCard({ project }: { project: Project }) {
             <div className="grid grid-cols-3 gap-4">
               {thumbs.map((img, i) => (
                 <Link key={i} href={href} className="block overflow-hidden">
-                  <Slot img={img} className="aspect-video" textSize="text-[10px]" />
+                  <Slot img={img} className="aspect-video" textSize="text-sm" />
                 </Link>
               ))}
             </div>

@@ -9,14 +9,14 @@ export function SiteFooter() {
     <footer className="mx-auto w-full max-w-[1440px] px-6">
       {/* CTA: the email is the statement (no form). Shown openly, not hover. */}
       <div className="border-t border-black/10 py-20 text-center">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-black/40">
+        <p className="font-mono text-sm uppercase tracking-[0.18em] text-black/60">
           Get in touch
         </p>
         <CtaEmail />
       </div>
 
       {/* bottom bar: legal left, P/D/S middle, socials right */}
-      <div className="flex flex-col items-center gap-4 border-t border-black/10 py-8 font-mono text-[11px] uppercase tracking-[0.08em] text-black/40 sm:flex-row sm:justify-between">
+      <div className="flex flex-col items-center gap-4 border-t border-black/10 py-8 font-mono text-sm uppercase tracking-[0.08em] text-black/60 sm:flex-row sm:justify-between">
         <span>&copy; Alexander Prins 2026, All Rights Reserved</span>
         <span className="hidden sm:inline">Play | Discover | Systematize</span>
         <div className="flex items-center gap-4">

@@ -16,8 +16,8 @@ export default function AboutPage() {
           className="object-cover"
         />
       </div>
-      <h1 className="font-serif text-4xl tracking-tight sm:text-5xl">About</h1>
-      <div className="mt-8 space-y-5 text-base leading-relaxed text-black/80">
+      <h1 className="font-serif text-sm font-medium tracking-tight text-black">About</h1>
+      <div className="mt-8 space-y-5 text-sm leading-relaxed text-black/60">
         {bio.map((p, i) => (
           <p key={i}>{p}</p>
         ))}

@@ -29,7 +29,7 @@ function buildRows(images: ProjectImage[]): ProjectImage[][] {
 function GallerySlot({ img, ratio }: { img: ProjectImage; ratio: string }) {
   return (
     <div
-      className={`flex ${ratio} items-center justify-center bg-black/[0.04] text-center text-sm text-black/40`}
+      className={`flex ${ratio} items-center justify-center bg-black/[0.04] text-center text-sm text-black/60`}
     >
       {img.src ? (
         <Media img={img} className="h-full w-full object-cover" />
@@ -62,19 +62,19 @@ export default async function WorkPage({ params }: Props) {
     <main className="mx-auto w-full max-w-[1440px] px-6 pb-24 pt-2">
       <Link
         href="/"
-        className="font-mono text-[11px] uppercase tracking-[0.08em] text-black/40 hover:text-black"
+        className="font-mono text-sm uppercase tracking-[0.08em] text-black/60 hover:text-black"
       >
         All work
       </Link>
 
       <header className="mt-10 max-w-3xl">
-        <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-black/40">
+        <p className="font-mono text-sm uppercase tracking-[0.08em] text-black/60">
           {project.title}
         </p>
-        <h1 className="mt-2 font-serif text-4xl leading-tight tracking-tight sm:text-5xl">
+        <h1 className="mt-2 font-serif text-sm font-medium leading-tight tracking-tight text-black">
           {project.descriptor}
         </h1>
-        <p className="mt-4 text-lg leading-relaxed text-black/70">
+        <p className="mt-4 text-sm leading-relaxed text-black/60">
           {project.subtitle}
         </p>
       </header>
@@ -86,7 +86,7 @@ export default async function WorkPage({ params }: Props) {
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono text-[11px] uppercase tracking-[0.08em] underline underline-offset-4"
+            className="font-mono text-sm uppercase tracking-[0.08em] text-black/60 underline underline-offset-4 hover:text-black"
           >
             Visit live site
           </a>
@@ -117,26 +117,26 @@ export default async function WorkPage({ params }: Props) {
         )}
       </div>
 
-      <div className="mx-auto mt-16 max-w-2xl space-y-6 text-[15px] leading-relaxed text-black/80">
+      <div className="mx-auto mt-16 max-w-2xl space-y-6 text-sm leading-relaxed text-black/60">
         <p>{project.description}</p>
         <div>
-          <h2 className="mb-1 font-mono text-[11px] uppercase tracking-[0.08em] text-black/40">
+          <h2 className="mb-1 text-sm font-medium text-black">
             Role
           </h2>
           <p>{project.role}</p>
         </div>
         <div>
-          <h2 className="mb-1 font-mono text-[11px] uppercase tracking-[0.08em] text-black/40">
+          <h2 className="mb-1 text-sm font-medium text-black">
             Impact
           </h2>
           <p>{project.impact}</p>
         </div>
         {project.testimonial && (
-          <blockquote className="border-l-2 border-black/20 pl-4 text-black/70">
-            <p className="font-serif text-lg italic leading-snug">
+          <blockquote className="border-l-2 border-black/20 pl-4 text-black/60">
+            <p className="font-serif text-sm italic leading-snug">
               {project.testimonial.quote}
             </p>
-            <footer className="mt-2 font-mono text-[11px] uppercase tracking-[0.08em] text-black/45">
+            <footer className="mt-2 font-mono text-sm uppercase tracking-[0.08em] text-black/60">
               {project.testimonial.author}, {project.testimonial.title}
             </footer>
           </blockquote>

@@ -7,13 +7,13 @@ import { lilyOld, lilyNew, lilyWordmarkViewBox } from "@/lib/lilyWordmark";
 export default function WordmarkLabPage() {
   return (
     <main className="mx-auto w-full max-w-[1440px] px-6 py-16">
-      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-black/40">
+      <p className="font-mono text-sm uppercase tracking-[0.18em] text-black/60">
         Lab preview
       </p>
-      <h1 className="mt-2 font-serif text-4xl tracking-tight">
+      <h1 className="mt-2 font-serif text-sm font-medium tracking-tight text-black">
         Lily wordmark, refined
       </h1>
-      <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-black/70">
+      <p className="mt-4 max-w-2xl text-sm leading-relaxed text-black/60">
         The old wordmark settling into the new one. Thicker thins, lower
         contrast, a touch more weight, sturdier feet, while keeping the serif
         character. The outline points are tweened continuously, so you read the
@@ -29,7 +29,7 @@ export default function WordmarkLabPage() {
           duration={1600}
           hold={1100}
         />
-        <figcaption className="mt-4 font-mono text-[11px] uppercase tracking-[0.08em] text-black/40">
+        <figcaption className="mt-4 font-mono text-sm uppercase tracking-[0.08em] text-black/60">
           Looping old &harr; new
         </figcaption>
       </figure>
@@ -46,7 +46,7 @@ export default function WordmarkLabPage() {
               <path key={i} d={d} />
             ))}
           </svg>
-          <figcaption className="font-mono text-[11px] uppercase tracking-[0.08em] text-black/40">
+          <figcaption className="font-mono text-sm uppercase tracking-[0.08em] text-black/60">
             Old (static)
           </figcaption>
         </figure>
@@ -61,7 +61,7 @@ export default function WordmarkLabPage() {
               <path key={i} d={d} />
             ))}
           </svg>
-          <figcaption className="font-mono text-[11px] uppercase tracking-[0.08em] text-black/40">
+          <figcaption className="font-mono text-sm uppercase tracking-[0.08em] text-black/60">
             New (static)
           </figcaption>
         </figure>
