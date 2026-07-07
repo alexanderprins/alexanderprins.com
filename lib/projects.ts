@@ -98,10 +98,9 @@ export const projects: Project[] = [
     // Real assets wired from the updated LD selections set, in Alexander's
     // curated order (the selection filenames carry the intent). Homepage card:
     // cover = 01 worksite; thumbs ordered 04 (wordmark morph) -> 02 (laptop) ->
-    // 07 (flower) via cardOrder. 04 and 11 are finished videos (type "motion"
-    // with poster). 07 is the flower build animation — STILL IN PROGRESS, so it
-    // sits as a reserved, src-less placeholder (renders its alt label); swap in
-    // the .mp4 + poster when the clip lands.
+    // 07 (flower) via cardOrder. 04, 07, and 11 are finished videos (type
+    // "motion" with poster) — 07 is the flower mark build animation (poster is
+    // the resolved frame, not the black open/close).
     images: [
       {
         type: "cover",
@@ -143,7 +142,9 @@ export const projects: Project[] = [
         type: "motion",
         card: "thumb",
         cardOrder: 3,
-        alt: "Lily flower mark build animation (in progress)",
+        src: "/work/lily-development/07-flower-mark.mp4",
+        poster: "/work/lily-development/07-flower-mark.jpg",
+        alt: "The Lily flower mark drawn from its construction geometry into the finished logomark",
       },
       {
         type: "detail",
