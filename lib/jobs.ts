@@ -4,15 +4,13 @@
 //
 // To add application #N: copy a block, fill in the fields, done.
 
-import type { Tag } from "@/lib/projects";
-
 export type JobPage = {
   slug: string; // URL segment, e.g. "ideogram" -> /ideogram
   company: string;
   role: string;
   intro: string[]; // direct-address paragraphs, shown above the work
   projectOrder: string[]; // project slugs, in display order
-  surfaceTags?: Tag[]; // tags to emphasize for this audience
+  surfaceTags?: string[]; // tags to emphasize for this audience (unused for now)
   ogTitle?: string;
   ogDescription?: string;
 };

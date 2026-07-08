@@ -2,28 +2,8 @@
 // Copy here is the locked Phase 4 copy from the portfolio coach (progress.md).
 // Keep it human-voiced. No em dashes.
 
-export type Discipline =
-  | "Branding"
-  | "Identity"
-  | "Strategy"
-  | "Copywriting"
-  | "Web"
-  | "3D"
-  | "Motion"
-  | "Packaging";
-
-export type Tool =
-  | "Figma"
-  | "Framer"
-  | "Claude Code"
-  | "Illustrator"
-  | "Photoshop"
-  | "Spline"
-  | "After Effects"
-  | "Final Cut Pro"
-  | "ChatGPT";
-
-export type Tag = Discipline | Tool;
+// Skills (disciplines) and tools are free-form display labels, authored per
+// project and shown only on the /work case-study page.
 
 export type Testimonial = {
   quote: string; // pull-quote (shown on card)
@@ -71,8 +51,8 @@ export type Project = {
   impact: string;
   status?: string; // pill vocabulary: "Shipped" | "Spec"
   liveUrl?: string;
-  disciplines: Discipline[];
-  tools: Tool[];
+  disciplines: string[];
+  tools: string[];
   testimonial?: Testimonial;
   images: ProjectImage[];
 };
@@ -411,7 +391,14 @@ export const projects: Project[] = [
     role: `This spec project gave me a unique opportunity to follow my instincts without any outside influence. I set the strategy, positioning, evolved the old logo (also my work, from earlier in my career), generated the copy, and designed the whole identity.`,
     impact: `The goal was to accomplish two things: position the business as a leader now, and position the business for a future acquisition (a goal stated by the owner/operator). In order to accomplish this, the owner will need to hire replacements for himself, so I aimed to also produce an identity a future team could be proud of and that would attract top talent. As of July 2026, adoption of the identity by Patient Pipeline is pending.`,
     status: "Spec",
-    disciplines: ["Strategy", "Identity", "Branding", "Motion", "3D", "Web"],
+    disciplines: [
+      "Strategy",
+      "Brand Identity Design",
+      "Visual System Design",
+      "Motion Design",
+      "3D Design",
+      "Web Design",
+    ],
     tools: ["Figma", "Illustrator", "Photoshop", "Final Cut Pro", "Spline", "Framer", "ChatGPT"],
     testimonial: {
       quote: `Alex's design work he did is visually captivating and exceptionally professional. He really made us a sleek, modern aesthetic that draws the eye. He has a thoughtful approach and meticulous attention to detail. The one thing that sets Alex apart from other designers is he truly integrates marketing strategy into branding work.`,

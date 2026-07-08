@@ -100,7 +100,7 @@ export default async function WorkPage({ params }: Props) {
 
       {/* Grouping of five: Skills / Tools / Scope / Role / Impact. */}
       <div className="mt-16">
-        <ProjectMeta project={project} orientation="row" />
+        <ProjectMeta project={project} />
       </div>
 
       {/* Client testimonial (when present): its own callout band, set off with
