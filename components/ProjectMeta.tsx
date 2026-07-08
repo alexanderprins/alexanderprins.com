@@ -24,8 +24,9 @@ function MetaColumn({
 export function ProjectMeta({ project }: { project: Project }) {
   return (
     <div className="flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between">
-      {/* the writeup — three columns, takes the left */}
-      <div className="grid w-full max-w-[760px] grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-12">
+      {/* the writeup — three columns, widened to read ~7 words per line
+          (fills the space that used to sit empty before Skills/Tools) */}
+      <div className="grid w-full max-w-[1040px] grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-12">
         <MetaColumn label="Scope">
           <p>{project.description}</p>
         </MetaColumn>
