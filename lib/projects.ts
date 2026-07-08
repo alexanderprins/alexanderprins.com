@@ -411,61 +411,79 @@ export const projects: Project[] = [
     disciplines: ["Branding", "Identity", "Strategy", "3D", "Motion", "Web"],
     tools: ["Illustrator", "Spline", "Photoshop", "Final Cut Pro", "Framer"],
     // TODO: testimonial exists (owner wrote one for Contra profile). Paste text + confirm name/title.
-    // Order keeps the cover + first 3 thumbs (the homepage card) all real;
-    // the two pending videos (color system, teardrop) sit deeper as labeled
-    // placeholders until they land. Reorder freely once they're in.
+    // Final lineup (Jul 2026): 11 real assets, all 16:9. Gallery order = the NN- file
+    // prefix (Alexander's revised sequence). Homepage card is explicit via card flags:
+    // cover = 01 (auditorium), thumbs = 06 (3D spin) -> 09 (image containers) -> 07
+    // (flower system) by cardOrder. Four finished videos (02, 03, 06, 07) render as
+    // motion with a still poster; 03 + 07 were compressed to self-host size (Build Standards).
     images: [
       {
         type: "cover",
         card: "cover",
-        src: "/work/patient-pipeline/01-cover-auditorium.jpg",
+        src: "/work/patient-pipeline/01-cover-auditorium-hero.jpg",
         alt: "Gold 3D teardrop logo projected on a dark auditorium screen",
       },
       {
         type: "motion",
         src: "/work/patient-pipeline/02-logo-evolution.mp4",
         poster: "/work/patient-pipeline/02-logo-evolution.jpg",
-        alt: "The old logo transforming into the new mark found in its negative space",
+        alt: "The old logo transforming into the new mark hidden in its negative space",
+      },
+      {
+        type: "motion",
+        src: "/work/patient-pipeline/03-booth.mp4",
+        poster: "/work/patient-pipeline/03-booth.jpg",
+        alt: "ASCRS trade-show booth: Industry Leading Results, Patient Pipeline, Transform Your Practice, with the teardrop mark animating",
       },
       {
         type: "detail",
-        card: "thumb",
-        src: "/work/patient-pipeline/03-brand-statement.jpg",
-        alt: "Industry Leading Results brand statement with blue waveform teardrop",
-      },
-      {
-        type: "motion",
-        card: "thumb",
-        src: "/work/patient-pipeline/04-logo-3d-spin.mp4",
-        poster: "/work/patient-pipeline/04-logo-3d-spin.jpg",
-        alt: "Slow 3D render of the gold teardrop logo rotating",
-      },
-      {
-        type: "interface",
-        src: "/work/patient-pipeline/05-website-hero.jpg",
-        alt: "Patient Pipeline website hero, We Deliver Real LASIK Patients",
-      },
-      {
-        type: "motion",
-        alt: "Color system: RGB primaries through blend modes (video in progress)",
-      },
-      {
-        type: "motion",
-        card: "thumb",
-        alt: "The Teardrop generative system in motion (video in progress)",
+        src: "/work/patient-pipeline/04-type-specimen.jpg",
+        alt: "Brand specimen: sans wordmark, submark glyph set, and Industry Leading Results serif over a teal waveform teardrop",
       },
       {
         type: "detail",
-        src: "/work/patient-pipeline/08-lanyard-credential.jpg",
+        src: "/work/patient-pipeline/05-lanyard.jpg",
         alt: "ASCRS conference lanyard credential with the Patient Pipeline mark",
       },
       {
+        type: "motion",
+        card: "thumb",
+        cardOrder: 1,
+        src: "/work/patient-pipeline/06-logo-3d-spin-thumb1.mp4",
+        poster: "/work/patient-pipeline/06-logo-3d-spin.jpg",
+        alt: "Slow 3D render of the gold teardrop logo rotating",
+      },
+      {
+        type: "motion",
+        card: "thumb",
+        cardOrder: 3,
+        src: "/work/patient-pipeline/07-eyedrop-system-thumb3.mp4",
+        poster: "/work/patient-pipeline/07-eyedrop-system.jpg",
+        alt: "The teardrop generative system in motion: six teardrops resolving into the flower mark",
+      },
+      {
+        type: "detail",
+        src: "/work/patient-pipeline/08-color-system.jpg",
+        alt: "Color system: RGB primaries, one per cone cell, pushed through blend modes over imagery",
+      },
+      {
+        type: "detail",
+        card: "thumb",
+        cardOrder: 2,
+        src: "/work/patient-pipeline/09-system-images-thumb2.jpg",
+        alt: "Teardrop image containers: pin, S-submark, and four-point star each filled with different photography",
+      },
+      {
         type: "lifestyle",
-        src: "/work/patient-pipeline/09-social-set.jpg",
-        alt: "Instagram blog-post set applying the brand across social",
+        src: "/work/patient-pipeline/10-blog-ig-story.jpg",
+        alt: "Instagram blog and story set applying the brand across social",
+      },
+      {
+        type: "interface",
+        src: "/work/patient-pipeline/11-website-hero.jpg",
+        alt: "Patient Pipeline website hero in Framer, We Deliver Real LASIK Patients",
       },
     ],
-
   },
 ];
 
