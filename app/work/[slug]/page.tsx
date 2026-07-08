@@ -39,6 +39,22 @@ function GallerySlot({ img, ratio }: { img: ProjectImage; ratio: string }) {
   );
 }
 
+function GalleryRow({ row, index }: { row: ProjectImage[]; index: number }) {
+  return row.length === 2 ? (
+    <div key={index} className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      {row.map((img, i) => (
+        <GallerySlot key={i} img={img} ratio="aspect-[9/16]" />
+      ))}
+    </div>
+  ) : (
+    <GallerySlot
+      key={index}
+      img={row[0]}
+      ratio={row[0].aspect === "portrait" ? "aspect-[9/16]" : "aspect-video"}
+    />
+  );
+}
+
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
@@ -59,17 +75,15 @@ export default async function WorkPage({ params }: Props) {
 
   return (
     <main className="mx-auto w-full max-w-[1440px] px-6 pb-24 pt-[90px]">
-      <header className="max-w-3xl">
-        <h1 className="font-serif text-sm font-medium leading-tight text-black">
-          {project.title}
-        </h1>
-        <p className="mt-1 text-sm leading-relaxed text-black/60">
-          {project.subtitle}
-        </p>
-      </header>
-
-      <div className="mt-8 flex flex-wrap items-start justify-between gap-8">
-        <ProjectMeta project={project} orientation="row" />
+      <header className="flex flex-wrap items-start justify-between gap-6">
+        <div className="max-w-3xl">
+          <h1 className="font-serif text-sm font-medium leading-tight text-black">
+            {project.title}
+          </h1>
+          <p className="mt-1 text-sm leading-relaxed text-black/60">
+            {project.year ?? project.subtitle}
+          </p>
+        </div>
         {project.liveUrl && (
           <a
             href={project.liveUrl}
@@ -82,56 +96,35 @@ export default async function WorkPage({ params }: Props) {
             <img src="/link_new_tab.svg" alt="" className="h-[18px] w-auto" />
           </a>
         )}
+      </header>
+
+      {/* Grouping of five: Skills / Tools / Scope / Role / Impact. */}
+      <div className="mt-16">
+        <ProjectMeta project={project} orientation="row" />
       </div>
+
+      {/* Client testimonial (when present): its own callout band, set off with
+          hairlines, sitting between the writeup and the gallery. */}
+      {project.testimonial && (
+        <figure className="mt-12 border-y border-black/15 py-6">
+          <blockquote className="max-w-[760px] text-sm leading-relaxed text-black">
+            &ldquo;{project.testimonial.quote}&rdquo;
+          </blockquote>
+          <figcaption className="mt-3 text-sm text-black/60">
+            {project.testimonial.author}, {project.testimonial.title}
+          </figcaption>
+        </figure>
+      )}
 
       {/* Art gallery: images go big. Landscape images are full-width 16:9;
           consecutive portraits auto-pair into a 2-up row (full 9:16) that
           stacks on mobile. One uniform 24px gap everywhere. Labeled
           placeholders until real assets land. */}
       <div className="mt-12 space-y-6">
-        {buildRows(project.images).map((row, r) =>
-          row.length === 2 ? (
-            <div key={r} className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              {row.map((img, i) => (
-                <GallerySlot key={i} img={img} ratio="aspect-[9/16]" />
-              ))}
-            </div>
-          ) : (
-            <GallerySlot
-              key={r}
-              img={row[0]}
-              ratio={
-                row[0].aspect === "portrait" ? "aspect-[9/16]" : "aspect-video"
-              }
-            />
-          ),
-        )}
+        {buildRows(project.images).map((row, r) => (
+          <GalleryRow key={r} row={row} index={r} />
+        ))}
       </div>
-
-      {/* Writeup in three columns: Scope / Role / Impact */}
-      <div className="mt-16 grid max-w-4xl gap-20 text-sm leading-relaxed text-black/60 sm:grid-cols-3">
-        <div>
-          <h2 className="mb-1 text-sm font-medium text-black">Scope</h2>
-          <p>{project.description}</p>
-        </div>
-        <div>
-          <h2 className="mb-1 text-sm font-medium text-black">Role</h2>
-          <p>{project.role}</p>
-        </div>
-        <div>
-          <h2 className="mb-1 text-sm font-medium text-black">Impact</h2>
-          <p>{project.impact}</p>
-        </div>
-      </div>
-
-      {project.testimonial && (
-        <blockquote className="mt-12 max-w-2xl border-l-2 border-black/20 pl-4 text-sm leading-snug text-black/60">
-          <p>&ldquo;{project.testimonial.quote}&rdquo;</p>
-          <footer className="mt-2 text-sm text-black/60">
-            {project.testimonial.author}, {project.testimonial.title}
-          </footer>
-        </blockquote>
-      )}
     </main>
   );
 }

@@ -20,7 +20,8 @@ export type Tool =
   | "Photoshop"
   | "Spline"
   | "After Effects"
-  | "Final Cut Pro";
+  | "Final Cut Pro"
+  | "ChatGPT";
 
 export type Tag = Discipline | Tool;
 
@@ -63,7 +64,8 @@ export type Project = {
   slug: string;
   title: string; // brand name (small mono metadata)
   descriptor: string; // the win, used as the serif heading (Title Case)
-  subtitle: string;
+  subtitle: string; // SEO/meta description; not shown on the page when `year` is set
+  year?: string; // body line under the H1 on the case-study page (falls back to subtitle)
   description: string;
   role: string;
   impact: string;
@@ -403,14 +405,19 @@ export const projects: Project[] = [
     title: "Patient Pipeline",
     descriptor: "Repositioning a LASIK Agency as the Category Leader",
     subtitle:
-      "A spec rebrand for a national LASIK lead-generation agency, built to position a one-person operation as the category leader and a future acquisition.",
-    description: `Patient Pipeline is a national LASIK marketing agency that runs lead generation for eye surgeons through Google and Facebook ads. I pitched it the same way I pitched Cascata: let me build a hypothetical brand for it, and buy it only if you love it. I wanted to make something that could stand next to a large agency's work, so I pushed into mediums I was less comfortable in and combined them. A teardrop silhouette pulled from the logo became the atomic building block of the whole system, generating submarks, patterns, primitives, and image containers. Robinhood's brand was the north star: proof that a "boring" industry can look confident and premium.`,
-    role: `I did all of it. I evolved the logo (I had designed the original in my earlier years), set the strategy, and built the full identity: a flexible visual system with a teardrop silhouette as its atomic building block, a 3D logo render in Spline, environmental and trade-show booth design, internal document templates, a digital business card, social mockups, and the website hero in Framer.`,
-    impact: `The strategy worked two ways. Gold to claim category leadership, and a brand polished enough to support the owner's real long-term goal: selling the business. To sell, he would eventually need to hire a team to replace himself, so I built an identity a future team could be proud of and that would help attract top talent. Spec or not, it is designed like a real acquisition asset.`,
+      "A spec brand overhaul for a national LASIK lead-in agency, built to position an underdog as the category leader and for a future acquisition.",
+    year: "2025",
+    description: `A spec brand overhaul for a national LASIK lead-in agency, built to position an underdog as the category leader and for a future acquisition. I challenged myself to produce work I felt could stand up next to work from an agency team, exploring mediums I was less comfortable in and combining them. The eyedrop silhouette derived from the logo is the atomic building block of the whole system.`,
+    role: `This spec project gave me a unique opportunity to follow my instincts without any outside influence. I set the strategy, positioning, evolved the old logo (also my work, from earlier in my career), generated the copy, and designed the whole identity.`,
+    impact: `The goal was to accomplish two things: position the business as a leader now, and position the business for a future acquisition (a goal stated by the owner/operator). In order to accomplish this, the owner will need to hire replacements for himself, so I aimed to also produce an identity a future team could be proud of and that would attract top talent. As of July 2026, adoption of the identity by Patient Pipeline is pending.`,
     status: "Spec",
-    disciplines: ["Branding", "Identity", "Strategy", "3D", "Motion", "Web"],
-    tools: ["Illustrator", "Spline", "Photoshop", "Final Cut Pro", "Framer"],
-    // TODO: testimonial exists (owner wrote one for Contra profile). Paste text + confirm name/title.
+    disciplines: ["Strategy", "Identity", "Branding", "Motion", "3D", "Web"],
+    tools: ["Figma", "Illustrator", "Photoshop", "Final Cut Pro", "Spline", "Framer", "ChatGPT"],
+    testimonial: {
+      quote: `Alex's design work he did is visually captivating and exceptionally professional. He really made us a sleek, modern aesthetic that draws the eye. He has a thoughtful approach and meticulous attention to detail. The one thing that sets Alex apart from other designers is he truly integrates marketing strategy into branding work.`,
+      author: "Nick Sideris",
+      title: "Owner/Operator, Patient Pipeline",
+    },
     // Final lineup (Jul 2026): 11 real assets, all 16:9. Gallery order = the NN- file
     // prefix (Alexander's revised sequence). Homepage card is explicit via card flags:
     // cover = 01 (auditorium), thumbs = 06 (3D spin) -> 09 (image containers) -> 07

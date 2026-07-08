@@ -1,20 +1,12 @@
 import type { ReactNode } from "react";
 import type { Project } from "@/lib/projects";
 
-function MetaList({
-  icon,
-  label,
-  items,
-}: {
-  icon: ReactNode;
-  label: string;
-  items: string[];
-}) {
+// Homepage card variant: mono label + underline, list beneath.
+function MetaList({ label, items }: { label: string; items: string[] }) {
   return (
     <div>
-      {/* title/icon box with bottom line; icon 8px from label */}
+      {/* title box with bottom line */}
       <div className="flex items-center gap-2 border-b border-black/15 pb-1 text-black/60">
-        {icon}
         <span className="font-mono text-sm">{label}</span>
       </div>
       {/* 12px from the title box to the list */}
@@ -27,6 +19,24 @@ function MetaList({
   );
 }
 
+// Project-page variant: plain heading (no mono, no line), body beneath.
+function MetaColumn({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <div>
+      <h2 className="mb-2 text-sm font-medium text-black">{label}</h2>
+      <div className="space-y-1 text-sm leading-relaxed text-black/60">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export function ProjectMeta({
   project,
   orientation = "column",
@@ -34,34 +44,51 @@ export function ProjectMeta({
   project: Project;
   orientation?: "row" | "column";
 }) {
+  // Project page: writeup on the left (Scope / Role / Impact), then a wide
+  // gap, then Skills + Tools grouped tight on the far right.
+  if (orientation === "row") {
+    return (
+      <div className="flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between">
+        {/* the writeup — three paragraphs, takes the left */}
+        <div className="grid w-full max-w-[760px] grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-12">
+          <MetaColumn label="Scope">
+            <p>{project.description}</p>
+          </MetaColumn>
+          <MetaColumn label="Role">
+            <p>{project.role}</p>
+          </MetaColumn>
+          {/* Impact copy. The client testimonial (when present) renders as its
+              own callout block below this row, in app/work/[slug]/page.tsx. */}
+          <MetaColumn label="Impact">
+            <p>{project.impact}</p>
+          </MetaColumn>
+        </div>
+        {/* Skills + Tools — grouped tight, aligned far right */}
+        <div className="flex gap-12">
+          <MetaColumn label="Skills">
+            <ul className="space-y-1">
+              {project.disciplines.map((i) => (
+                <li key={i}>{i}</li>
+              ))}
+            </ul>
+          </MetaColumn>
+          <MetaColumn label="Tools">
+            <ul className="space-y-1">
+              {project.tools.map((i) => (
+                <li key={i}>{i}</li>
+              ))}
+            </ul>
+          </MetaColumn>
+        </div>
+      </div>
+    );
+  }
+
+  // Homepage card: Skills stacked 72px above Tools.
   return (
-    // column (homepage card): Skills stacked 72px above Tools.
-    // row (project page): Skills and Tools side by side, 80px apart.
-    <div
-      className={
-        orientation === "row"
-          ? "flex flex-row gap-20"
-          : "flex flex-col gap-[72px]"
-      }
-    >
-      <MetaList
-        icon={
-          // Custom SVGs live in /public. eslint-disable-next-line keeps the
-          // Next <img> lint quiet — these are tiny fixed-size chrome icons.
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src="/fingerprint.svg" alt="" className="h-[18px] w-auto" />
-        }
-        label="Skills"
-        items={project.disciplines}
-      />
-      <MetaList
-        icon={
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src="/tools.svg" alt="" className="h-[18px] w-auto" />
-        }
-        label="Tools"
-        items={project.tools}
-      />
+    <div className="flex flex-col gap-[72px]">
+      <MetaList label="Skills" items={project.disciplines} />
+      <MetaList label="Tools" items={project.tools} />
     </div>
   );
 }
