@@ -27,3 +27,16 @@ export function morphPhase(elapsedMs: number, { duration, hold }: MorphTiming): 
 
 export const morphPeriodMs = ({ duration, hold }: MorphTiming): number =>
   2 * hold + 2 * duration;
+
+/** Fade opacities for the Before/After labels, keyed off the eased morph
+ *  parameter t (0 = old mark, 1 = new mark). "Before" holds full on the old
+ *  end and fades out by the time the letters are mid-travel; "After" stays
+ *  hidden until past the midpoint, then fades up on the new end. The gap in
+ *  the middle keeps both labels clear of the busiest part of the morph. */
+export function labelOpacities(t: number): { before: number; after: number } {
+  const clamp = (n: number) => Math.max(0, Math.min(1, n));
+  return {
+    before: clamp((0.45 - t) / 0.45),
+    after: clamp((t - 0.55) / 0.45),
+  };
+}

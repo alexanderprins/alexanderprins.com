@@ -6,7 +6,7 @@ import { Resvg } from "@resvg/resvg-js";
 import { execFileSync } from "node:child_process";
 import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { lilyOld, lilyNew } from "../lib/lilyWordmark";
-import { morphPhase, morphPeriodMs } from "../lib/morphTiming";
+import { morphPhase, morphPeriodMs, labelOpacities } from "../lib/morphTiming";
 
 // ---- knobs ---------------------------------------------------------------
 const DURATION = 1100; // ms travel each direction (snappy)
@@ -19,6 +19,17 @@ const HEIGHT = 1080; // output resolution
 const FRAME = "243 140 1392 783";
 const BG = "#F7F6F7"; // Lily white
 const INK = "#1e1e1e"; // site black
+// Before/After labels, drawn in Inter Medium (all caps) to name each end of
+// the morph for the viewer. Font resolves from the system install; resvg can't
+// use the Adobe-hosted site font, and Inter matches the source mockup anyway.
+const INTER_MEDIUM = `${process.env.HOME}/Library/Fonts/Inter-Medium.otf`;
+const LABEL = {
+  size: 44,
+  tracking: 6, // letter-spacing in source units (~0.12em at this size)
+  cx: 925, // wordmark center x in source coords
+  beforeY: 300, // baseline above the mark
+  afterY: 812, // baseline below the mark
+};
 const OUT_DIR =
   "/Users/alexanderprins/Documents/projects/alexanderprinsdotcom/projects/Lily Development/Typography Morph/render";
 const FRAMES_DIR = `${process.env.CLAUDE_JOB_DIR ?? "/tmp"}/tmp/morph-frames`;
@@ -38,12 +49,24 @@ console.log(`Rendering ${totalFrames} frames (${(period / 1000).toFixed(2)}s loo
 for (let f = 0; f < totalFrames; f++) {
   const t = morphPhase((f / FPS) * 1000, timing);
   const paths = interps.map((fn) => `<path d="${fn(t)}" fill="${INK}"/>`).join("");
+  const { before, after } = labelOpacities(t);
+  const label = (text: string, y: number, opacity: number) =>
+    `<text x="${LABEL.cx}" y="${y}" text-anchor="middle" font-family="Inter" ` +
+    `font-weight="500" font-size="${LABEL.size}" letter-spacing="${LABEL.tracking}" ` +
+    `fill="${INK}" fill-opacity="${opacity}">${text}</text>`;
+  const labels =
+    label("BEFORE", LABEL.beforeY, before) + label("AFTER", LABEL.afterY, after);
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" ` +
-    `viewBox="${FRAME}">${paths}</svg>`;
+    `viewBox="${FRAME}">${paths}${labels}</svg>`;
   const png = new Resvg(svg, {
     fitTo: { mode: "original" },
     background: "rgba(0,0,0,0)",
+    font: {
+      loadSystemFonts: true,
+      fontFiles: [INTER_MEDIUM],
+      defaultFontFamily: "Inter",
+    },
   })
     .render()
     .asPng();

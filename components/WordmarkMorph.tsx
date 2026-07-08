@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import { interpolate } from "flubber";
-import { morphPhase, morphPeriodMs } from "@/lib/morphTiming";
+import { morphPhase, morphPeriodMs, labelOpacities } from "@/lib/morphTiming";
 
 // Morphs one set of vector outlines into another by tweening the geometry
 // itself (the thing Figma Smart Animate can't do across differently-shaped
@@ -22,6 +22,10 @@ type Props = {
   hold?: number;
   /** true = ping-pong old<->new forever; false = play old->new once and stay. */
   loop?: boolean;
+  /** Label that fades in over the OLD mark (e.g. "Before"). */
+  beforeLabel?: string;
+  /** Label that fades in over the NEW mark (e.g. "After"). */
+  afterLabel?: string;
 };
 
 export function WordmarkMorph({
@@ -33,8 +37,12 @@ export function WordmarkMorph({
   duration = 1100,
   hold = 2000,
   loop = true,
+  beforeLabel,
+  afterLabel,
 }: Props) {
   const pathRefs = useRef<(SVGPathElement | null)[]>([]);
+  const beforeRef = useRef<HTMLSpanElement | null>(null);
+  const afterRef = useRef<HTMLSpanElement | null>(null);
 
   // Build one interpolator per contour. flubber handles differing point
   // counts (it resamples + rotates for least travel), so two similar serif
@@ -49,8 +57,12 @@ export function WordmarkMorph({
 
   useEffect(() => {
     const paths = pathRefs.current;
-    const apply = (t: number) =>
+    const apply = (t: number) => {
       interps.forEach((fn, i) => paths[i]?.setAttribute("d", fn(t)));
+      const { before, after } = labelOpacities(t);
+      if (beforeRef.current) beforeRef.current.style.opacity = String(before);
+      if (afterRef.current) afterRef.current.style.opacity = String(after);
+    };
 
     // Respect reduced-motion: settle on the new mark, no animation.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -110,7 +122,7 @@ export function WordmarkMorph({
     };
   }, [interps, duration, hold, loop]);
 
-  return (
+  const svg = (
     <svg
       viewBox={viewBox}
       className={className}
@@ -128,5 +140,27 @@ export function WordmarkMorph({
         />
       ))}
     </svg>
+  );
+
+  if (!beforeLabel && !afterLabel) return svg;
+
+  // Before/After labels sit above and below the mark, cross-fading with the
+  // morph. Always in the DOM (opacity-only) so the layout never shifts.
+  const labelClass =
+    "text-sm font-medium uppercase tracking-[0.12em] text-black";
+  return (
+    <div className="flex flex-col items-center">
+      {beforeLabel && (
+        <span ref={beforeRef} className={`mb-8 ${labelClass}`} style={{ opacity: 1 }}>
+          {beforeLabel}
+        </span>
+      )}
+      {svg}
+      {afterLabel && (
+        <span ref={afterRef} className={`mt-8 ${labelClass}`} style={{ opacity: 0 }}>
+          {afterLabel}
+        </span>
+      )}
+    </div>
   );
 }

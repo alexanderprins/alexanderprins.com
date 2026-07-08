@@ -28,6 +28,8 @@ export default function WordmarkLabPage() {
           className="w-full max-w-3xl text-black"
           duration={1600}
           hold={1100}
+          beforeLabel="Before"
+          afterLabel="After"
         />
         <figcaption className="mt-4 font-mono text-sm text-black/60">
           Looping old &harr; new
