@@ -61,14 +61,20 @@ builds itself. This is the parent/instance idea (one template, many instances).
 
 ## Key files
 
-- `lib/projects.ts` — single source of truth for all 4 projects (locked copy,
-  tags, image slots). `homepageOrder`, `getProjectsInOrder()`.
+- `lib/projects.ts` — single source of truth for all 4 projects (copy, skills +
+  tools, image/video slots, `testimonial`, `year`). `homepageOrder`,
+  `getProjectsInOrder()`. Skills/tools are free-form `string[]` labels now (the
+  old Discipline/Tool/Tag unions were removed).
 - `lib/jobs.ts` — per-job page configs (the Siteprint instances).
 - `lib/about.ts` — bio + positioning (Alexander's verbatim voice; do NOT
   AI-polish).
-- `components/` — ProjectCard (index gallery block), ProjectMeta (Skills/Tools),
-  SiteHeader, SiteFooter, EmailCopy (nav, hover+copy), ColophonButton (nav,
-  hover), CtaEmail (footer, click-to-copy), Logo, ClaudeCrab, SocialIcons, Tag.
+- `components/` — ProjectCard (homepage gallery block: descriptor + status pill,
+  full-width cover + 3-up 16:9 thumbs; NO skills/tools sidebar anymore),
+  ProjectMeta (/work writeup only: Scope/Role/Impact + Skills/Tools row),
+  Media (renders a `.mp4/.webm/.mov` src as a looping muted inline `<video>`
+  with poster, else `<img>`), SiteHeader, SiteFooter, EmailCopy (nav,
+  hover+copy), ColophonButton (nav, hover), CtaEmail (footer, click-to-copy),
+  Logo, ClaudeCrab, SocialIcons. (Tag.tsx exists but is currently unused.)
 
 ## Design system / rules
 
@@ -85,7 +91,20 @@ builds itself. This is the parent/instance idea (one template, many instances).
 - Status pill vocabulary: "Spec" | "Shipped" only.
 - Nav: hover-reveal popovers (Email = hover then click-to-copy; colophon "Made
   with [crab]" = hover, informational). Logo top-left, NOT in the hero.
-- Frame width: max-w-[1440px]. Thumbnail strip: 3 images, 16:9.
+- Frame width: max-w-[1440px]. Thumbnail strip: 3 images, 16:9. ALL image +
+  video containers are 16:9, unless a slot is explicitly `aspect: "portrait"`.
+- Homepage cards show only descriptor + status pill + cover + 3 thumbs — the
+  Skills/Tools list was removed so preview images fill the full width. Skills/
+  Tools live only on the `/work` case-study page.
+- `/work` writeup: the Scope/Role/Impact grid is `max-w-[1040px]` (~7 words/line),
+  Skills/Tools grouped far right. A `year` string renders as the body line under
+  the H1 (falls back to `subtitle`, which is kept for SEO/meta). A `testimonial`
+  (when present) renders as its own hairline callout band between the writeup and
+  the gallery — NOT inside the Impact column.
+- Video: short silent brand loops are self-hosted in `public/work/<slug>/`,
+  compressed well under ~10MB (H.264, CRF ~24-26, `-an`, +faststart) and played
+  via the `Media` component. Raw masters stay OUT of git. Longer/audio reels →
+  embed (Mux/Cloudflare Stream). See `../Build Standards.md`.
 - Image rule: the site NEVER overlays text on images; titles/metadata are always
   chrome. Anything visible in an image is part of the image.
 - Per-project mockup styles are intentionally DISTINCT (it's branding) — do not
@@ -95,18 +114,27 @@ builds itself. This is the parent/instance idea (one template, many instances).
 
 ## Status
 
-Done: full structure + type system + spacing, all 4 projects' copy, About,
-nav (both popovers), footer (CTA + bottom bar), favicons, logo inlined.
+LIVE: pushed to GitHub (`origin` = github.com/alexanderprins/alexanderprins.com)
+and auto-deploying to Vercel on every push to `main`. As of 2026-07-08, `main`
+is at `584f7a2` and in sync with `origin/main`.
+
+Done: full structure + type system + spacing, About, nav (both popovers), footer,
+favicons, logo. All 4 projects have real images/videos wired (16:9). **Patient
+Pipeline is fully finished** — revised asset order, rewritten Scope/Role/Impact
+copy, `year: "2025"`, fuller free-form skill labels, and the Nick Sideris
+testimonial (its spec→paid deal revived last week, so the quote is usable now).
+Homepage cards no longer show skills/tools tags (images fill the width).
+Self-hosted looping video wired via the `Media` component (see the video rule
+above).
 
 Pending (biggest lever first):
-1. **Real images** — every gray box is a placeholder. Covers + 8-10 per /work +
-   16:9 thumbnails. This is what makes it stop-scrolling.
-2. Logo hover micro-animation + Play/Discover/Systematize moment (shapes are
-   already individually `data-shape`-tagged in `Logo.tsx`).
-3. `/ideogram` intro copy — still a DRAFT in `lib/jobs.ts`; needs Alexander's
-   voice pass ("if AI wrote it, I'll know").
-4. Patient Pipeline testimonial text (from Contra profile) — slot ready in
-   `lib/projects.ts`.
-5. GitHub account + URL (footer link is a `#` placeholder; plan: push this repo
-   public as proof). Email inbox/forwarding for hello@alexanderprins.com.
-6. Deploy to Vercel + custom domain.
+1. **Rewrite the other 3 projects' copy in PP's style** — Lily, Cascata, Northern
+   Vessel still carry the older short skill labels + earlier Scope/Role/Impact
+   copy. Alexander is redoing each like PP: fuller free-form skill labels, a
+   `year`, and tightened Scope/Role/Impact. **PP is the reference pattern.**
+2. `/ideogram` intro copy — still a DRAFT in `lib/jobs.ts`; needs Alexander's
+   voice pass ("if AI wrote it, I'll know"). Then reskin `/[campaign]` for the
+   other ~12 roles in `../context/job-pipeline.md`.
+3. Logo hover micro-animation + Play/Discover/Systematize moment (shapes are
+   already `data-shape`-tagged in `Logo.tsx`).
+4. Custom domain on Vercel; email inbox/forwarding for hello@alexanderprins.com.
