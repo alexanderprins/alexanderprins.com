@@ -21,6 +21,10 @@ export type ProjectImage = {
   src?: string;
   poster?: string;
   alt: string;
+  // Optional caption rendered as chrome BELOW the image in the /work gallery
+  // (never overlaid). Most images have none; use sparingly for images that
+  // carry a system/rationale worth spelling out.
+  caption?: string;
   type: "cover" | "interface" | "lifestyle" | "detail" | "motion";
   // Display aspect in the /work gallery. Default (undefined) renders 16:9.
   // `portrait` renders the image at full 9:16; consecutive portraits are
@@ -459,6 +463,8 @@ export const projects: Project[] = [
         type: "detail",
         src: "/work/patient-pipeline/08-color-system.jpg",
         alt: "Color system: RGB primaries, one per cone cell, pushed through blend modes over imagery",
+        caption:
+          "The eye sees in three colors. Red, green, blue. One for each type of cone cell (L, M, S). Patient Pipeline's accent palette is built from these three, pushed through blend modes over imagery for a flexible visual system.",
       },
       {
         type: "detail",

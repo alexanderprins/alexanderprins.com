@@ -106,7 +106,10 @@ builds itself. This is the parent/instance idea (one template, many instances).
   via the `Media` component. Raw masters stay OUT of git. Longer/audio reels →
   embed (Mux/Cloudflare Stream). See `../Build Standards.md`.
 - Image rule: the site NEVER overlays text on images; titles/metadata are always
-  chrome. Anything visible in an image is part of the image.
+  chrome. Anything visible in an image is part of the image. A gallery image MAY
+  carry an optional `caption` (rendered as chrome BELOW the image, styled like
+  the testimonial minus the hairline: `text-black max-w-[760px]`). Use sparingly
+  for images that carry a system/rationale (e.g. PP color system).
 - Per-project mockup styles are intentionally DISTINCT (it's branding) — do not
   force one unified mockup system.
 - Gotcha: lucide-react no longer ships brand icons (Github/Linkedin) — see

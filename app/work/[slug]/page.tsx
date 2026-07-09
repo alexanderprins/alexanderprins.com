@@ -27,15 +27,22 @@ function buildRows(images: ProjectImage[]): ProjectImage[][] {
 
 function GallerySlot({ img, ratio }: { img: ProjectImage; ratio: string }) {
   return (
-    <div
-      className={`flex ${ratio} items-center justify-center bg-black/[0.04] text-center text-sm text-black/60`}
-    >
-      {img.src ? (
-        <Media img={img} className="h-full w-full object-cover" />
-      ) : (
-        <span className="p-6">{img.alt}</span>
+    <figure>
+      <div
+        className={`flex ${ratio} items-center justify-center bg-black/[0.04] text-center text-sm text-black/60`}
+      >
+        {img.src ? (
+          <Media img={img} className="h-full w-full object-cover" />
+        ) : (
+          <span className="p-6">{img.alt}</span>
+        )}
+      </div>
+      {img.caption && (
+        <figcaption className="mt-4 max-w-[760px] text-sm leading-relaxed text-black">
+          {img.caption}
+        </figcaption>
       )}
-    </div>
+    </figure>
   );
 }
 
