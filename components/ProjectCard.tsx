@@ -6,6 +6,8 @@ import { Media } from "@/components/Media";
 // pill->descriptor 16px, header->image group 32px, image->sidebar 16px,
 // cover->thumb strip 16px, thumbs 16px apart, 5 thumbs in the strip.
 // Square corners; only the status pill is rounded. Links to /work/[slug].
+// Mobile (<sm): images bleed edge-to-edge (-mx-6 cancels the page px-6) with
+// no gray inset frame; the p-2 frame is desktop-only.
 
 function Slot({
   img,
@@ -18,7 +20,7 @@ function Slot({
 }) {
   return (
     <div
-      className={`flex items-center justify-center bg-black/[0.04] p-2 text-center ${textSize} text-black/60 ${className}`}
+      className={`flex items-center justify-center bg-black/[0.04] p-0 text-center sm:p-2 ${textSize} text-black/60 ${className}`}
     >
       {img.src ? (
         <Media img={img} className="h-full w-full object-cover" />
@@ -56,7 +58,7 @@ export function ProjectCard({ project }: { project: Project }) {
           </h2>
         </Link>
         {project.status && (
-          <span className="inline-block shrink-0 rounded-full border border-black/20 px-2.5 py-0.5 font-mono text-sm text-black/60">
+          <span className="inline-block shrink-0 rounded-full border border-black/20 px-2.5 py-0.5 font-mono text-xs text-black/60">
             {project.status}
           </span>
         )}
@@ -64,7 +66,7 @@ export function ProjectCard({ project }: { project: Project }) {
       {cover && (
         <Link
           href={href}
-          className="block overflow-hidden"
+          className="-mx-6 block overflow-hidden sm:mx-0"
           aria-label={`View ${project.title}`}
         >
           <Slot
@@ -74,7 +76,7 @@ export function ProjectCard({ project }: { project: Project }) {
         </Link>
       )}
       {thumbs.length > 0 && (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="-mx-6 grid grid-cols-3 gap-4 sm:mx-0">
           {thumbs.map((img, i) => (
             <Link key={i} href={href} className="block overflow-hidden">
               <Slot img={img} className="aspect-video" textSize="text-sm" />

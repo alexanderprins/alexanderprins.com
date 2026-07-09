@@ -83,21 +83,14 @@ export const projects: Project[] = [
     },
     // Real assets wired from the updated LD selections set, in Alexander's
     // curated order (the selection filenames carry the intent). Homepage card:
-    // cover = 01 worksite; thumbs ordered 04 (wordmark morph) -> 02 (laptop) ->
+    // cover = 02 laptop; thumbs ordered 04 (wordmark morph) -> 08 (brick) ->
     // 07 (flower) via cardOrder. 04, 07, and 11 are finished videos (type
     // "motion" with poster) — 07 is the flower mark build animation (poster is
     // the resolved frame, not the black open/close).
     images: [
       {
-        type: "cover",
-        card: "cover",
-        src: "/work/lily-development/01-worksite.jpg",
-        alt: "The Lily brand on a worksite, the new identity in context",
-      },
-      {
         type: "interface",
-        card: "thumb",
-        cardOrder: 2,
+        card: "cover",
         src: "/work/lily-development/02-laptop.jpg",
         alt: "Lily Development website on a laptop, the new brand in context",
       },
@@ -134,6 +127,8 @@ export const projects: Project[] = [
       },
       {
         type: "detail",
+        card: "thumb",
+        cardOrder: 2,
         src: "/work/lily-development/08-brick.jpg",
         alt: "The Lily flower mark embossed into a clay construction brick",
       },

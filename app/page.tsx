@@ -19,7 +19,8 @@ export default function Home() {
         </p>
       </section>
 
-      <section className="mt-32 space-y-20 pb-24">
+      {/* Hero -> project list gap: 64px on mobile, 128px from sm up. */}
+      <section className="mt-16 space-y-20 pb-24 sm:mt-32">
         {projects.map((p) => (
           <ProjectCard key={p.slug} project={p} />
         ))}

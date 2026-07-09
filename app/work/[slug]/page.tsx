@@ -29,7 +29,7 @@ function GallerySlot({ img, ratio }: { img: ProjectImage; ratio: string }) {
   return (
     <figure>
       <div
-        className={`flex ${ratio} items-center justify-center bg-black/[0.04] text-center text-sm text-black/60`}
+        className={`flex ${ratio} -mx-6 items-center justify-center bg-black/[0.04] text-center text-sm text-black/60 sm:mx-0`}
       >
         {img.src ? (
           <Media img={img} className="h-full w-full object-cover" />

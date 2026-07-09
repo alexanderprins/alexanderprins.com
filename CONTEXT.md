@@ -75,15 +75,24 @@ builds itself. This is the parent/instance idea (one template, many instances).
   with poster, else `<img>`), SiteHeader, SiteFooter, EmailCopy (nav,
   hover+copy), ColophonButton (nav, hover), CtaEmail (footer, click-to-copy),
   Logo, ClaudeCrab, SocialIcons. (Tag.tsx exists but is currently unused.)
+- `components/WordmarkMorph.tsx` — NOT sitewide; a one-off asset for the Lily
+  project. Morphs one set of single-contour SVG path outlines into another via
+  flubber (geometry tweening Figma Smart Animate can't do), with optional
+  Before/After labels. Timing in `lib/morphTiming.ts`, SVG→path prep helpers in
+  `lib/morph.ts`. Renders live at `/lab/wordmark`; the Lily gallery itself uses
+  the rendered capture (`public/work/lily-development/04-wordmark-morph.mp4`).
 
 ## Design system / rules
 
 - Color: all "black" = **#1e1e1e** (overridden via `--color-black` in
   globals.css); white = #ffffff. **Orange #FF6A3D is reserved for Claude Code
   ONLY** (the crab on hover) — never a general accent.
-- Type: PP Editorial New (self-hosted, serif headlines + descriptors), Geist
-  (sans body), Geist Mono (labels/eyebrows). Mono tracking: labels 0.08em,
-  eyebrows 0.18em.
+- Type: ONE typeface sitewide — **Aktiv Grotesk**, served from Adobe Fonts
+  (Typekit `<link>` in `app/layout.tsx`). All three Tailwind font tokens
+  (`--font-sans/serif/mono` in `globals.css`) resolve to it, so legacy
+  font-serif/font-mono utilities in components all render Aktiv. PP Editorial
+  New + Geist are GONE, along with the old 0.08em/0.18em label/eyebrow
+  tracking (only `WordmarkMorph.tsx` carries a custom `tracking-[0.12em]`).
 - Spacing: 4pt grid = Tailwind's native scale (utility number x 4px). Alexander
   gives px; convert px/4. Key values are encoded in the pages/components.
 - Corners: square everywhere EXCEPT the status pill (Spec/Shipped, rounded-full).
