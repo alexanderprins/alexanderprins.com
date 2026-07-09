@@ -2,6 +2,13 @@
 // triangle), each individually targetable for the hover micro-animation and
 // the Play / Discover / Systematize concept later. Uses currentColor so it
 // adapts to light/dark surfaces. Negative space is transparent (no fill bg).
+//
+// The hover re-composition (reference: context/Logo Hover.mov) lives in
+// globals.css under .logo-mark. Both rest and hover transforms are CSS, so
+// the square's rest rotation is declared there, NOT as an SVG attribute
+// (a CSS transform would silently override an attribute transform and break
+// the rest state). Its x/y below place it unrotated at the same center the
+// old rotate(17.58 232.164 178.584) attribute produced.
 export function Logo({
   className = "",
   size = 40,
@@ -18,7 +25,7 @@ export function Logo({
       xmlns="http://www.w3.org/2000/svg"
       role="img"
       aria-label="Alexander Prins logomark"
-      className={className}
+      className={`logo-mark ${className}`}
     >
       <rect
         data-shape="frame"
@@ -31,11 +38,10 @@ export function Logo({
       />
       <rect
         data-shape="square"
-        x="232.164"
-        y="178.584"
+        x="200.78"
+        y="201.56"
         width="180"
         height="180"
-        transform="rotate(17.58 232.164 178.584)"
         fill="currentColor"
       />
       <path

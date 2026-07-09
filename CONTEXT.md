@@ -147,6 +147,9 @@ Pending (biggest lever first):
 1. `/ideogram` intro copy — still a DRAFT in `lib/jobs.ts`; needs Alexander's
    voice pass ("if AI wrote it, I'll know"). Then reskin `/[campaign]` for the
    other ~12 roles in `../context/job-pipeline.md`.
-3. Logo hover micro-animation + Play/Discover/Systematize moment (shapes are
-   already `data-shape`-tagged in `Logo.tsx`).
-4. Custom domain on Vercel; email inbox/forwarding for hello@alexanderprins.com.
+2. Play/Discover/Systematize moment for the logo. The hover micro-animation
+   itself is DONE (July 2026): a two-state shape re-composition in globals.css
+   under `.logo-mark`, matched to `../context/Logo Hover.mov`. NOTE: the
+   square's rest rotation lives in that CSS, not as an SVG attribute (a CSS
+   transform silently overrides an attribute transform).
+3. Custom domain on Vercel; email inbox/forwarding for hello@alexanderprins.com.

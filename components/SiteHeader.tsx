@@ -6,7 +6,9 @@ import { ColophonButton } from "@/components/ColophonButton";
 export function SiteHeader() {
   return (
     <header className="mx-auto flex w-full max-w-[1440px] items-center justify-between px-6 pt-8">
-      <Link href="/" aria-label="Home" className="text-black hover:opacity-70">
+      {/* No opacity dim on hover: the logo's shape re-composition (globals.css
+          .logo-mark) IS the hover feedback. */}
+      <Link href="/" aria-label="Home" className="text-black">
         <Logo size={28} />
       </Link>
       <nav className="flex items-center">
