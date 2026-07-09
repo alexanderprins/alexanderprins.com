@@ -139,12 +139,12 @@ Homepage cards no longer show skills/tools tags (images fill the width).
 Self-hosted looping video wired via the `Media` component (see the video rule
 above).
 
+Done (July 2026): all 4 projects now carry Alexander's own copy in the PP
+pattern — Scope/Role/Impact rewritten, `year` set, fuller free-form skill
+labels (Lily + Cascata 2026, NV 2022).
+
 Pending (biggest lever first):
-1. **Rewrite the other 3 projects' copy in PP's style** — Lily, Cascata, Northern
-   Vessel still carry the older short skill labels + earlier Scope/Role/Impact
-   copy. Alexander is redoing each like PP: fuller free-form skill labels, a
-   `year`, and tightened Scope/Role/Impact. **PP is the reference pattern.**
-2. `/ideogram` intro copy — still a DRAFT in `lib/jobs.ts`; needs Alexander's
+1. `/ideogram` intro copy — still a DRAFT in `lib/jobs.ts`; needs Alexander's
    voice pass ("if AI wrote it, I'll know"). Then reskin `/[campaign]` for the
    other ~12 roles in `../context/job-pipeline.md`.
 3. Logo hover micro-animation + Play/Discover/Systematize moment (shapes are

@@ -1,6 +1,6 @@
 // Single source of truth for project case-study copy + metadata.
-// Copy here is the locked Phase 4 copy from the portfolio coach (progress.md).
-// Keep it human-voiced. No em dashes.
+// Copy is Alexander's own (July 2026 rewrite, PP as the reference pattern).
+// Keep it human-voiced and verbatim. No em dashes.
 
 // Skills (disciplines) and tools are free-form display labels, authored per
 // project and shown only on the /work case-study page.
@@ -68,13 +68,21 @@ export const projects: Project[] = [
     descriptor: "Rebranding a Legacy Multifamily Developer",
     subtitle:
       "A brand refresh and new website for a Philadelphia multifamily developer.",
-    description: `Lily had real work to show and a brand that wasn't doing it justice. The old site read as dated to the exact people Lily needs to impress: lenders, investors, and partners. I refined the identity, designed a clean and confident website, so the company finally looks the part.`,
-    role: `I created the Lily flower logomark and refined their existing serif wordmark for strength and legibility at small and digital sizes, while keeping the feel and recognition of the original. I expanded that into a fuller brand system, designed and built the website, and wrote the site copy primarily myself with help from Claude, and in collaboration with the client. The site was built in Framer, driven by Claude Code through the Framer MCP.`,
-    impact: `Lily's old site was outdated and confusing to the lenders and investors they depend on, and it no longer represented what the company is today. The CFO recognized a serious need to fix it. I rebuilt their presence to be clear, current, and credible, so a 28-year developer finally looks as solid online as they are in the room. Shipped and launching.`,
+    year: "2026",
+    description: `A brand overhaul and new website for a Philadelphia multifamily developer. Lily has 28 years of experience, but lacked a brand or website that properly supported it. The old site was confusing to lenders, investors, and partners, and the primary wordmark suffered from legibility issues in small/digital contexts.`,
+    role: `In collaboration with the CFO and CEO, I refined the brand identity by adjusting the contrast of the serif wordmark, introducing the lily flower mark, and introducing an intentional type system. I designed and built a new website in Framer using Claude Code and the Framer MCP server, and wrote all the copy for it in collaboration with the client.`,
+    impact: `Lily Development now has a clear, current, and credible brand presence online and across their various touchpoints. The 28 year old developer finally looks and feels as solid online as they are in the real world.`,
     status: "Shipped",
     liveUrl: "https://lilydevelopment.framer.website",
-    disciplines: ["Branding", "Identity", "Web", "Copywriting", "Strategy"],
-    tools: ["Figma", "Framer", "Claude Code", "Illustrator"],
+    disciplines: [
+      "Strategy",
+      "Brand Identity Design",
+      "Print Design",
+      "AI Workflow",
+      "Web Design/Build",
+      "Copywriting",
+    ],
+    tools: ["Figma", "Framer", "Claude Code", "Photoshop"],
     testimonial: {
       quote: `Alex transformed a collection of projects and information into a cohesive brand and digital experience that communicates our capabilities, track record, and vision. The final product exceeded expectations and has become an important tool for investor relations and brand credibility.`,
       full: `Alex's work on Lily's rebrand and website elevated how we present ourselves to lenders, investors, partners, and prospective tenants. He transformed a collection of projects and information into a cohesive brand and digital experience that clearly communicates our capabilities, track record, and vision. Beyond being a talented designer, he took the time to understand our business and translate complex real estate concepts into a clean, intuitive experience. The final product exceeded expectations and has become an important tool for business development, investor relations, and brand credibility.`,
@@ -176,13 +184,20 @@ export const projects: Project[] = [
     descriptor: "Making One Operator Look Like an Institution",
     subtitle:
       "Brand identity, visual system, and website for a one-person capital strategy practice, built as a spec project that became a paying client and led me to Lily.",
-    description: `Cascata Group is a one-person capital strategy and fractional-CFO practice that does more for its clients than firms many times its size. The problem was perception: the founder kept losing deals to bigger, more established-looking competitors, including one that went elsewhere purely because the other firm looked more trustworthy. The brand had to make a single operator feel like a serious, credible institution without pretending to be huge. Cascata means waterfall, a nod to the founder's Italian heritage, so I built the identity around financial flows and the way he moves like water, filling the gaps in every organization he works with. Fluid and distinctive on the surface, institutional and trustworthy underneath.`,
-    role: `I built the brand from close to nothing: the logomark, the type and visual system, and the full identity. I helped sharpen the positioning, wrote all the site copy, and designed and built the website in Framer. The name was the only piece already in place, drawn from the founder's Italian heritage.`,
-    impact: `I pitched it as a spec project, build it first and pay for it only if it landed, and a few months later it did. The bigger result was credibility: a one-person shop that kept losing deals to bigger names now reads as a serious financial partner. The project also opened the door to Lily Development, one of his clients, which became my next engagement.`,
+    year: "2026",
+    description: `Brand, visual system, and website for a one-man capital strategy practice operating primarily in real estate development. Cascata means waterfall in Italian, a nod to the founder's heritage and the primary directive for the project.`,
+    role: `The founder had next to no pre-existing assets aside from the name, so we were building from scratch. Collaboratively, we sharpened his positioning. I designed a new logomark and custom wordmark, defined a type system, and created a fluid visual identity system. The website was designed and built in Framer using Claude Code via the Framer MCP server, and I wrote all of the copy for the website collaboratively with the client.`,
+    impact: `The founder used to lose business to larger financial firms that he should have won. Now, Cascata Group looks like the credible, serious financial partner it always has been.`,
     status: "Shipped",
     liveUrl: "https://www.cascatagroup.com",
-    disciplines: ["Branding", "Identity", "Web", "Copywriting", "Strategy"],
-    tools: ["Figma", "Framer", "Illustrator"],
+    disciplines: [
+      "Strategy",
+      "Brand Identity Design",
+      "Visual Identity Design",
+      "Web Design/Build",
+      "Copywriting",
+    ],
+    tools: ["Figma", "Framer", "Illustrator", "Claude Code", "Photoshop"],
     // Real assets wired from the CG selections set, in Alexander's order (1-11).
     // Homepage card: cover = big wall; thumbs ordered 03 (logo) -> 08 (site
     // video) -> 05 (wordmark) via cardOrder. 08 is the finished site-scroll
@@ -259,12 +274,24 @@ export const projects: Project[] = [
     descriptor: "Branding a Coffee Company From Cup to App",
     subtitle:
       "Founding designer and equity partner for a Des Moines coffee brand built from a lockdown delivery service into a flagship brick and mortar.",
-    description: `Northern Vessel started as a coffee delivery service during the 2020 lockdowns and grew into one of the most talked-about shops in town. The market was small but crowded, so the whole job was to feel more elevated, more alive, and more us than anything else around. That gave me a rare playground: a real brand to build a world around, from the cup in your hand to the app in your pocket.`,
-    role: `Founding designer and equity partner with near-total creative control. I refined the core logo and built the whole identity system around it: the circle alt mark, the Coffee Club wordmark, custom iconography, the shapes pattern, packaging, signage, photography, motion, and social content. I also designed and shipped the Coffee Club membership app end to end, with a UX-designer friend advising and a software-engineer friend building it on iOS and Android.`,
-    impact: `Bootstrapped from a 2020 delivery service to a permitted street cart to a brick-and-mortar in a rehabbed historic landmark. We raised private investment, grew the Coffee Club subscription to ~160 active members, and pulled local press and a social following that drove most of our early momentum. The shop is still open and thriving in Des Moines.`,
+    year: "2022",
+    description: `Brand, visual system, photography, sub-branding and a whole lot of print design for a local coffee startup.`,
+    role: `Founding designer and equity partner with near-total creative control. I refined the core logo and built the identity from the ground up with my cofounder. One of my primary responsibilities was overseeing the end to end development and launch of the Coffee Club subscription app, working with a developer and UX consultant. I designed the Coffee Club wordmark, custom iconography, and even the UI of the app - which falls outside the scope of this study. I also developed the shapes pattern, and worked on packaging, signage, motion design, social content, and provided photography and videography. All photography featured here is my own.`,
+    impact: `Bootstrapped from a 2020 lockdown delivery service to a permitted street cart to the current brick and mortar, we raised private investment, grew the Coffee Club subscription to ~160 active members, pulled local and national press attention alike, and developed a social following that drove all of the early momentum. The shop is still open and thriving in Des Moines.`,
     status: "Shipped",
-    disciplines: ["Branding", "Identity", "Packaging", "Motion", "Web"],
-    tools: ["Illustrator", "Photoshop", "After Effects", "Figma"],
+    disciplines: [
+      "Strategy",
+      "Brand Identity Design",
+      "Visual System Design",
+      "Packaging",
+      "Print",
+      "Signage",
+      "Motion",
+      "Social",
+      "Videography",
+      "Photography",
+    ],
+    tools: ["Illustrator", "Photoshop", "Figma", "Lightroom", "Final Cut Pro"],
     // Real assets wired from the NV selections set, in Alexander's gallery
     // order. Homepage card is explicit: cover = window-signage hero; thumbs =
     // retail bags, shapes-fill, wordmark (card order follows array order here).
