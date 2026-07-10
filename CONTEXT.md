@@ -42,6 +42,10 @@ Gotcha: after big `globals.css` changes, Turbopack dev can serve STALE CSS
 (same chunk hash). If a token change isn't showing, restart: kill `next dev`,
 `rm -rf .next`, `npm run dev`. A clean `npm run build` shows the true output.
 
+Gotcha: NEVER run `npm run build` while `next dev` is running — they share
+`.next`, and the build clobbers the dev server's state (`.next/dev` ENOENT,
+every route 500s). Kill dev first, or restart it clean after building.
+
 ## Routes
 
 - `/` — homepage. Hero (eyebrow + name + positioning) + gallery of project cards.
