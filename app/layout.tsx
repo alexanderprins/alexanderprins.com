@@ -13,8 +13,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 export const metadata: Metadata = {
   metadataBase: new URL("https://alexanderprins.com"),
   title: "Alexander Prins",
-  description:
-    "Brand designer who ships in code. Identity, brand systems, and AI-native builds.",
+  description: "Identity, brand systems, motion and video.",
   // Link-share preview (iMessage/Slack/LinkedIn/X). metadataBase is inferred
   // from the Vercel production URL, so the relative path resolves in prod.
   // No title/description in here: og:title/og:description then mirror each
