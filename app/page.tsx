@@ -1,5 +1,5 @@
+import Link from "next/link";
 import { getProjectsInOrder, homepageOrder } from "@/lib/projects";
-import { positioning } from "@/lib/about";
 import { ProjectCard } from "@/components/ProjectCard";
 
 export default function Home() {
@@ -14,8 +14,18 @@ export default function Home() {
           Alexander Prins
         </h1>
         <p className="mt-1 text-sm text-black/60">Brand designer</p>
+        {/* Mirrors `positioning` in lib/about.ts (kept there as the plain-
+            string source of truth for meta use) with inline proof links. */}
         <p className="mt-6 max-w-[420px] text-sm leading-relaxed text-black/60">
-          {positioning}
+          I specialize in brand design, can ship production code with
+          Claude Code, and have strengths in{" "}
+          <Link
+            href="/video"
+            className="underline decoration-black/30 underline-offset-4 hover:text-black hover:decoration-black"
+          >
+            motion and video
+          </Link>
+          .
         </p>
       </section>
 

@@ -11,9 +11,21 @@ import { SiteFooter } from "@/components/SiteFooter";
 // italic (400i = testimonial quote, 500 = h1/h2).
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://alexanderprins.com"),
   title: "Alexander Prins",
   description:
     "Brand designer who ships in code. Identity, brand systems, and AI-native builds.",
+  // Link-share preview (iMessage/Slack/LinkedIn/X). metadataBase is inferred
+  // from the Vercel production URL, so the relative path resolves in prod.
+  // No title/description in here: og:title/og:description then mirror each
+  // route's own metadata (e.g. the campaign pages' ogTitle), image inherits.
+  openGraph: {
+    images: [{ url: "/social_thumbnail.jpg", alt: "Alexander Prins logomark" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
   icons: {
     icon: [
       {

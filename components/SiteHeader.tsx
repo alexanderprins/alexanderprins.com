@@ -16,6 +16,12 @@ export function SiteHeader() {
         <span className="mx-6 h-3.5 w-px bg-black/20" aria-hidden="true" />
         <div className="flex items-center gap-6">
           <Link
+            href="/video"
+            className="font-mono text-sm text-black/60 hover:text-black"
+          >
+            Video
+          </Link>
+          <Link
             href="/about"
             className="font-mono text-sm text-black/60 hover:text-black"
           >
