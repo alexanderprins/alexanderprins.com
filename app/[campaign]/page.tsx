@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { jobs, getJob } from "@/lib/jobs";
 import { getProjectsInOrder } from "@/lib/projects";
 import { ProjectCard } from "@/components/ProjectCard";
@@ -25,6 +27,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+// Renders intro paragraphs, turning markdown-style [label](/path) into inline
+// links (internal). Plain paragraphs (no brackets) render unchanged.
+function renderIntro(text: string): ReactNode[] {
+  const parts: ReactNode[] = [];
+  const re = /\[([^\]]+)\]\(([^)]+)\)/g;
+  let last = 0;
+  let key = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) parts.push(text.slice(last, m.index));
+    parts.push(
+      <Link
+        key={key++}
+        href={m[2]}
+        className="underline decoration-black/30 underline-offset-4 hover:text-black hover:decoration-black"
+      >
+        {m[1]}
+      </Link>,
+    );
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts;
+}
+
 export default async function CampaignPage({ params }: Props) {
   const { campaign } = await params;
   const job = getJob(campaign);
@@ -48,7 +75,7 @@ export default async function CampaignPage({ params }: Props) {
       <section className="mt-20">
         <div className="max-w-[600px] space-y-4 text-sm leading-6 text-black/60">
           {job.intro.map((p, i) => (
-            <p key={i}>{p}</p>
+            <p key={i}>{renderIntro(p)}</p>
           ))}
         </div>
       </section>

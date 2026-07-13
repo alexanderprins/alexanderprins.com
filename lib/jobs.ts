@@ -41,18 +41,11 @@ export const jobs: JobPage[] = [
     slug: "novo",
     company: "Novo",
     role: "Senior Designer / Art Director",
-    // DRAFT intro — scaffolding only, rewrite in Alexander's own voice.
-    // Panel rule: "if AI wrote it, I'll know." Beats to hit: (1) motion/video +
-    // AI-tooling is the edge and it's the must-have here; (2) the real angle —
-    // he BANKS with Novo as a freelancer, i.e. he's their exact customer;
-    // (3) what the work leads with (motion first). Do NOT ship as-is.
     intro: [
-      `I'm Alexander — a brand and motion designer who works fast, ships video and campaign creative, and uses AI tools like Claude across the whole process instead of talking about them.`,
-      `I also bank with Novo. I run my freelance practice on it, so I'm not pitching a company I just read about — I'm one of the small-business owners you're building for. That's the audience your marketing has to move, and I've been inside it.`,
-      `The work below leads with motion and video, then the AI-native web builds and the brand systems underneath them.`,
+      `I'm actually a Novo customer. I've run my freelance business with it for over two years, and it's essential: bookkeeping, fast invoicing, and the reserves automation I genuinely love. I came for location-independent business banking and stayed for all of it. I'm the exact small-business owner your brand is built to reach.`,
+      `For the role: I've led creative direction for marketing campaigns, and I move across brand, web, motion, and video. I've spent seven years embedded in startups and working directly under four founders while running my own business, so I know how they think and I'm comfortable taking an idea straight to the decision-makers. I also bring real judgment on AI tools, when they help and when they don't.`,
+      `My background runs from high-growth startups to agencies to a world-class design education company to my own practice. The curated work below showcases brand and motion. More motion and video work can be found [here](/video). I'd genuinely love to contribute and help scale the brand of a product I already rely on.`,
     ],
-    // Motion-first order for a growth/marketing creative role: motion (NV) ->
-    // AI-native web build (Lily) -> systematic craft/range (PP) -> brand system.
     projectOrder: [
       "northern-vessel",
       "lily-development",
