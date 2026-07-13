@@ -23,7 +23,7 @@ export const jobs: JobPage[] = [
     // The headline ("Hi, Ideogram.") is rendered separately, so don't repeat it.
     intro: [
       `I'm a fan of Ideogram. I first came across your new brand through How&How's post on LinkedIn and got excited, though I was already using the product in client work (erasing power lines out of real-estate hero shots, among other things).`,
-      `You're looking for a designer with one foot in Figma and one foot in Claude Code or Cursor, moving between the two to make things that weren't possible for a non-coder until now. That's me.`,
+      `You're looking for a designer with one foot in Figma and one foot in Claude Code or Cursor, moving between the two to make things that weren't possible for a non-coder until now. That's me.`,
       `I've spent seven years building brands, and I came up through motion and video, a less common route into brand design. Lately I've been practically living in these AI tools, and it's the most fun I've had designing in years. The work I've curated below shows my range, from a coffee startup I co-founded to real estate and finance brand work, and a spec project I used to push myself into new territory.`,
     ],
     projectOrder: [
