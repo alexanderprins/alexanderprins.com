@@ -48,9 +48,9 @@ export const jobs: JobPage[] = [
     ],
     projectOrder: [
       "northern-vessel",
+      "cascata-group",
       "lily-development",
       "patient-pipeline",
-      "cascata-group",
     ],
     surfaceTags: ["Motion", "Video", "AI Tools", "Web", "Brand"],
     ogTitle: "Alexander Prins for Novo",
