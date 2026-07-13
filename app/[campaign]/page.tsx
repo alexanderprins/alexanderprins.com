@@ -40,7 +40,7 @@ export default async function CampaignPage({ params }: Props) {
           For your consideration for the role of {job.role}
         </p>
         <h1 className="mt-8 font-serif text-sm font-medium text-black">
-          Hi, {job.company}.
+          Hi, {job.company} team.
         </h1>
       </section>
 
