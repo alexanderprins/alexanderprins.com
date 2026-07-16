@@ -99,9 +99,9 @@ builds itself. This is the parent/instance idea (one template, many instances).
   tracking (only `WordmarkMorph.tsx` carries a custom `tracking-[0.12em]`).
 - Spacing: 4pt grid = Tailwind's native scale (utility number x 4px). Alexander
   gives px; convert px/4. Key values are encoded in the pages/components.
-- Corners: square everywhere EXCEPT the status pill (Spec/Shipped, rounded-full).
+- Corners: square everywhere EXCEPT the status pill (Spec/Shipped/Launching, rounded-full).
 - Project descriptors: Title Case, "-ing + the win" (the serif heading).
-- Status pill vocabulary: "Spec" | "Shipped" only.
+- Status pill vocabulary: "Spec" | "Shipped" | "Launching" only.
 - Nav: hover-reveal popovers (Email = hover then click-to-copy; colophon "Made
   with [crab]" = hover, informational). Logo top-left, NOT in the hero.
 - Frame width: max-w-[1440px]. Thumbnail strip: 3 images, 16:9. ALL image +
