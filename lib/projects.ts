@@ -72,8 +72,8 @@ export const projects: Project[] = [
     description: `A brand overhaul and new website for a Philadelphia multifamily developer. Lily has 28 years of experience, but lacked a brand or website that properly supported it. The old site was confusing to lenders, investors, and partners, and the primary wordmark suffered from legibility issues in small/digital contexts.`,
     role: `In collaboration with the CFO and CEO, I refined the brand identity by adjusting the contrast of the serif wordmark, introducing the lily flower mark, and introducing an intentional type system. I designed and built a new website in Framer using Claude Code and the Framer MCP server, and wrote all the copy for it in collaboration with the client.`,
     impact: `Lily Development now has a clear, current, and credible brand presence online and across their various touchpoints. The 28 year old developer finally looks and feels as solid online as they are in the real world.`,
-    status: "Launching",
-    liveUrl: "https://lilydevelopment.framer.website",
+    status: "Shipped",
+    liveUrl: "https://lilydevelopment.com",
     disciplines: [
       "Strategy",
       "Brand Identity Design",
