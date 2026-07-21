@@ -27,24 +27,38 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// Renders intro paragraphs, turning markdown-style [label](/path) into inline
-// links (internal). Plain paragraphs (no brackets) render unchanged.
+// Renders intro paragraphs, turning markdown-style [label](href) into inline
+// links. Internal paths (/video) use Next's <Link>; external URLs (http...,
+// e.g. [Shift Nudge](https://shiftnudge.com)) render as a plain <a> that opens
+// in a new tab. Plain paragraphs (no brackets) render unchanged.
 function renderIntro(text: string): ReactNode[] {
   const parts: ReactNode[] = [];
   const re = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const linkClass =
+    "underline decoration-black/30 underline-offset-4 hover:text-black hover:decoration-black";
   let last = 0;
   let key = 0;
   let m: RegExpExecArray | null;
   while ((m = re.exec(text)) !== null) {
     if (m.index > last) parts.push(text.slice(last, m.index));
+    const [, label, href] = m;
+    const external = /^https?:\/\//.test(href);
     parts.push(
-      <Link
-        key={key++}
-        href={m[2]}
-        className="underline decoration-black/30 underline-offset-4 hover:text-black hover:decoration-black"
-      >
-        {m[1]}
-      </Link>,
+      external ? (
+        <a
+          key={key++}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={linkClass}
+        >
+          {label}
+        </a>
+      ) : (
+        <Link key={key++} href={href} className={linkClass}>
+          {label}
+        </Link>
+      ),
     );
     last = m.index + m[0].length;
   }
