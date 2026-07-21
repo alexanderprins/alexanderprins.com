@@ -66,7 +66,7 @@ export default async function CampaignPage({ params }: Props) {
         <p className="max-w-md text-sm text-black/60">
           For your consideration for the role of {job.role}
         </p>
-        <h1 className="mt-8 font-serif text-sm font-medium text-black">
+        <h1 className="mt-5 font-serif text-[56px] font-medium text-black">
           Hi, {job.company} team.
         </h1>
       </section>
