@@ -47,8 +47,8 @@ export const jobs: JobPage[] = [
       `My background runs from high-growth startups to agencies to a world-class design education company to my own practice. The curated work below showcases brand and motion. More motion and video work can be found [here](/video). I'd genuinely love to contribute and help scale the brand of a product I already rely on.`,
     ],
     projectOrder: [
-      "northern-vessel",
       "cascata-group",
+      "northern-vessel",
       "lily-development",
       "patient-pipeline",
     ],
