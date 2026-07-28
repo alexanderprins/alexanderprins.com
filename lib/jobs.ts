@@ -17,6 +17,26 @@ export type JobPage = {
 
 export const jobs: JobPage[] = [
   {
+    slug: "mercury",
+    company: "Mercury",
+    role: "Senior Brand Designer, Growth",
+    intro: [
+      `Mercury is one of the few fintechs whose brand actually has taste, and the craft standard is obvious. Bringing craft and care back to modern finance is exactly the kind of work I want to be doing. I'm a brand designer who builds the systems and content that scale an identity, increasingly with growth and data in the loop.`,
+      `At [Shift Nudge](https://shiftnudge.com), Matt D. Smith's design education platform, I own the content engine; I've doubled the audience from ~40K to 88K+, driven 2.2M+ views, and built the formats and funnels behind 16,500+ email subscribers. That's growth creative in practice: testing, reading the numbers and the comments, and iterating on what works. Data-informed.`,
+      `Before that, I co-founded Northern Vessel and built its entire identity and launch campaign across every channel, opening at 2x revenue projections. I've also done brand and web work that made a solo operator read like a financial institution. I live in Figma, I have a real point of view on where AI tools help a creative workflow and where they get in the way, and I'd love to talk about contributing to the creative for Mercury's growth channels. A deeper set of my motion and video work lives [here](/video).`,
+    ],
+    projectOrder: [
+      "northern-vessel",
+      "cascata-group",
+      "lily-development",
+      "patient-pipeline",
+    ],
+    surfaceTags: ["Brand", "Growth", "Motion", "Web", "AI Tools"],
+    ogTitle: "Alexander Prins for Mercury",
+    ogDescription:
+      "Brand designer who builds systems and growth creative, with AI in the loop. Tailored for Mercury's Senior Brand Designer, Growth role.",
+  },
+  {
     slug: "ideogram",
     company: "Ideogram",
     role: "Technical Brand Designer",
