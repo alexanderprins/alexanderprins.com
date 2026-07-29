@@ -19,22 +19,22 @@ const vimeo = (id: string) =>
 export const videos: Video[] = [
   {
     title: "Shift Nudge Figma 101 Paid Ad",
-    embedUrl: vimeo("1208675088"),
+    embedUrl: vimeo("1213783171"),
     note: "Edit: Me · Direction: MDS",
   },
   {
     title: "Weather App Before & After",
-    embedUrl: vimeo("1208675086"),
+    embedUrl: vimeo("1213783168"),
     note: "Edit, motion design: Me · UI Design: MDS",
   },
   {
     title: "Parking App Before & After",
-    embedUrl: vimeo("1208675085"),
+    embedUrl: vimeo("1213783169"),
     note: "Edit, motion design: Me · UI Design: MDS",
   },
   {
     title: "Shift Nudge Promo",
-    embedUrl: vimeo("1208675087"),
+    embedUrl: vimeo("1213783170"),
     note: "Edit, motion design: Me · Direction: MDS",
   },
   {
