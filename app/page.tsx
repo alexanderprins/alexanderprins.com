@@ -13,7 +13,7 @@ export default function Home() {
         <h1 className="font-serif text-sm font-medium text-black">
           Alexander Prins
         </h1>
-        <p className="mt-1 text-sm text-black/60">Brand Designer</p>
+        <p className="mt-1 text-sm text-black/60">Brand and Motion Designer</p>
         {/* Mirrors `positioning` in lib/about.ts (kept there as the plain-
             string source of truth for meta use) with inline proof links. */}
         <p className="mt-6 max-w-[420px] text-sm leading-relaxed text-black/60">
