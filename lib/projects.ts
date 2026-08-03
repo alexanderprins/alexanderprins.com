@@ -415,7 +415,7 @@ export const projects: Project[] = [
     year: "2025",
     description: `A spec brand overhaul for a national LASIK lead-in agency, built to position an underdog as the category leader and for a future acquisition. I challenged myself to produce work I felt could stand up next to work from an agency team, exploring mediums I was less comfortable in and combining them. The eyedrop silhouette derived from the logo is the atomic building block of the whole system.`,
     role: `This spec project gave me a unique opportunity to follow my instincts without any outside influence. I set the strategy, positioning, evolved the old logo (also my work, from earlier in my career), generated the copy, and designed the whole identity.`,
-    impact: `The goal was to accomplish two things: position the business as a leader now, and position the business for a future acquisition (a goal stated by the owner/operator). In order to accomplish this, the owner will need to hire replacements for himself, so I aimed to also produce an identity a future team could be proud of and that would attract top talent. As of July 2026, adoption of the identity by Patient Pipeline is pending.`,
+    impact: `The goal was to accomplish two things: position the business as a leader now, and position the business for a future acquisition (a goal stated by the owner/operator). In order to accomplish this, the owner will need to hire replacements for himself, so I aimed to also produce an identity a future team could be proud of and that would attract top talent.`,
     status: "Spec",
     disciplines: [
       "Strategy",
@@ -426,11 +426,6 @@ export const projects: Project[] = [
       "Web Design",
     ],
     tools: ["Figma", "Illustrator", "Photoshop", "Final Cut Pro", "Spline", "Framer", "ChatGPT"],
-    testimonial: {
-      quote: `Alex's design work he did is visually captivating and exceptionally professional. He really made us a sleek, modern aesthetic that draws the eye. He has a thoughtful approach and meticulous attention to detail. The one thing that sets Alex apart from other designers is he truly integrates marketing strategy into branding work.`,
-      author: "Nick Sideris",
-      title: "Owner/Operator, Patient Pipeline",
-    },
     // Final lineup (Jul 2026): 11 real assets, all 16:9. Gallery order = the NN- file
     // prefix (Alexander's revised sequence). Homepage card is explicit via card flags:
     // cover = 01 (auditorium), thumbs = 06 (3D spin) -> 09 (image containers) -> 07
@@ -514,7 +509,6 @@ export const homepageOrder = [
   "lily-development",
   "cascata-group",
   "northern-vessel",
-  "patient-pipeline",
 ];
 
 export function getProject(slug: string): Project | undefined {
