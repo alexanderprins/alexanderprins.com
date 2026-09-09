@@ -57,10 +57,19 @@ export function ProjectCard({ project }: { project: Project }) {
             {project.descriptor}
           </h2>
         </Link>
-        {project.status && (
-          <span className="inline-block shrink-0 rounded-full border border-black/20 px-2.5 py-0.5 font-mono text-xs text-black/60">
-            {project.status}
-          </span>
+        {(project.status || project.tags?.length) && (
+          <div className="flex shrink-0 items-center gap-2">
+            {[project.status, ...(project.tags ?? [])]
+              .filter((pill): pill is string => Boolean(pill))
+              .map((pill) => (
+                <span
+                  key={pill}
+                  className="inline-block rounded-full border border-black/20 px-2.5 py-0.5 font-mono text-xs text-black/60"
+                >
+                  {pill}
+                </span>
+              ))}
+          </div>
         )}
       </header>
       {cover && (

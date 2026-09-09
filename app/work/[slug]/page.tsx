@@ -63,7 +63,11 @@ function GalleryRow({ row, index }: { row: ProjectImage[]; index: number }) {
 }
 
 export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+  // Projects with `custom` have their own /work/<slug> page; don't also generate
+  // them through this template (route conflict).
+  return projects
+    .filter((p) => !p.custom)
+    .map((p) => ({ slug: p.slug }));
 }
 
 type Props = { params: Promise<{ slug: string }> };

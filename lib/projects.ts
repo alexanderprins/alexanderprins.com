@@ -54,6 +54,8 @@ export type Project = {
   role: string;
   impact: string;
   status?: string; // pill vocabulary: "Shipped" | "Launching" | "Spec"
+  tags?: string[]; // extra pills shown next to status (e.g. "Interactive")
+  custom?: boolean; // has its own /work/<slug> page (skips the [slug] template)
   liveUrl?: string;
   disciplines: string[];
   tools: string[];
@@ -62,6 +64,62 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    slug: "hello-marjorie",
+    title: "Hello, Marjorie",
+    descriptor: "Redesigning a Cocktail Menu for a Dark Room",
+    subtitle:
+      "An interactive redesign of a cocktail bar's menu, rebuilt in code and annotated with the decisions behind it.",
+    year: "2025",
+    // DRAFT copy — rewrite in Alexander's voice. The custom /work page renders
+    // its own intro (not this description/role/impact), so these mainly feed
+    // meta + future use.
+    description: `A redesign of the cocktail menu for Hello, Marjorie, a dimly lit Des Moines cocktail bar. I rebuilt the finished menu in code and turned it into an interactive study: the new menu and the original sit in a stack you can flip and shuffle, annotated with the reasoning behind each decision.`,
+    role: `I redesigned the menu, its typography, layout, color, and print system, then rebuilt it in code as an interactive, annotated case study. All bar photography is my own.`,
+    impact: `The new menu reads clearly in the bar's low light, reorganizes a program that grew from 18 to 30 cocktails into liquor categories, and settles on a single tax-inclusive price to keep things simple for patrons.`,
+    status: "Shipped",
+    tags: ["Interactive"],
+    custom: true,
+    disciplines: [
+      "Typography",
+      "Print Design",
+      "Interaction Design",
+      "Web Design/Build",
+      "Photography",
+    ],
+    tools: ["Figma", "Claude Code", "Next.js", "Motion"],
+    // Homepage card only (the /work page is custom/interactive). Cover = the
+    // stacked-menu render; thumbs = bar photos.
+    images: [
+      {
+        type: "cover",
+        card: "cover",
+        src: "/work/hello-marjorie/cover.png",
+        alt: "The Hello, Marjorie menu redesign as an interactive stack: the new menu in front, the original peeking behind",
+      },
+      {
+        type: "lifestyle",
+        card: "thumb",
+        cardOrder: 1,
+        src: "/work/hello-marjorie/photos/1.jpg",
+        alt: "The Hello, Marjorie bar interior lit in pink neon",
+      },
+      {
+        type: "lifestyle",
+        card: "thumb",
+        cardOrder: 2,
+        src: "/work/hello-marjorie/photos/3.jpg",
+        alt: "Warm lamplight over the Hello, Marjorie bar",
+      },
+      {
+        type: "lifestyle",
+        card: "thumb",
+        cardOrder: 3,
+        src: "/work/hello-marjorie/photos/5.jpg",
+        alt: "The Hello, Marjorie bar",
+      },
+    ],
+  },
   {
     slug: "lily-development",
     title: "Lily Development",
@@ -506,6 +564,7 @@ export const projects: Project[] = [
 
 // Default homepage order (Alexander's call).
 export const homepageOrder = [
+  "hello-marjorie",
   "lily-development",
   "cascata-group",
   "northern-vessel",

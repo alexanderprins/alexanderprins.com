@@ -42,3 +42,10 @@ next-env.d.ts
 
 # claude personal settings
 .claude/settings.local.json
+
+# local-only resume routes (carry a phone number; must never deploy)
+/app/lab/resume*/
+
+# local-only client work (Hello, Marjorie menu); never deploy
+/app/lab/hm-menu*/
+/public/hm-menu/
