@@ -1,15 +1,17 @@
 "use client";
 
-// Hello, Marjorie — an interactive cocktail-menu study. A two-card stack: the new
-// menu in front, the old (pre-redesign) menu peeking behind. Click the front card
-// to flip it, click the peeking card (or the Old/New words) to shuffle it forward.
-// Hover the new menu for numbered annotations explaining the design decisions.
+// Hello, Marjorie — an interactive cocktail-menu study. A two-card stack (new
+// menu in front, the original peeking behind) that flips and shuffles, with
+// annotations explaining the design decisions. Motion values were tuned in the
+// /lab/hm-menu sandbox (DialKit) and baked in here. Faces are supersampled PNGs
+// (card renders at 2x, scales 0.5) so the 3D flip stays crisp.
 //
-// Motion values here were tuned live in the /lab/hm-menu sandbox (DialKit) and
-// baked in as constants. Faces are supersampled PNGs (card renders at 2x, scales
-// 0.5) so the 3D flip stays crisp.
+// Responsive: desktop (>=918px of content width) shows the full-size stage with
+// hover dots + popups. Narrower screens scale the whole flippable stack to fit
+// and list the reasoning as numbered notes below it (hover/positioned popups
+// don't translate to touch).
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, type Transition } from "motion/react";
 import { AnnotationLayer, annotationCss } from "./AnnotationLayer";
 import { MenuGallery } from "./MenuGallery";
@@ -32,6 +34,9 @@ const OLD = {
   dh: 1188.5,
 };
 
+const SCENE_W = 918;
+const SCENE_H = 1190;
+
 type Menu = typeof NEW;
 type Slot = { x: number; y: number; rotate: number; z: number };
 
@@ -39,12 +44,10 @@ type Slot = { x: number; y: number; rotate: number; z: number };
 const PERSPECTIVE = 5000;
 const FLIP_SPRING: Transition = { type: "spring", visualDuration: 0.6, bounce: 0.15 };
 const SHUFFLE_SPRING: Transition = { type: "spring", visualDuration: 0.5, bounce: 0.14 };
-const OLD_BACK = { x: -170, y: -10, rotate: -10 }; // old menu's peek (default view)
-const NEW_BACK = { x: 50, y: 20, rotate: -9 }; // new menu's peek (once old is front)
+const OLD_BACK = { x: -170, y: -10, rotate: -10 };
+const NEW_BACK = { x: 50, y: 20, rotate: -9 };
 const STAGGER = 0.05;
 const DOT_ENTRANCE: Transition = { type: "spring", visualDuration: 0.23, bounce: 0.16 };
-// dialed 0 / 10 / 50 / -10 @ 0.4; doubled to cancel the 0.5 card scale (shadow is
-// on the faces so it foreshortens with the flip)
 const SHADOW = "0px 20px 100px -20px rgba(0,0,0,0.4)";
 
 const stageCss = `
@@ -66,9 +69,16 @@ const stageCss = `
   .hm-sheet-img { position:absolute; top:0; left:0; display:block; max-width:none; }
   .hm-ann-wrap { position:absolute; inset:0; z-index:3; pointer-events:none; }
 
-  .hm-toggle { position:relative; z-index:30; display:flex; gap:14px; margin-bottom:64px; font-family:var(--font-sans); font-size:14px; line-height:1; }
+  .hm-toggle { display:flex; gap:14px; margin-bottom:64px; font-family:var(--font-sans); font-size:14px; line-height:1; }
   .hm-toggle button { color:#757575; background:none; border:0; padding:0; cursor:pointer; }
   .hm-toggle button.is-front { color:#1e1e1e; text-decoration:underline; text-underline-offset:3px; }
+
+  /* mobile numbered notes */
+  .hm-note-n {
+    flex:0 0 auto; width:22px; height:22px; border-radius:50%;
+    background:#145740; color:#F4F1EA; display:grid; place-items:center;
+    font-family:var(--font-sans); font-size:12px; font-weight:600; line-height:1;
+  }
 `;
 
 function StackCard({
@@ -131,6 +141,25 @@ export default function HelloMarjoriePage() {
   const [hovered, setHovered] = useState(false);
   const [newSettled, setNewSettled] = useState(true);
 
+  // Fit-to-width: scale the fixed 918px stack down to the available width.
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const measure = () => {
+      const avail = el.clientWidth;
+      setScale(Math.min(1, avail / SCENE_W));
+      setReady(true);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const isFull = scale >= 1; // desktop: interactive dots. else: numbered list.
+
   const FRONT_SLOT: Slot = { x: 0, y: 0, rotate: 0, z: 2 };
   const oldBackSlot: Slot = { ...OLD_BACK, z: 1 };
   const newBackSlot: Slot = { ...NEW_BACK, z: 1 };
@@ -168,16 +197,17 @@ export default function HelloMarjoriePage() {
   const annActive = frontCard === "new" && !newFlipped && newSettled;
 
   return (
-    <main className="mx-auto w-full max-w-[1440px] px-6 pb-24 pt-[90px]">
+    <main className="mx-auto w-full max-w-[1440px] overflow-x-clip px-6 pb-24 pt-[90px] lg:overflow-x-visible">
       <style dangerouslySetInnerHTML={{ __html: stageCss + annotationCss }} />
 
-      <div className="flex items-start justify-between gap-12">
-        <header className="shrink-0" style={{ width: 600 }}>
+      {/* intro + gallery: stacked on mobile, side by side on desktop */}
+      <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
+        <header className="w-full lg:w-[600px] lg:shrink-0">
           <h1 className="font-serif text-sm font-medium leading-tight text-black">
             Hello, Marjorie Menu Redesign
           </h1>
           <p className="mt-1 text-sm leading-relaxed text-black/60">2025</p>
-          <p className="mt-16 text-sm leading-6 text-black/60">
+          <p className="mt-8 text-sm leading-6 text-black/60 lg:mt-16">
             When approaching the Hello, Marjorie redesign, the primary focus was
             improving readability for the bar&rsquo;s patrons. The bar is
             naturally a very dark environment lit primarily by vintage lamps hung
@@ -192,8 +222,12 @@ export default function HelloMarjoriePage() {
         <MenuGallery />
       </div>
 
-      <div className="flex justify-center" style={{ marginTop: 90 }}>
-        <div style={{ width: 918 }}>
+      {/* the interactive stack, scaled to fit */}
+      <section ref={sectionRef} className="mt-[90px]">
+        <div
+          className="mx-auto"
+          style={{ width: SCENE_W * scale, opacity: ready ? 1 : 0 }}
+        >
           <div className="hm-toggle">
             <button
               className={frontCard === "old" ? "is-front" : ""}
@@ -208,39 +242,68 @@ export default function HelloMarjoriePage() {
               New
             </button>
           </div>
-          <div className="hm-scene">
-            <div
-              className="hm-figure"
-              onMouseEnter={() => setHovered(true)}
-              onMouseLeave={() => setHovered(false)}
-            >
-              <StackCard
-                menu={OLD}
-                slot={oldSlot}
-                flipped={oldFlipped}
-                onClick={clickOld}
-              />
-              <StackCard
-                menu={NEW}
-                slot={newSlot}
-                flipped={newFlipped}
-                onClick={clickNew}
-                onSettle={markSettled}
-              />
 
-              <div className="hm-ann-wrap">
-                <AnnotationLayer
-                  annotations={frontAnnotations}
-                  frontSettled={annActive}
-                  hovered={hovered}
-                  stagger={STAGGER}
-                  entrance={DOT_ENTRANCE}
-                />
+          <div style={{ width: SCENE_W * scale, height: SCENE_H * scale }}>
+            <div
+              style={{
+                width: SCENE_W,
+                height: SCENE_H,
+                transformOrigin: "top left",
+                transform: `scale(${scale})`,
+              }}
+            >
+              <div className="hm-scene">
+                <div
+                  className="hm-figure"
+                  onMouseEnter={() => setHovered(true)}
+                  onMouseLeave={() => setHovered(false)}
+                >
+                  <StackCard
+                    menu={OLD}
+                    slot={oldSlot}
+                    flipped={oldFlipped}
+                    onClick={clickOld}
+                  />
+                  <StackCard
+                    menu={NEW}
+                    slot={newSlot}
+                    flipped={newFlipped}
+                    onClick={clickNew}
+                    onSettle={markSettled}
+                  />
+
+                  {isFull && (
+                    <div className="hm-ann-wrap">
+                      <AnnotationLayer
+                        annotations={frontAnnotations}
+                        frontSettled={annActive}
+                        hovered={hovered}
+                        stagger={STAGGER}
+                        entrance={DOT_ENTRANCE}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+
+        {/* touch fallback: the reasoning as a numbered list */}
+        {ready && !isFull && (
+          <ol className="mx-auto mt-12 max-w-[520px] space-y-7">
+            {frontAnnotations.map((a) => (
+              <li key={a.id} className="flex gap-3">
+                <span className="hm-note-n">{a.n}</span>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-black">{a.title}</p>
+                  <p className="mt-1 text-sm leading-6 text-black/60">{a.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        )}
+      </section>
     </main>
   );
 }
