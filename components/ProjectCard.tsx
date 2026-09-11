@@ -51,8 +51,8 @@ export function ProjectCard({ project }: { project: Project }) {
     <article className="group space-y-4">
       {/* descriptor left, status pill right — spans the full card so the pill
           aligns to the far right edge. 16px sits above the image via space-y-4. */}
-      <header className="flex items-center justify-between gap-4">
-        <Link href={href}>
+      <header className="flex items-start justify-between gap-4">
+        <Link href={href} className="min-w-0">
           <h2 className="font-serif text-sm font-medium text-black">
             {project.descriptor}
           </h2>
