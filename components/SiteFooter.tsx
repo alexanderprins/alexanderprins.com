@@ -16,8 +16,21 @@ export function SiteFooter() {
       {/* bottom bar: legal left, P/D/S middle, socials right */}
       <div className="flex flex-col items-center gap-4 border-t border-black/10 py-8 text-sm text-black/60 sm:flex-row sm:justify-between">
         <span>&copy; Alexander Prins 2026, All Rights Reserved</span>
-        <span className="hidden text-sm sm:inline">
-          Play | Discover | Systematize
+        <span className="hidden items-center gap-3 text-sm sm:inline-flex">
+          <span className="flex items-center gap-1.5">
+            <svg width="9" height="9" viewBox="0 0 9 9" fill="currentColor" aria-hidden="true"><circle cx="4.5" cy="4.5" r="4.5"/></svg>
+            Play
+          </span>
+          <span>|</span>
+          <span className="flex items-center gap-1.5">
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><rect width="8" height="8"/></svg>
+            Discover
+          </span>
+          <span>|</span>
+          <span className="flex items-center gap-1.5">
+            <svg width="9" height="8" viewBox="0 0 9 8" fill="currentColor" aria-hidden="true"><polygon points="4.5,0 9,8 0,8"/></svg>
+            Systemize
+          </span>
         </span>
         <div className="flex items-center gap-4">
           <a
