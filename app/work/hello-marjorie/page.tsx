@@ -23,7 +23,7 @@ const NEW = {
   frontSm: "/work/hello-marjorie/front-sm.png",
   backSm: "/work/hello-marjorie/back-sm.png",
   nw: 1836, nh: 2379, // desktop (supersampled) face size
-  smNw: 612, smNh: 793, // mobile face size
+  smNw: 864, smNh: 1119, // mobile face size
   dw: 918, dh: 1189.5,
 };
 const OLD = {
@@ -32,7 +32,7 @@ const OLD = {
   frontSm: "/work/hello-marjorie/old-front-sm.png",
   backSm: "/work/hello-marjorie/old-back-sm.png",
   nw: 1225, nh: 2377,
-  smNw: 408, smNh: 791,
+  smNw: 576, smNh: 1117,
   dw: 612.5, dh: 1188.5,
 };
 
