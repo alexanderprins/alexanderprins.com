@@ -64,6 +64,14 @@ const SHADOW = "0px 20px 100px -20px rgba(0,0,0,0.4)";
 const stageCss = `
   .hm-scene { position:relative; width:918px; height:1190px; overflow:visible; }
   .hm-figure { position:absolute; inset:0; }
+  /* neon-pink back-halo (the bar's sign glowing behind the menu). Sits behind
+     the opaque cream sheet, so the pink spills around its edges. */
+  .hm-glow {
+    position:absolute; left:50%; top:50%; width:1650px; height:1650px;
+    transform:translate(-50%,-50%); border-radius:50%; pointer-events:none;
+    background:radial-gradient(circle, rgba(224,2,120,0.55) 0%, rgba(224,2,120,0.30) 42%, rgba(224,2,120,0.11) 66%, rgba(224,2,120,0) 88%);
+    filter:blur(40px);
+  }
   .hm-card-slot { position:absolute; inset:0; margin:auto; cursor:pointer; }
   .hm-persp { position:absolute; inset:0; }
   .hm-cardscale {
@@ -267,12 +275,14 @@ export default function HelloMarjoriePage() {
           <div style={{ width: SCENE_W * scale, height: SCENE_H * scale }}>
             <div
               style={{
+                position: "relative",
                 width: SCENE_W,
                 height: SCENE_H,
                 transformOrigin: "top left",
                 transform: `scale(${scale})`,
               }}
             >
+              <div className="hm-glow" aria-hidden="true" />
               <div className="hm-scene">
                 <div
                   className="hm-figure"
