@@ -34,7 +34,7 @@ body {
    shared header/footer + all text-black/black-opacity utilities at once. Warm
    near-black to evoke the bar's lamplight. */
 html.hm-dark {
-  --background: #1a1613;
+  --background: #1c1610;
   --foreground: #eae6df;
   --color-black: #eae6df;
 }
