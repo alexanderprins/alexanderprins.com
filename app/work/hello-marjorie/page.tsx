@@ -67,10 +67,10 @@ const stageCss = `
   /* neon-pink back-halo (the bar's sign glowing behind the menu). Sits behind
      the opaque cream sheet, so the pink spills around its edges. */
   .hm-glow {
-    position:absolute; left:50%; top:50%; width:1650px; height:1650px;
+    position:absolute; left:50%; top:50%; width:1660px; height:1580px;
     transform:translate(-50%,-50%); border-radius:50%; pointer-events:none;
-    background:radial-gradient(circle, rgba(224,2,120,0.55) 0%, rgba(224,2,120,0.30) 42%, rgba(224,2,120,0.11) 66%, rgba(224,2,120,0) 88%);
-    filter:blur(40px);
+    background:radial-gradient(closest-side, rgba(224,2,120,0.98) 0%, rgba(224,2,120,0.54) 35%, rgba(224,2,120,0.20) 55%, rgba(224,2,120,0) 73%);
+    filter:blur(170px);
   }
   .hm-card-slot { position:absolute; inset:0; margin:auto; cursor:pointer; }
   .hm-persp { position:absolute; inset:0; }
