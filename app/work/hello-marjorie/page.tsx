@@ -82,7 +82,7 @@ const stageCss = `
 
   .hm-toggle { display:flex; gap:14px; margin-bottom:64px; font-family:var(--font-sans); font-size:14px; line-height:1; }
   .hm-toggle button { color:#757575; background:none; border:0; padding:0; cursor:pointer; }
-  .hm-toggle button.is-front { color:#1e1e1e; text-decoration:underline; text-underline-offset:3px; }
+  .hm-toggle button.is-front { color:var(--color-black); text-decoration:underline; text-underline-offset:3px; }
 
   /* mobile numbered notes */
   .hm-note-n {

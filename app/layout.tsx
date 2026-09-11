@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { RouteTheme } from "@/components/RouteTheme";
 
 // Single typeface sitewide: Aktiv Grotesk, served from Adobe Fonts (licensed
 // through Creative Cloud). It loads via the Typekit <link> in <head> below —
@@ -56,8 +57,16 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link rel="stylesheet" href="https://use.typekit.net/nsl4rke.css" />
+        {/* Dark-mode routes: set the class before paint so there's no flash. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(location.pathname==='/work/hello-marjorie')document.documentElement.classList.add('hm-dark')}catch(e){}",
+          }}
+        />
       </head>
       <body className="flex min-h-full flex-col">
+        <RouteTheme />
         <SiteHeader />
         <div className="flex-1">{children}</div>
         <SiteFooter />

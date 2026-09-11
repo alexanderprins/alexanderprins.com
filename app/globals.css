@@ -28,6 +28,22 @@ body {
   font-family: var(--font-sans);
 }
 
+/* Per-page dark theme (the Hello, Marjorie study — a menu made for a dark room).
+   Applied by adding `hm-dark` to <html> on that route (inline script in the
+   layout + RouteTheme on client nav). Flipping the color tokens re-themes the
+   shared header/footer + all text-black/black-opacity utilities at once. Warm
+   near-black to evoke the bar's lamplight. */
+html.hm-dark {
+  --background: #1a1613;
+  --foreground: #eae6df;
+  --color-black: #eae6df;
+}
+/* White popovers (colophon, nav dropdown) go dark so their (now light) text
+   stays legible. Annotation callouts keep their own literal colors. */
+html.hm-dark .hm-pop {
+  background: #221e19;
+}
+
 /* Logo hover micro-animation (reference: context/Logo Hover.mov).
    Two-state re-composition: hovering the mark sends each shape traveling to a
    rearranged layout, reversing on hover-out. All values are viewBox units

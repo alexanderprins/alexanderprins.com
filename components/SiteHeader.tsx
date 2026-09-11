@@ -60,7 +60,7 @@ export function SiteHeader() {
             aria-hidden="true"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-6 top-full z-20 mt-3 flex min-w-40 flex-col border border-black/10 bg-white p-2 shadow-sm">
+          <div className="hm-pop absolute right-6 top-full z-20 mt-3 flex min-w-40 flex-col border border-black/10 bg-white p-2 shadow-sm">
             {NAV.map((item) => (
               <Link
                 key={item.href}
