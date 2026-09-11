@@ -12,12 +12,9 @@ import { ColophonButton } from "@/components/ColophonButton";
 const EMAIL = "hello@alexanderprins.com";
 
 const NAV: { label: string; href: string }[] = [
+  { label: "Logos", href: "/logos" },
   { label: "Video", href: "/video" },
   { label: "About", href: "/about" },
-  // add pages here as they ship, e.g.:
-  // { label: "Logos", href: "/logos" },
-  // { label: "Photography", href: "/photography" },
-  // { label: "Shirts", href: "/shirts" },
 ];
 
 export function SiteHeader() {

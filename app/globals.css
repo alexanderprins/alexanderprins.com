@@ -44,6 +44,17 @@ html.hm-dark .hm-pop {
   background: #221e19;
 }
 
+/* Logos page dark mode — neutral dark, user-toggled (defaults dark on load).
+   Same mechanism as hm-dark but a true neutral rather than the bar's warm tone. */
+html.logos-dark {
+  --background: #111111;
+  --foreground: #ffffff;
+  --color-black: #ffffff;
+}
+html.logos-dark .hm-pop {
+  background: #2a2a2a;
+}
+
 /* Logo hover micro-animation (reference: context/Logo Hover.mov).
    Two-state re-composition: hovering the mark sends each shape traveling to a
    rearranged layout, reversing on hover-out. All values are viewBox units

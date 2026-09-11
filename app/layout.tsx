@@ -61,7 +61,7 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{if(location.pathname==='/work/hello-marjorie')document.documentElement.classList.add('hm-dark')}catch(e){}",
+              "try{var p=location.pathname;if(p==='/work/hello-marjorie')document.documentElement.classList.add('hm-dark');if(p==='/logos')document.documentElement.classList.add('logos-dark')}catch(e){}",
           }}
         />
       </head>
