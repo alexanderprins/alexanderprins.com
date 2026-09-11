@@ -20,25 +20,36 @@ import { frontAnnotations } from "./annotations";
 const NEW = {
   front: "/work/hello-marjorie/front-3x.png",
   back: "/work/hello-marjorie/back-3x.png",
-  nw: 1836,
-  nh: 2379,
-  dw: 918,
-  dh: 1189.5,
+  frontSm: "/work/hello-marjorie/front-sm.png",
+  backSm: "/work/hello-marjorie/back-sm.png",
+  nw: 1836, nh: 2379, // desktop (supersampled) face size
+  smNw: 612, smNh: 793, // mobile face size
+  dw: 918, dh: 1189.5,
 };
 const OLD = {
   front: "/work/hello-marjorie/old-front-3x.png",
   back: "/work/hello-marjorie/old-back-3x.png",
-  nw: 1225,
-  nh: 2377,
-  dw: 612.5,
-  dh: 1188.5,
+  frontSm: "/work/hello-marjorie/old-front-sm.png",
+  backSm: "/work/hello-marjorie/old-back-sm.png",
+  nw: 1225, nh: 2377,
+  smNw: 408, smNh: 791,
+  dw: 612.5, dh: 1188.5,
 };
 
 const SCENE_W = 918;
 const SCENE_H = 1190;
 
-type Menu = typeof NEW;
+type Menu = { front: string; back: string; nw: number; nh: number; dw: number; dh: number };
 type Slot = { x: number; y: number; rotate: number; z: number };
+
+// On mobile, use small face images + small native dims so the flip's 3D
+// composited layers stay tiny. Full-res faces at desktop scale blow past phone
+// GPU/texture memory and crash the tab on flip/pinch.
+function pickMenu(base: typeof NEW | typeof OLD, mobile: boolean): Menu {
+  return mobile
+    ? { front: base.frontSm, back: base.backSm, nw: base.smNw, nh: base.smNh, dw: base.dw, dh: base.dh }
+    : { front: base.front, back: base.back, nw: base.nw, nh: base.nh, dw: base.dw, dh: base.dh };
+}
 
 // --- tuned constants (from the DialKit sandbox) ---
 const PERSPECTIVE = 5000;
@@ -57,7 +68,7 @@ const stageCss = `
   .hm-persp { position:absolute; inset:0; }
   .hm-cardscale {
     position:absolute; top:0; left:0;
-    transform:scale(0.5); transform-origin:top left; transform-style:preserve-3d;
+    transform-origin:top left; transform-style:preserve-3d;
   }
   .hm-flipcard { position:absolute; inset:0; transform-style:preserve-3d; }
   .hm-face {
@@ -104,7 +115,14 @@ function StackCard({
       onAnimationComplete={onSettle}
     >
       <div className="hm-persp" style={{ perspective: `${PERSPECTIVE}px` }}>
-        <div className="hm-cardscale" style={{ width: menu.nw, height: menu.nh }}>
+        <div
+          className="hm-cardscale"
+          style={{
+            width: menu.nw,
+            height: menu.nh,
+            transform: `scale(${menu.dw / menu.nw})`,
+          }}
+        >
           <motion.div
             className="hm-flipcard"
             animate={{ rotateY: flipped ? 180 : 0 }}
@@ -159,6 +177,9 @@ export default function HelloMarjoriePage() {
     return () => ro.disconnect();
   }, []);
   const isFull = scale >= 1; // desktop: interactive dots. else: numbered list.
+  const mobile = ready && scale < 1; // small faces once we know we're scaled down
+  const newMenu = pickMenu(NEW, mobile);
+  const oldMenu = pickMenu(OLD, mobile);
 
   const FRONT_SLOT: Slot = { x: 0, y: 0, rotate: 0, z: 2 };
   const oldBackSlot: Slot = { ...OLD_BACK, z: 1 };
@@ -259,13 +280,13 @@ export default function HelloMarjoriePage() {
                   onMouseLeave={() => setHovered(false)}
                 >
                   <StackCard
-                    menu={OLD}
+                    menu={oldMenu}
                     slot={oldSlot}
                     flipped={oldFlipped}
                     onClick={clickOld}
                   />
                   <StackCard
-                    menu={NEW}
+                    menu={newMenu}
                     slot={newSlot}
                     flipped={newFlipped}
                     onClick={clickNew}
