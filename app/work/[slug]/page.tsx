@@ -76,7 +76,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const p = getProject(slug);
   if (!p) return {};
-  return { title: `${p.title} — Alexander Prins`, description: p.subtitle };
+  const cover = p.images.find((i) => i.card === "cover")?.src ?? p.images[0]?.src;
+  return {
+    title: `${p.title} — Alexander Prins`,
+    description: p.subtitle,
+    ...(cover ? { openGraph: { images: [cover] } } : {}),
+  };
 }
 
 export default async function WorkPage({ params }: Props) {

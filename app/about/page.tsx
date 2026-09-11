@@ -3,7 +3,10 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { bio } from "@/lib/about";
 
-export const metadata: Metadata = { title: "About — Alexander Prins" };
+export const metadata: Metadata = {
+  title: "About — Alexander Prins",
+  openGraph: { images: ["/og/about.jpg"] },
+};
 
 // bio[1] names "Shift Nudge" and "Matt D. Smith"; render those as inline
 // links without duplicating the copy (lib/about.ts stays the source of truth).
