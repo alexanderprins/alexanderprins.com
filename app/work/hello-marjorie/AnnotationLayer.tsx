@@ -174,31 +174,32 @@ export const annotationCss = `
   .hm-callout {
     position:absolute; pointer-events:auto; box-sizing:border-box;
     width:294px; padding:12px; border-radius:8px;
-    background:#fff; color:#1e1e1e;
-    box-shadow:0 18px 60px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.08);
+    background:#221e19; color:#eae6df; border:1px solid rgba(234,230,223,0.08);
+    box-shadow:0 18px 60px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.4);
     font-family:var(--font-sans);
   }
-  /* Header row: badge(22) + 8 + title + 8 + close(22), spanning the 270 inner. H22. */
+  /* Header row: badge(22) + 8 + title + 8 + close(22), spanning the 270 inner. H22.
+     Badge inverted for dark: light circle, green number (menu dots stay green). */
   .hm-callout-head { display:flex; align-items:center; gap:8px; min-height:22px; }
   .hm-callout-n {
     flex:0 0 auto; width:22px; height:22px; border-radius:50%;
-    background:#145740; color:#F4F1EA;
+    background:#eae6df; color:#145740;
     display:grid; place-items:center;
     font-size:12px; font-weight:600; line-height:1;
   }
   .hm-callout-title {
     flex:1 1 auto; min-width:0;
-    font-size:16px; font-weight:500; line-height:22px; color:#1e1e1e;
+    font-size:16px; font-weight:500; line-height:22px; color:#eae6df;
   }
   .hm-callout-x {
     flex:0 0 auto; width:22px; height:22px; padding:0; border:0; background:none;
-    cursor:pointer; color:#999; font-size:20px; line-height:1;
+    cursor:pointer; color:rgba(234,230,223,0.45); font-size:20px; line-height:1;
     display:grid; place-items:center; transition:color 0.12s ease;
   }
-  .hm-callout-x:hover { color:#1e1e1e; }
+  .hm-callout-x:hover { color:#eae6df; }
   /* Body: full 270 inner (aligned left with the badge), 8 gap under the header. */
   .hm-callout-body {
     margin:8px 0 0 0;
-    font-size:14px; line-height:24px; color:#6b6b6b;
+    font-size:14px; line-height:24px; color:rgba(234,230,223,0.62);
   }
 `;

@@ -93,9 +93,10 @@ const stageCss = `
   .hm-toggle button.is-front { color:var(--color-black); text-decoration:underline; text-underline-offset:3px; }
 
   /* mobile numbered notes */
+  /* inverted for dark: light circle, green number (menu dots stay green) */
   .hm-note-n {
     flex:0 0 auto; width:22px; height:22px; border-radius:50%;
-    background:#145740; color:#F4F1EA; display:grid; place-items:center;
+    background:#eae6df; color:#145740; display:grid; place-items:center;
     font-family:var(--font-sans); font-size:12px; font-weight:600; line-height:1;
   }
 `;
