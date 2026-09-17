@@ -30,7 +30,7 @@ export const frontAnnotations: Annotation[] = [
     x: 517,
     y: 117,
     title: "Layout & Size",
-    body: "The bar program was reorganized by Hello, Marjorie’s staff to emphasize classic cocktails, increasing the number of cocktails on the menu from 18 to 30. This presented a major problem for the old menu, in layout and size. This spurred my idea to remove the two old sections, “House Cocktails” and “Classics & New Classic Variations,” and replace them with liquor categories, ordered by general popularity. Additionally, the menu size increased to the standard 8.5″ × 11″ to accommodate the increase in number of cocktails while maintaining ease of print.",
+    body: "The bar program was reorganized by Hello, Marjorie’s staff to emphasize classic cocktails, increasing the number of cocktails on the menu from 18 to 30. This presented a major problem for the old menu, in layout and size. This spurred the idea to remove the two old sections, “House Cocktails” and “Classics & New Classic Variations,” and replace them with liquor categories, ordered by general popularity. Additionally, the menu size increased to the standard 8.5″ × 11″ to accommodate the increase in number of cocktails while maintaining ease of print.",
   },
   {
     id: "house",
