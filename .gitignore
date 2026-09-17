@@ -49,3 +49,6 @@ next-env.d.ts
 # local-only client work (Hello, Marjorie menu); never deploy
 /app/lab/hm-menu*/
 /public/hm-menu/
+
+# local-only PDS lab page; never deploy
+/app/lab/pds*/
