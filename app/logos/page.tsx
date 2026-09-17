@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Sun, Moon, Grid2x2 } from "lucide-react";
 import { Agentation } from "agentation";
+import { GridOverlay } from "@/components/GridOverlay";
 
 // Each logo has a `src` (the dark/black export).
 // Dark mode: invert(1) → white on dark bg.
@@ -44,33 +46,70 @@ const LOGOS: LogoEntry[] = [
 
 export default function LogosPage() {
   const [dark, setDark] = useState(true);
+  // 24pt minor / 72pt major craft grid, toggled by the visitor-facing control
+  // in the header row (shows the build discipline behind the page).
+  const [showGrid, setShowGrid] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.toggle("logos-dark", dark);
   }, [dark]);
 
   return (
-    <main className="mx-auto w-full max-w-[1440px] px-6 pb-24 pt-[90px]">
-      <div className="flex items-baseline justify-between">
+    <main className="mx-auto w-full max-w-[1488px] px-6 pb-24">
+      {/* Page heading + controls share a row, sitting ~1 major below the header
+          (baseline on the block line); controls baseline-align with the H1. */}
+      <div className="mt-[76px] flex items-center justify-between">
         <h1 className="font-serif text-sm font-medium text-black">Logos</h1>
-        <div className="flex gap-5 font-mono text-sm">
+        {/* Each control is a 24px box (one minor cell) with the glyph centered.
+            Sun + moon boxes sit adjacent (no gap) so they read as a pair. */}
+        <div className="flex items-center gap-6">
           <button
-            onClick={() => setDark(false)}
-            className={dark ? "text-black/40" : "text-black underline underline-offset-4"}
+            type="button"
+            onClick={() => setShowGrid((v) => !v)}
+            aria-label="Toggle layout grid"
+            aria-pressed={showGrid}
+            className={`flex h-6 w-6 items-center justify-center ${
+              showGrid ? "text-black" : "text-black/40 hover:text-black"
+            }`}
           >
-            Light
+            <Grid2x2 size={18} strokeWidth={1.5} />
           </button>
-          <button
-            onClick={() => setDark(true)}
-            className={dark ? "text-black underline underline-offset-4" : "text-black/40"}
-          >
-            Dark
-          </button>
+          <div className="flex items-center">
+            <button
+              type="button"
+              onClick={() => setDark(false)}
+              aria-label="Light mode"
+              aria-pressed={!dark}
+              className={`flex h-6 w-6 items-center justify-center ${
+                dark ? "text-black/40 hover:text-black" : "text-black"
+              }`}
+            >
+              <Sun size={18} strokeWidth={1.5} />
+            </button>
+            <button
+              type="button"
+              onClick={() => setDark(true)}
+              aria-label="Dark mode"
+              aria-pressed={dark}
+              className={`flex h-6 w-6 items-center justify-center ${
+                dark ? "text-black" : "text-black/40 hover:text-black"
+              }`}
+            >
+              <Moon size={18} strokeWidth={1.5} />
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className="mt-16">
-        <div className="grid grid-cols-1 gap-32 sm:grid-cols-3">
+      {/* Logo grid: row 1 top sits 4 majors (288px) down from the top */}
+      <div style={{ marginTop: 124 }}>
+        {/* 3 columns of 360px boxes (5 majors), 144px (2 major) gaps,
+            left-aligned. Box edges land on major lines; each logo fills a
+            312x312 inner area (24px = 1 minor inset per side). */}
+        <div
+          className="grid w-fit gap-[144px]"
+          style={{ gridTemplateColumns: "repeat(3, 360px)" }}
+        >
           {LOGOS.map((logo) => {
             const hasSplit = logo.darkSrc && logo.lightSrc;
             const src = hasSplit
@@ -78,20 +117,19 @@ export default function LogosPage() {
               : logo.src!;
             const invert = !hasSplit && dark;
             return (
-              <div key={logo.id} className="flex flex-col gap-3">
-                {/* pb-[100%] makes height = width (square), regardless of contents */}
-                <div className="relative w-full pb-[100%]">
-                  <div className="absolute inset-0 p-8">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={src}
-                      alt={logo.label}
-                      className="h-full w-full object-contain"
-                      style={invert ? { filter: "invert(1)" } : undefined}
-                    />
-                  </div>
+              <div key={logo.id} className="flex flex-col">
+                <div className="h-[360px] w-[360px] p-6">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={src}
+                    alt={logo.label}
+                    className="h-full w-full object-contain"
+                    style={invert ? { filter: "invert(1)" } : undefined}
+                  />
                 </div>
-                <div>
+                {/* Name + year sit in the major block directly under the box:
+                    kept tight together, pinned to the block's bottom line. */}
+                <div className="flex h-[72px] flex-col justify-end">
                   <p className="text-sm font-medium text-black">{logo.label}</p>
                   <p className="text-sm text-black/40">{logo.year}</p>
                 </div>
@@ -101,6 +139,7 @@ export default function LogosPage() {
         </div>
       </div>
 
+      <GridOverlay show={showGrid} />
       <Agentation />
     </main>
   );

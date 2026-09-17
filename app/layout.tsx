@@ -65,7 +65,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="flex min-h-full flex-col">
+      <body className="relative flex min-h-full flex-col">
         <RouteTheme />
         <SiteHeader />
         <div className="flex-1">{children}</div>

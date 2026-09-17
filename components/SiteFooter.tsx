@@ -6,17 +6,21 @@ const GITHUB = "https://github.com/alexanderprins";
 
 export function SiteFooter() {
   return (
-    <footer className="mx-auto w-full max-w-[1440px] px-6">
-      {/* CTA: the email is the statement (no form). Shown openly, not hover. */}
-      <div className="border-t border-black/10 py-20 text-center">
+    // max-w-[1488px] + px-6 -> a 1440 content column that matches the grid
+    // overlay and the rest of the site chrome (header, page mains).
+    <footer className="mx-auto w-full max-w-[1488px] px-6">
+      {/* CTA: the email is the statement (no form). Shown openly, not hover.
+          py is a grid multiple (72 = 3 majors) to keep the block on the grid. */}
+      <div className="border-t border-black/10 py-[72px] text-center">
         <p className="text-sm text-black/60">Get in touch</p>
         <CtaEmail />
       </div>
 
-      {/* bottom bar: legal left, P/D/S middle, socials right */}
-      <div className="flex flex-col items-center gap-4 border-t border-black/10 py-8 text-sm text-black/60 sm:flex-row sm:justify-between">
-        <span>&copy; Alexander Prins 2026, All Rights Reserved</span>
-        <span className="hidden items-center gap-3 text-sm sm:inline-flex">
+      {/* bottom bar: 3 equal columns so legal pins to the far-left grid edge,
+          P/D/S is truly page-centered, and socials pin to the far-right edge. */}
+      <div className="grid grid-cols-1 justify-items-center gap-4 border-t border-black/10 py-8 text-sm text-black/60 sm:grid-cols-3 sm:items-center">
+        <span className="sm:justify-self-start">&copy; Alexander Prins 2026, All Rights Reserved</span>
+        <span className="hidden items-center gap-3 text-sm sm:flex sm:justify-self-center">
           <span className="flex items-center gap-1.5">
             <svg width="9" height="9" viewBox="0 0 9 9" fill="currentColor" aria-hidden="true"><circle cx="4.5" cy="4.5" r="4.5"/></svg>
             Play
@@ -32,7 +36,7 @@ export function SiteFooter() {
             Systemize
           </span>
         </span>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 sm:justify-self-end">
           <a
             href={LINKEDIN}
             aria-label="LinkedIn"

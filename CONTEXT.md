@@ -17,9 +17,9 @@ identities and build systems to scale them, increasingly in code."
 
 - `../shiftnudge-ai-portfolio-coach/progress.md` — the planning record:
   positioning, all 4 projects' locked copy, About copy, sequencing, design log.
-- `../context/job-pipeline.md` — the pipeline of ~12+ roles to make tailored
-  `/[campaign]` pages for (the next phase).
-- `../context/job-search-targets.md` — target companies/roles.
+- `../../job-hunt/pipeline.md` — the pipeline of roles to make tailored
+  `/[campaign]` pages for (moved to its own repo 2026-08-29).
+- `../../job-hunt/strategy.md` — target companies/roles + search strategy.
 - `../context/ideogram-portfolio-context.md` — the original Ideogram brief +
   strategy (why this build, panel insights, project mapping).
 - `../context/patient-pipeline-image-brief.md` — image brief (real-image work).

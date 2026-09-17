@@ -28,7 +28,7 @@ export default function VideoPage() {
           Video
         </h1>
         <p className="mt-1 text-sm leading-relaxed text-black/60">
-          Selected video and motion work.
+          Selected Video and Motion Work
         </p>
       </header>
 

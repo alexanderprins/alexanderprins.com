@@ -21,7 +21,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="relative mx-auto flex w-full max-w-[1440px] items-center justify-between px-6 pt-8">
+    <header className="relative mx-auto flex h-[72px] w-full max-w-[1488px] items-end justify-between px-6 pb-3">
       {/* No opacity dim on hover: the logo's shape re-composition (globals.css
           .logo-mark) IS the hover feedback. */}
       <Link href="/" aria-label="Home" className="text-black">
