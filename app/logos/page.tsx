@@ -102,7 +102,7 @@ export default function LogosPage() {
       </div>
 
       {/* Logo grid: row 1 top sits 4 majors (288px) down from the top */}
-      <div style={{ marginTop: 124 }}>
+      <div style={{ marginTop: 116 }}>
         {/* 3 columns of 360px boxes (5 majors), 144px (2 major) gaps,
             left-aligned. Box edges land on major lines; each logo fills a
             312x312 inner area (24px = 1 minor inset per side). */}
