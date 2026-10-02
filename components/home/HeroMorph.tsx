@@ -11,8 +11,8 @@
 // The Three.js lives in morphEngine.ts.
 //
 // DialKit tunes the morph in dev (the panel is hidden in production builds, where
-// the defaults apply). Dialed values persist in localStorage; once they feel
-// right, copy them into MORPH_DEFAULTS / HOLD_S.
+// the defaults apply; see the note at <DialRoot />). Dialed values persist in
+// localStorage; once they feel right, copy them into MORPH_DEFAULTS / HOLD_S.
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -207,7 +207,9 @@ export function HeroMorph({ projects }: { projects: HeroProject[] }) {
         aria-hidden="true"
         className="pointer-events-none relative mt-8 aspect-square w-full lg:absolute lg:inset-x-0 lg:top-[179px] lg:mt-0 lg:aspect-auto lg:h-[880px]"
       />
-      <DialRoot position="bottom-right" />
+      {/* Pass the flag ourselves: DialKit's own check reads process?.env?.NODE_ENV,
+          which Next can't inline in the browser, so it would show in production. */}
+      <DialRoot position="bottom-right" productionEnabled={process.env.NODE_ENV !== "production"} />
     </>
   );
 }
