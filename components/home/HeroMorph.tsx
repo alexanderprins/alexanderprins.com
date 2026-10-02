@@ -11,8 +11,8 @@
 // The Three.js lives in morphEngine.ts.
 //
 // DialKit tunes the morph in dev (the panel is hidden in production builds, where
-// the defaults apply; see the note at <DialRoot />). Dialed values persist in
-// localStorage; once they feel right, copy them into MORPH_DEFAULTS / HOLD_S.
+// the defaults apply; see the note at <DialRoot />). In dev, dialed values persist
+// in localStorage; once they feel right, copy them into MORPH_DEFAULTS / HOLD_S.
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -86,7 +86,10 @@ export function HeroMorph({ projects }: { projects: HeroProject[] }) {
         coupePour: [D.coupePour, -90, 90, 1],
       },
     },
-    { id: "home-hero-morph", persist: true },
+    // Save dialed values in dev only. DialKit writes them on first load and they
+    // beat the code defaults after that, so on the live site they'd freeze every
+    // returning visitor on whatever defaults they first saw.
+    { id: "home-hero-morph", persist: process.env.NODE_ENV !== "production" },
   );
   const [active, select] = useCycle(PDS.length, dial.motion.hold * 1000, reduced || hovered !== null);
 
