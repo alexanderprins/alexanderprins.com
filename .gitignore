@@ -52,3 +52,6 @@ next-env.d.ts
 
 # local-only PDS lab page; never deploy
 /app/lab/pds*/
+
+# local-only 3D shape study; never deploy (until it earns a real spot)
+/app/lab/shapes*/

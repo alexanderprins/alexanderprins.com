@@ -1,5 +1,6 @@
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { CtaEmail } from "@/components/CtaEmail";
+import { ColophonButton } from "@/components/ColophonButton";
 
 const LINKEDIN = "https://www.linkedin.com/in/alexander-prins-81694a259/";
 const GITHUB = "https://github.com/alexanderprins";
@@ -17,7 +18,7 @@ export function SiteFooter() {
       </div>
 
       {/* bottom bar: 3 equal columns so legal pins to the far-left grid edge,
-          P/D/S is truly page-centered, and socials pin to the far-right edge. */}
+          P/D/S is truly page-centered, and "Made with" + socials pin to the far-right edge. */}
       <div className="grid grid-cols-1 justify-items-center gap-4 border-t border-black/10 py-8 text-sm text-black/60 sm:grid-cols-3 sm:items-center">
         <span className="sm:justify-self-start">&copy; Alexander Prins 2026, All Rights Reserved</span>
         <span className="hidden items-center gap-3 text-sm sm:flex sm:justify-self-center">
@@ -33,10 +34,11 @@ export function SiteFooter() {
           <span>|</span>
           <span className="flex items-center gap-1.5">
             <svg width="9" height="8" viewBox="0 0 9 8" fill="currentColor" aria-hidden="true"><polygon points="4.5,0 9,8 0,8"/></svg>
-            Systemize
+            Systematize
           </span>
         </span>
         <div className="flex items-center gap-4 sm:justify-self-end">
+          <ColophonButton placement="up" />
           <a
             href={LINKEDIN}
             aria-label="LinkedIn"

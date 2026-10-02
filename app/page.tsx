@@ -1,38 +1,33 @@
 import Link from "next/link";
 import { getProjectsInOrder, homepageOrder } from "@/lib/projects";
-import { ProjectCard } from "@/components/ProjectCard";
+import { HeroMorph } from "@/components/home/HeroMorph";
 
 export default function Home() {
-  const projects = getProjectsInOrder(homepageOrder);
+  const projects = getProjectsInOrder(homepageOrder).map(({ slug, descriptor }) => ({ slug, descriptor }));
 
   return (
     <main className="mx-auto w-full max-w-[1440px] px-6">
-      {/* Hero: left-aligned identity block per the design mockup —
-          name, role line, then a narrow bio column. */}
-      <section className="pt-[90px]">
-        <h1 className="font-serif text-sm font-medium text-black">
+      {/* Hero: identity block + featured titles on the left, Play / Discover /
+          Systematize top right, the big morph behind. On lg the morph floats
+          behind the text, centered on the page, and the section is tall enough
+          to clear it. Hovering a title melts the morph into that project's mark. */}
+      <section className="relative pt-[90px] pb-16 lg:h-[1204px] lg:pb-0">
+        <h1 className="relative z-10 font-serif text-sm font-medium text-black">
           Alexander Prins
         </h1>
-        <p className="mt-1 text-sm text-black/60">Brand and Motion Designer</p>
         {/* Mirrors `positioning` in lib/about.ts (kept there as the plain-
-            string source of truth for meta use) with inline proof links. */}
-        <p className="mt-6 max-w-[420px] text-sm leading-relaxed text-black/60">
-          I design brand identities and build their supporting systems,{" "}
+            string source of truth for meta use) with an inline proof link. */}
+        <p className="relative z-10 mt-1 max-w-[288px] text-sm leading-relaxed text-black/60">
+          Translating complexity into simplicity with brand,{" "}
           <Link
             href="/video"
             className="underline decoration-black/30 underline-offset-4 hover:text-black hover:decoration-black"
           >
             motion
           </Link>
-          , and websites.
+          , code and systems.
         </p>
-      </section>
-
-      {/* Hero -> project list gap: 64px on mobile, 128px from sm up. */}
-      <section className="mt-16 space-y-20 pb-24 sm:mt-32">
-        {projects.map((p) => (
-          <ProjectCard key={p.slug} project={p} />
-        ))}
+        <HeroMorph projects={projects} />
       </section>
     </main>
   );

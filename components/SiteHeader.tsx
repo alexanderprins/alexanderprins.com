@@ -3,10 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
-import { ColophonButton } from "@/components/ColophonButton";
 
-// Logo left; "Made with [crab]" + a hamburger right, at ALL sizes. Every page
-// link lives in the dropdown so the nav never runs out of room as pages are
+// Logo left; a hamburger right, at ALL sizes ("Made with [crab]" lives in the
+// footer). Every page link lives in the dropdown so the nav never runs out of room as pages are
 // added. To add a page: build the route, then add it to NAV below.
 
 const EMAIL = "hello@alexanderprins.com";
@@ -29,7 +28,6 @@ export function SiteHeader() {
       </Link>
 
       <nav className="flex items-center gap-5">
-        <ColophonButton />
         <button
           type="button"
           aria-label="Menu"

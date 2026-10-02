@@ -46,9 +46,16 @@ Gotcha: NEVER run `npm run build` while `next dev` is running — they share
 `.next`, and the build clobbers the dev server's state (`.next/dev` ENOENT,
 every route 500s). Kill dev first, or restart it clean after building.
 
+Gotcha: Tailwind v4 skips GITIGNORED files when it scans for class names. A
+local-only route (e.g. `/app/lab/shapes/`) that uses a utility no tracked file
+uses gets NO CSS for it. It fails silently (the class just does nothing). For
+gitignored routes, style with a CSS module in the route folder (see
+`app/lab/shapes/shapes.module.css`).
+
 ## Routes
 
-- `/` — homepage. Hero (eyebrow + name + positioning) + gallery of project cards.
+- `/` — homepage. Just the hero: name + positioning, featured project titles,
+  Play / Discover / Systematize pills, and the stipple morph (see `components/home/`).
 - `/[campaign]` — tailored job pages (e.g. `/ideogram`). Direct-address intro +
   reordered/filtered project gallery. `dynamicParams = false` + `generateStaticParams`
   so only slugs in `lib/jobs.ts` resolve; everything else 404s.
@@ -77,8 +84,14 @@ builds itself. This is the parent/instance idea (one template, many instances).
   ProjectMeta (/work writeup only: Scope/Role/Impact + Skills/Tools row),
   Media (renders a `.mp4/.webm/.mov` src as a looping muted inline `<video>`
   with poster, else `<img>`), SiteHeader, SiteFooter, EmailCopy (nav,
-  hover+copy), ColophonButton (nav, hover), CtaEmail (footer, click-to-copy),
+  hover+copy), ColophonButton (footer, hover), CtaEmail (footer, click-to-copy),
   Logo, ClaudeCrab, SocialIcons. (Tag.tsx exists but is currently unused.)
+- `components/home/` — homepage hero. `morphEngine.ts` raymarches one stipple
+  shape that melts between sphere / cube / pyramid (PDS pills) and, on hover of a
+  featured title, a project mark (coupe, Lily, Cascata, NV). The marks come from
+  a baked distance-field atlas, `public/home/shape-sdf.png`. To change a mark,
+  edit its SVG in `scripts/hero-shapes/` and run `npx tsx scripts/buildShapeSdf.ts`.
+  A DialKit panel (dev only) tunes it; copy dialed values into `MORPH_DEFAULTS`.
 - `components/WordmarkMorph.tsx` — NOT sitewide; a one-off asset for the Lily
   project. Morphs one set of single-contour SVG path outlines into another via
   flubber (geometry tweening Figma Smart Animate can't do), with optional
