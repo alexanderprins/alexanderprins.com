@@ -62,11 +62,11 @@ export const MORPH_DEFAULTS: MorphParams = {
   logoSize: 0.89,
   logoDepth: 0.26,
   logoBevel: 0,
-  logoTilt: 9,
+  logoTilt: 0,
   logoTurn: 24,
-  logoSway: 0.19,
-  markSpin: 30,
-  coupePour: 35,
+  logoSway: 0,
+  markSpin: 15,
+  coupePour: -12,
   quality: 0.6,
 };
 
