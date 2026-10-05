@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { MotionAppPage } from "@/components/MotionAppPage";
+import { jobSocial } from "@/lib/social";
 import { fieldguide } from "@/lib/motion";
 
 // Bespoke, video-led page for Fieldguide's Senior Motion Designer role. Static
@@ -7,6 +8,7 @@ import { fieldguide } from "@/lib/motion";
 export const metadata: Metadata = {
   title: fieldguide.ogTitle,
   description: fieldguide.ogDescription,
+  ...jobSocial(fieldguide.ogTitle, fieldguide.ogDescription, fieldguide.introVideo.poster),
 };
 
 export default function FieldguidePage() {

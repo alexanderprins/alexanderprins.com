@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { MotionAppPage } from "@/components/MotionAppPage";
+import { jobSocial } from "@/lib/social";
 import { baseten } from "@/lib/motion";
 
 // Bespoke, video-led page for Baseten's Motion Designer, Brand Team role.
@@ -7,6 +8,7 @@ import { baseten } from "@/lib/motion";
 export const metadata: Metadata = {
   title: baseten.ogTitle,
   description: baseten.ogDescription,
+  ...jobSocial(baseten.ogTitle, baseten.ogDescription, baseten.introVideo.poster),
 };
 
 export default function BasetenPage() {

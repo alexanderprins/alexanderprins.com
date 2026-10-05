@@ -7,6 +7,7 @@ import { getProjectsInOrder, jobHeroOrder } from "@/lib/projects";
 import { HeroMorph } from "@/components/home/HeroMorph";
 import { ProjectCard } from "@/components/ProjectCard";
 import { VideoFigure } from "@/components/VideoFigure";
+import { jobSocial } from "@/lib/social";
 
 // Only job slugs defined in jobs.ts resolve. Any other top-level path 404s.
 export const dynamicParams = false;
@@ -21,12 +22,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { campaign } = await params;
   const job = getJob(campaign);
   if (!job) return {};
-  return {
-    title: job.ogTitle ?? `Alexander Prins for ${job.company}`,
-    description:
-      job.ogDescription ??
-      `Portfolio of Alexander Prins, tailored for ${job.company}.`,
-  };
+  const title = job.ogTitle ?? `Alexander Prins for ${job.company}`;
+  const description =
+    job.ogDescription ?? `Portfolio of Alexander Prins, tailored for ${job.company}.`;
+  // pages with an intro video share its cover frame as the preview image
+  return { title, description, ...jobSocial(title, description, job.introVideo?.poster) };
 }
 
 // Renders intro paragraphs, turning markdown-style [label](href) into inline
