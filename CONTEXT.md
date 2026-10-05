@@ -135,6 +135,12 @@ builds itself. This is the parent/instance idea (one template, many instances).
   compressed well under ~10MB (H.264, CRF ~24-26, `-an`, +faststart) and played
   via the `Media` component. Raw masters stay OUT of git. Longer/audio reels →
   embed (Mux/Cloudflare Stream). See `../Build Standards.md`.
+  EXCEPTION (Oct 2026, Alexander's call, to avoid Vimeo storage caps): the job
+  pages' talking-head intros are self-hosted in `public/intro/<slug>.mp4` as
+  web encodes (1080p H.264 CRF 28, AAC 128k, faststart, ~18MB, visually
+  identical to the master). Masters live in `../../job-hunt/intro videos/export/`;
+  re-encode with `sh scripts/encode-intros.sh`. Each re-cut adds ~18MB to git
+  history, so re-cut sparingly.
 - Image rule: the site NEVER overlays text on images; titles/metadata are always
   chrome. Anything visible in an image is part of the image. A gallery image MAY
   carry an optional `caption` (rendered as chrome BELOW the image, styled like

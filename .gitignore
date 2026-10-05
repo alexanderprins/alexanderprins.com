@@ -55,8 +55,3 @@ next-env.d.ts
 
 # local-only 3D shape study; never deploy (until it earns a real spot)
 /app/lab/shapes*/
-
-# talking-head intro video masters (1080p, ~50MB each, with audio). Per Build
-# Standards, long/audio video is embedded (Vimeo), not self-hosted; the job
-# pages point at the Vimeo embeds. Masters stay local only.
-/public/intro/
