@@ -24,6 +24,7 @@ import { prefersReducedMotion } from "@/lib/stipple";
 import { MORPH_DEFAULTS as D, SHAPE, mountMorph, type MorphControls } from "./morphEngine";
 
 export type HeroProject = { slug: string; descriptor: string };
+export type HeroLink = { label: string; href: string };
 
 const PDS = [
   { word: "Play", shape: SHAPE.sphere, icon: <circle cx="4.5" cy="4.5" r="4.5" /> },
@@ -36,13 +37,31 @@ const MARKS: Record<string, number> = {
   "lily-development": SHAPE.lily,
   "cascata-group": SHAPE.cascata,
   "northern-vessel": SHAPE.nv,
+  "patient-pipeline": SHAPE.pp, // job pages only; never in the homepage list
 };
 const HOLD_S = 5;
 const LEAVE_MS = 120; // grace period so the gaps between titles don't flick back to PDS
 const PILL = { default: { type: "spring", visualDuration: 0.45, bounce: 0.15 }, opacity: { duration: 0.25 } } as const;
 type Box = { x: number; y: number; width: number; height: number };
 
-export function HeroMorph({ projects }: { projects: HeroProject[] }) {
+// `embedded`: the job-page version, with no name/positioning block above it.
+// Titles, PDS pills and the morph all shift up together, so they keep the same
+// spacing to each other as on the homepage.
+// `otherWork`: plain links under Featured Work (e.g. /video, /logos). Same arrow
+// hover as the titles, but they never touch the morph.
+// `listLabel`: the heading over the project titles ("Brand Work" on the motion
+// job pages, where video is the featured work).
+export function HeroMorph({
+  projects,
+  embedded = false,
+  otherWork,
+  listLabel = "Featured Work",
+}: {
+  projects: HeroProject[];
+  embedded?: boolean;
+  otherWork?: HeroLink[];
+  listLabel?: string;
+}) {
   const stage = useRef<HTMLDivElement>(null);
   const morph = useRef<MorphControls | null>(null);
   const leave = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -136,8 +155,8 @@ export function HeroMorph({ projects }: { projects: HeroProject[] }) {
 
   return (
     <>
-      <div className="relative z-10 mt-14 w-fit">
-        <p className="text-sm text-black/60">Featured Work</p>
+      <div className={`relative z-10 w-fit ${embedded ? "" : "mt-14"}`}>
+        <p className="text-sm text-black/60">{listLabel}</p>
         <ul className="mt-2 space-y-0.5 text-sm" onMouseLeave={exit} onBlur={exit}>
           {projects.map((p) => {
             const on = p.slug === hovered;
@@ -165,10 +184,39 @@ export function HeroMorph({ projects }: { projects: HeroProject[] }) {
             );
           })}
         </ul>
+
+        {otherWork?.length ? (
+          <>
+            <p className="mt-10 text-sm text-black/60">Other Work</p>
+            <ul className="mt-2 space-y-0.5 text-sm">
+              {otherWork.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    className="group inline-flex items-center text-black/60 transition-colors duration-300 hover:text-black focus-visible:text-black"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="inline-block w-0 overflow-hidden whitespace-nowrap transition-[width] duration-300 ease-out group-hover:w-6 group-focus-visible:w-6"
+                    >
+                      →
+                    </span>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : null}
       </div>
 
       {/* mobile: a row under the titles. lg: top right, level with the name. */}
-      <ul ref={pdsList} className="relative z-10 mt-10 flex flex-wrap gap-1 text-sm lg:absolute lg:right-0 lg:top-[90px] lg:mt-0 lg:w-[216px] lg:flex-col lg:gap-0">
+      <ul
+        ref={pdsList}
+        className={`relative z-10 mt-10 flex flex-wrap gap-1 text-sm lg:absolute lg:right-0 lg:mt-0 lg:w-[216px] lg:flex-col lg:gap-0 ${
+          embedded ? "lg:top-0" : "lg:top-[90px]"
+        }`}
+      >
         {pill && (
           <motion.li
             aria-hidden="true"
@@ -208,7 +256,9 @@ export function HeroMorph({ projects }: { projects: HeroProject[] }) {
       <div
         ref={stage}
         aria-hidden="true"
-        className="pointer-events-none relative mt-8 aspect-square w-full lg:absolute lg:inset-x-0 lg:top-[179px] lg:mt-0 lg:aspect-auto lg:h-[880px]"
+        className={`pointer-events-none relative mt-8 aspect-square w-full lg:absolute lg:inset-x-0 lg:mt-0 lg:aspect-auto lg:h-[880px] ${
+          embedded ? "lg:top-[89px]" : "lg:top-[179px]"
+        }`}
       />
       {/* Pass the flag ourselves: DialKit's own check reads process?.env?.NODE_ENV,
           which Next can't inline in the browser, so it would show in production. */}

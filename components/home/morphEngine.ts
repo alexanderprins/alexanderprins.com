@@ -71,7 +71,7 @@ export const MORPH_DEFAULTS: MorphParams = {
 };
 
 // Shape ids. 0-2 are the PDS words; 3+ are project marks.
-export const SHAPE = { sphere: 0, cube: 1, pyramid: 2, coupe: 3, lily: 4, cascata: 5, nv: 6 } as const;
+export const SHAPE = { sphere: 0, cube: 1, pyramid: 2, coupe: 3, lily: 4, cascata: 5, nv: 6, pp: 7 } as const;
 
 export type MorphControls = {
   setShape: (i: number) => void;
@@ -79,8 +79,9 @@ export type MorphControls = {
   dispose: () => void;
 };
 
-// Atlas layout, in sync with scripts/buildShapeSdf.ts. Each quadrant spans
-// [-M, M] units; texture uv origin is bottom-left (flipY), so the top row is v 0.5..1.
+// Atlas layout, in sync with scripts/buildShapeSdf.ts: a 3x2 grid of cells
+// (top: coupe, lily, cascata; bottom: nv, pp). Each cell spans [-M, M] units;
+// texture uv origin is bottom-left (flipY), so the top row is v 0.5..1.
 const ATLAS = { src: "/home/shape-sdf.png", M: 1.2, R: 0.12, texel: (2 * 1.2) / 512 };
 const FOV = 20;
 const FIT = 1.25; // half-height of the box, in shape units (sphere radius = 1)
@@ -96,11 +97,12 @@ const FRAG = NOISE + /* glsl */ `
   uniform float uFalloff, uContrast, uTone;
   uniform vec2 uRes; uniform float uCamZ, uTan, uAspect;
   uniform mat3 uRot, uInvRot;
-  uniform vec4 uWa, uWb;            // weights: (sphere, cube, pyramid, -), (coupe, lily, cascata, nv)
+  uniform vec4 uWa, uWb;            // weights: (sphere, cube, pyramid, pp), (coupe, lily, cascata, nv)
   uniform float uRound, uTwistA, uNoise, uTime, uStep;
   uniform sampler2D uAtlas; uniform float uLogoSize, uDepth, uBevel;
 
   const float M = ${ATLAS.M.toFixed(3)}, R = ${ATLAS.R.toFixed(3)}, EDGE = M - ${(ATLAS.texel * 1.5).toFixed(4)};
+  const vec2 CELL = vec2(1.0 / 3.0, 0.5); // one cell's size in uv (3 columns, 2 rows)
 
   float sdBox(vec3 p, float b, float r) {
     vec3 q = abs(p) - (b - r);
@@ -123,7 +125,7 @@ const FRAG = NOISE + /* glsl */ `
   // 2D distance to a mark in the atlas; outside the quadrant, add the distance to it
   float atlas(vec2 q, vec2 base) {
     vec2 qc = clamp(q, -EDGE, EDGE);
-    float v = textureLod(uAtlas, base + (qc / M * 0.5 + 0.5) * 0.5, 0.0).r;
+    float v = textureLod(uAtlas, base + (qc / M * 0.5 + 0.5) * CELL, 0.0).r;
     return (v - 0.5) * 2.0 * R + length(q - qc);
   }
   float sdLogo(vec3 p, vec2 base) {
@@ -143,9 +145,10 @@ const FRAG = NOISE + /* glsl */ `
     if (uWa.y > 0.0) d += uWa.y * sdBox(p, 0.8, uRound);
     if (uWa.z > 0.0) d += uWa.z * (sdPyramid((p + vec3(0.0, 0.95, 0.0)) / 1.9, 1.0) * 1.9 - uRound);
     if (uWb.x > 0.0) d += uWb.x * sdCoupe(p);
-    if (uWb.y > 0.0) d += uWb.y * sdLogo(p, vec2(0.5, 0.5));
-    if (uWb.z > 0.0) d += uWb.z * sdLogo(p, vec2(0.0, 0.0));
-    if (uWb.w > 0.0) d += uWb.w * sdLogo(p, vec2(0.5, 0.0));
+    if (uWb.y > 0.0) d += uWb.y * sdLogo(p, vec2(1.0 / 3.0, 0.5));
+    if (uWb.z > 0.0) d += uWb.z * sdLogo(p, vec2(2.0 / 3.0, 0.5));
+    if (uWb.w > 0.0) d += uWb.w * sdLogo(p, vec2(0.0, 0.0));
+    if (uWa.w > 0.0) d += uWa.w * sdLogo(p, vec2(1.0 / 3.0, 0.0));
     if (uNoise > 0.0) d -= uNoise * snoise(p * 1.6 + vec3(0.0, uTime * 0.4, uTime * 0.15));
     return d;
   }
@@ -198,7 +201,11 @@ const DOTS = HASH + /* glsl */ `
 
 const smoother = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
 
-export function mountMorph(root: HTMLElement, opts: { reducedMotion: boolean }): MorphControls {
+// ink/paper override the site colors (the lab's negative version passes white ink on black)
+export function mountMorph(
+  root: HTMLElement,
+  opts: { reducedMotion: boolean; ink?: string; paper?: string },
+): MorphControls {
   const P: MorphParams = { ...MORPH_DEFAULTS };
 
   // Hex colors in, same hex out. (Color management would darken them into linear space.)
@@ -226,8 +233,8 @@ export function mountMorph(root: HTMLElement, opts: { reducedMotion: boolean }):
   const dotU = {
     uLit: { value: lit.texture },
     uScreen: { value: new THREE.Vector2(1, 1) },
-    uInk: { value: new THREE.Color(INK) },
-    uPaper: { value: new THREE.Color(PAPER) },
+    uInk: { value: new THREE.Color(opts.ink ?? INK) },
+    uPaper: { value: new THREE.Color(opts.paper ?? PAPER) },
     uGrain: { value: 1 },
     uSeed: { value: 0 },
   };
@@ -292,7 +299,7 @@ export function mountMorph(root: HTMLElement, opts: { reducedMotion: boolean }):
   io.observe(canvas);
 
   // ---------- melt: from wherever we are now, toward the target shape ----------
-  const N = 7;
+  const N = 8;
   const w = new Float32Array(N); // live weights
   const from = new Float32Array(N);
   const to = new Float32Array(N);
@@ -390,7 +397,7 @@ export function mountMorph(root: HTMLElement, opts: { reducedMotion: boolean }):
     const u = THREE.MathUtils.clamp((now - meltStart) / 1000 / (opts.reducedMotion ? 0.001 : P.melt), 0, 1);
     const s = smoother(u);
     for (let k = 0; k < N; k++) w[k] = from[k] + (to[k] - from[k]) * s;
-    uniforms.uWa.value.set(w[0], w[1], w[2], 0);
+    uniforms.uWa.value.set(w[0], w[1], w[2], w[7]);
     uniforms.uWb.value.set(w[3], w[4], w[5], w[6]);
     const melting = Math.sin(Math.PI * u);
     uniforms.uNoise.value = melting * P.wobble * 0.2;

@@ -1,5 +1,6 @@
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { CtaEmail } from "@/components/CtaEmail";
+import { CtaResume } from "@/components/CtaResume";
 import { ColophonButton } from "@/components/ColophonButton";
 
 const LINKEDIN = "https://www.linkedin.com/in/alexander-prins-81694a259/";
@@ -15,6 +16,10 @@ export function SiteFooter() {
       <div className="border-t border-black/10 py-[72px] text-center">
         <p className="text-sm text-black/60">Get in touch</p>
         <CtaEmail />
+        {/* job pages only: their tailored resume, directly below the email */}
+        <div>
+          <CtaResume />
+        </div>
       </div>
 
       {/* bottom bar: 3 equal columns so legal pins to the far-left grid edge,

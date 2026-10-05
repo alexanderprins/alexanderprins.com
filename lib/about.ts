@@ -5,7 +5,7 @@
 // NOTE: the homepage hero (app/page.tsx) renders this sentence as JSX so
 // "motion" can be an inline link to /video. Keep the two in sync.
 export const positioning =
-  "I design brand identities and build their supporting systems, motion, and websites.";
+  "Translating complexity into simplicity with brand, motion, code and systems.";
 
 // bio[1] is mirrored in app/about/page.tsx, where "Shift Nudge" and
 // "Matt D. Smith" render as inline links (same convention as the hero).

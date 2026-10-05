@@ -47,10 +47,14 @@ Gotcha: NEVER run `npm run build` while `next dev` is running — they share
 every route 500s). Kill dev first, or restart it clean after building.
 
 Gotcha: Tailwind v4 skips GITIGNORED files when it scans for class names. A
-local-only route (e.g. `/app/lab/shapes/`) that uses a utility no tracked file
-uses gets NO CSS for it. It fails silently (the class just does nothing). For
-gitignored routes, style with a CSS module in the route folder (see
-`app/lab/shapes/shapes.module.css`).
+local-only route (e.g. `/app/lab/resume/`) that uses a utility no tracked file
+uses gets NO CSS for it. It fails silently (the class just does nothing). This is
+what wrecked the resume rig (Oct 2026): it worked while tracked pages happened to
+share its classes, then broke when they stopped. FIX: `app/globals.css` lists every
+gitignored lab file as its own `@source "./lab/.../file.tsx";` line. In Tailwind
+4.3 only exact FILE paths bypass .gitignore; folder and glob @source paths do
+NOT. When you add a new local-only lab file, add its line there. (Missing files
+are skipped silently, so the list is safe on Vercel where they don't exist.)
 
 ## Routes
 

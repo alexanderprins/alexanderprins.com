@@ -569,6 +569,9 @@ export const homepageOrder = [
   "cascata-group",
   "northern-vessel",
 ];
+// Featured list on the "hero" job pages: the homepage four, plus Patient
+// Pipeline (which appears on job pages only, never the homepage).
+export const jobHeroOrder = [...homepageOrder, "patient-pipeline"];
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);

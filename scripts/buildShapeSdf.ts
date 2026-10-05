@@ -1,4 +1,4 @@
-// Bake the homepage hero's project shapes (coupe, Lily, Cascata, NV) into one
+// Bake the hero's project shapes (coupe, Lily, Cascata, NV, Patient Pipeline) into one
 // signed-distance-field atlas: public/home/shape-sdf.png.
 // Run after changing any SVG in scripts/hero-shapes/: npx tsx scripts/buildShapeSdf.ts
 //
@@ -8,9 +8,9 @@
 // into the sphere / cube / pyramid. Baking it here keeps that work off the
 // visitor's machine.
 //
-// Atlas layout: 2x2 grayscale, each quadrant QUAD px square.
-//   top-left coupe | top-right lily
-//   bottom-left cascata | bottom-right nv
+// Atlas layout: 3x2 grayscale grid, each cell QUAD px square.
+//   top row:    coupe | lily | cascata
+//   bottom row: nv    | pp   | (empty)
 // Each quadrant spans [-M, M] shape units; the logo's longest side spans [-1, 1].
 // Gray 128 = on the edge; each step of 1/255 = 2R/255 units (clamped at +-R).
 // Keep M, R and the order in sync with ATLAS in components/home/morphEngine.ts.
@@ -28,7 +28,9 @@ const SHAPES = [
   { file: "lily", mirror: false },
   { file: "cascata", mirror: false },
   { file: "nv", mirror: false },
+  { file: "pp", mirror: false }, // Patient Pipeline (job pages only, never the homepage list)
 ];
+const COLS = 3, ROWS = 2;
 
 // ---------- 1D squared-distance transform (Felzenszwalb & Huttenlocher) ----------
 const INF = 1e20;
@@ -138,15 +140,15 @@ function chunk(type: string, data: Buffer) {
   crc.writeUInt32BE(crc32(td));
   return Buffer.concat([len, td, crc]);
 }
-function png(gray: Uint8Array, size: number) {
-  const raw = Buffer.alloc((size + 1) * size);
-  for (let y = 0; y < size; y++) {
-    raw[y * (size + 1)] = 0; // filter: none
-    raw.set(gray.subarray(y * size, (y + 1) * size), y * (size + 1) + 1);
+function png(gray: Uint8Array, width: number, height: number) {
+  const raw = Buffer.alloc((width + 1) * height);
+  for (let y = 0; y < height; y++) {
+    raw[y * (width + 1)] = 0; // filter: none
+    raw.set(gray.subarray(y * width, (y + 1) * width), y * (width + 1) + 1);
   }
   const ihdr = Buffer.alloc(13);
-  ihdr.writeUInt32BE(size, 0);
-  ihdr.writeUInt32BE(size, 4);
+  ihdr.writeUInt32BE(width, 0);
+  ihdr.writeUInt32BE(height, 4);
   ihdr[8] = 8; // bit depth
   ihdr[9] = 0; // grayscale
   return Buffer.concat([
@@ -157,13 +159,13 @@ function png(gray: Uint8Array, size: number) {
   ]);
 }
 
-const S = QUAD * 2;
-const atlas = new Uint8Array(S * S);
+const AW = QUAD * COLS, AH = QUAD * ROWS;
+const atlas = new Uint8Array(AW * AH).fill(255); // unused cells read as "far outside", so edge filtering can't bleed ink
 SHAPES.forEach(({ file, mirror }, k) => {
   const q = quadrant(file, mirror);
-  const ox = (k % 2) * QUAD, oy = Math.floor(k / 2) * QUAD;
-  for (let j = 0; j < QUAD; j++) atlas.set(q.subarray(j * QUAD, (j + 1) * QUAD), (oy + j) * S + ox);
+  const ox = (k % COLS) * QUAD, oy = Math.floor(k / COLS) * QUAD;
+  for (let j = 0; j < QUAD; j++) atlas.set(q.subarray(j * QUAD, (j + 1) * QUAD), (oy + j) * AW + ox);
 });
-const file = png(atlas, S);
+const file = png(atlas, AW, AH);
 writeFileSync("public/home/shape-sdf.png", file);
 console.log(`wrote public/home/shape-sdf.png (${(file.length / 1024).toFixed(0)} KB)`);

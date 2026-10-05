@@ -9,6 +9,8 @@
 export type Video = {
   title: string; // shown as the caption under the player
   embedUrl?: string;
+  src?: string; // self-hosted file in /public (wins over embedUrl), e.g. the intro videos
+  poster?: string; // still shown before a self-hosted video plays
   note?: string; // optional credits line under the title
   aspect?: "portrait" | "landscape" | "square"; // defaults to portrait on /video
 };

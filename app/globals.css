@@ -1,4 +1,31 @@
 @import "tailwindcss";
+/* Tailwind v4 skips gitignored files when it scans for class names, and the
+   local-only /lab routes (resume, hm-menu, pds, shapes) are gitignored. In
+   Tailwind 4.3, folder and glob @source paths still obey .gitignore; only exact
+   FILE paths get through. So each local-only file is listed by name. Add new
+   local-only lab files here. On Vercel these files don't exist, so production
+   CSS is unaffected. */
+@source "./lab/hm-menu-export/page.tsx";
+@source "./lab/hm-menu/AnnotationLayer.tsx";
+@source "./lab/hm-menu/annotations.ts";
+@source "./lab/hm-menu/Marker.tsx";
+@source "./lab/hm-menu/menuData.ts";
+@source "./lab/hm-menu/MenuGallery.tsx";
+@source "./lab/hm-menu/MenuSheet.tsx";
+@source "./lab/hm-menu/page.tsx";
+@source "./lab/pds-archive/page.tsx";
+@source "./lab/pds-negative/page.tsx";
+@source "./lab/pds/export/route.ts";
+@source "./lab/pds/page.tsx";
+@source "./lab/pds/render.ts";
+@source "./lab/pds/scene.ts";
+@source "./lab/resume-dlc/page.tsx";
+@source "./lab/resume-figma/page.tsx";
+@source "./lab/resume/page.tsx";
+@source "./lab/resume/variants.ts";
+@source "./lab/resume/layout.tsx";
+@source "./lab/shapes/page.tsx";
+@source "./lab/shapes/scene.ts";
 
 :root {
   --background: #ffffff;
@@ -26,6 +53,16 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+}
+
+/* NO ORPHANS: never let a paragraph or heading end on a lone word.
+   "pretty" rebalances the last lines of body copy; headings + short centered
+   lines (eyebrows) use "balance" so multi-line headings split evenly. */
+p, li, figcaption, blockquote {
+  text-wrap: pretty;
+}
+h1, h2, h3, h4 {
+  text-wrap: balance;
 }
 
 /* Per-page dark theme (the Hello, Marjorie study — a menu made for a dark room).

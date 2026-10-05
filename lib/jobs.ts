@@ -4,18 +4,99 @@
 //
 // To add application #N: copy a block, fill in the fields, done.
 
+import type { Video } from "./videos";
+
 export type JobPage = {
   slug: string; // URL segment, e.g. "ideogram" -> /ideogram
   company: string;
   role: string;
   intro: string[]; // direct-address paragraphs, shown above the work
   projectOrder: string[]; // project slugs, in display order
+  introVideo?: Video; // optional talking-head intro at the top of the page
+  // "hero": intro video, then the homepage's featured-work + morph + PDS block
+  // (plus Patient Pipeline), then one line linking /video and /logos. No cover
+  // letter, no project cards. Default ("cards"): cover letter + project cards.
+  layout?: "cards" | "hero";
   surfaceTags?: string[]; // tags to emphasize for this audience (unused for now)
   ogTitle?: string;
   ogDescription?: string;
 };
 
+// Self-hosted talking-head intro: /public/intro/{slug}.mp4 + .jpg cover.
+const introVideo = (slug: string, company: string): Video => ({
+  title: `Intro video for ${company}`,
+  src: `/intro/${slug}.mp4`,
+  poster: `/intro/${slug}.jpg`,
+  aspect: "landscape",
+});
+
 export const jobs: JobPage[] = [
+  {
+    slug: "figma-brand",
+    company: "Figma",
+    role: "Brand Designer, Product Launches",
+    introVideo: introVideo("figma-brand", "Figma"),
+    layout: "hero", // intro below is kept as draft copy but not shown on this layout
+    intro: [
+      `Figma is the one tool I open every single day, so a role helping shape how you tell the story of what you're building feels about as close to home as it gets. You're looking for someone who can take product complexity and turn it into something people actually feel, and finding the single idea inside something complicated and carrying it all the way to finished work is the throughline of my career.`,
+      `At [Shift Nudge](https://shiftnudge.com), Matt D. Smith's design education platform, I take dense UI curriculum and turn it into short, clear stories, work that's grown the audience from ~40K to 88K and driven 2.2M+ views. Before that I co-founded Northern Vessel and built its entire identity and launch campaign, and I've done brand and web work that made a solo operator read like an institution.`,
+      `I came up through motion and video, a less common route into brand, so pacing and narrative are native to how I think. The work below shows the range. A deeper set of my motion and video work lives [here](/video). I'd love to help make Figma's launches land.`,
+    ],
+    projectOrder: [
+      "patient-pipeline",
+      "cascata-group",
+      "northern-vessel",
+      "lily-development",
+    ],
+    surfaceTags: ["Brand", "Narrative", "Motion", "Web"],
+    ogTitle: "Alexander Prins for Figma",
+    ogDescription:
+      "A brand designer with a narrative mindset, from a daily Figma user. Tailored for Figma's Brand Designer, Product Launches role.",
+  },
+  {
+    slug: "linear",
+    company: "Linear",
+    role: "Designer, Magic Team",
+    introVideo: introVideo("linear", "Linear"),
+    layout: "hero", // intro below is kept as draft copy but not shown on this layout
+    intro: [
+      `This site is the shortest version of why I'm writing: one typeface, hierarchy built from spacing and restraint. That approach came straight from watching how Linear's team designs, and I've followed your work closely for a couple of years.`,
+      `I care about the same things the Magic Team does: taste, craft, and the details most people skip, both how something works and how it looks. At [Shift Nudge](https://shiftnudge.com), Matt D. Smith's design education platform, I turn dense design curriculum into clear, considered work and hold one visual system across every surface. I design brand identities, build in code, and sweat the small stuff.`,
+      `The work below leads with restraint and systems thinking. A deeper set of my motion and video work lives [here](/video). I'd love to help scale Linear's creative without losing the craft that makes it Linear.`,
+    ],
+    projectOrder: [
+      "cascata-group",
+      "lily-development",
+      "patient-pipeline",
+      "northern-vessel",
+    ],
+    surfaceTags: ["Craft", "Systems", "Web", "Brand"],
+    ogTitle: "Alexander Prins for Linear",
+    ogDescription:
+      "A designer who leads with taste, craft, and systems thinking. Tailored for Linear's Designer, Magic Team role.",
+  },
+  {
+    slug: "supabase",
+    company: "Supabase",
+    role: "Brand Designer",
+    introVideo: introVideo("supabase", "Supabase"),
+    layout: "hero", // intro below is kept as draft copy but not shown on this layout
+    intro: [
+      `I've spent the last stretch living in the developer's world myself, building this site and client work in code, so designing brand for a developer audience is exactly where my head is right now. I love the challenge of making something technical clear without dumbing it down.`,
+      `The role is brand across every medium, decks, print, video, and social, held together with real consistency. That's systems work, which is how my brain runs. At [Shift Nudge](https://shiftnudge.com), Matt D. Smith's design education platform, I produce multi-medium content and hold one brand system across all of it, work that's driven 2.2M+ views and grown the audience past 2x. I also think good brand for developers earns trust by being honest and precise, not flashy.`,
+      `The work below shows range across brand, web, motion, and print. A deeper set of my motion and video work lives [here](/video). I'd love to do it for a company builders already love.`,
+    ],
+    projectOrder: [
+      "patient-pipeline",
+      "northern-vessel",
+      "cascata-group",
+      "lily-development",
+    ],
+    surfaceTags: ["Brand", "Multi-medium", "Systems", "Web"],
+    ogTitle: "Alexander Prins for Supabase",
+    ogDescription:
+      "A multi-medium brand designer who builds in code, tailored for Supabase's Brand Designer role and its developer audience.",
+  },
   {
     slug: "mercury",
     company: "Mercury",
