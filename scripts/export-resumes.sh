@@ -18,3 +18,9 @@ for t in "figma:384a9b:Figma Brand" "linear:179c05:Linear" "supabase:d81fc6:Supa
   cp "$out" "../resume/$folder/Alexander Prins Resume.pdf"
   echo "$slug -> $out + ../resume/$folder/"
 done
+
+# The default (untailored) resume: local archive only, no public copy.
+mkdir -p "../resume/default"
+"$CHROME" --headless=new --no-pdf-header-footer --virtual-time-budget=6000 \
+  --print-to-pdf="../resume/default/Alexander Prins Resume.pdf" "http://localhost:3000/lab/resume" 2>/dev/null
+echo "default -> ../resume/default/"
