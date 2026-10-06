@@ -16,9 +16,9 @@ import {
 } from "@/lib/figma";
 
 // Bespoke, video-led application page for Figma's Motion Designer, Product
-// Education role. Dedicated route (a static segment, so it cleanly overrides
-// the dynamic /[campaign] template for this one slug). Figma is kept OUT of
-// lib/jobs.ts on purpose so the two routes never collide.
+// Education role (Aug 2026; that application is closed). Lives at /figma-motion
+// since Oct 2026: /figma now belongs to the Brand Designer, Product Launches
+// page, a lib/jobs.ts campaign entry. Static segment, no collision.
 
 export const metadata: Metadata = {
   title: "Alexander Prins for Figma",

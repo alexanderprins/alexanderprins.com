@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 SRC="../../job-hunt/intro videos/export"
 FF=/opt/homebrew/bin/ffmpeg
 mkdir -p public/intro
-for pair in "Figma:figma-brand" "Linear:linear" "Supabase:supabase" "Fieldguide:fieldguide" "Baseten:baseten"; do
+for pair in "Figma:figma" "Linear:linear" "Supabase:supabase" "Fieldguide:fieldguide" "Baseten:baseten"; do
   name="${pair%%:*}"; slug="${pair#*:}"
   "$FF" -v error -y -i "$SRC/$name Application.mp4" \
     -c:v libx264 -preset slow -crf 28 -pix_fmt yuv420p \

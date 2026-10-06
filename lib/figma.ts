@@ -1,7 +1,7 @@
-// Data for the bespoke /figma application page (Motion Designer, Product
+// Data for the bespoke /figma-motion application page (Motion Designer, Product
 // Education). Unlike the other job pages, Figma's is VIDEO-led: for a
 // motion/education role the pitch is the educational-motion work itself, not
-// the brand case studies. So this page gets its own route (app/figma/page.tsx),
+// the brand case studies. So this page gets its own route (app/figma-motion/page.tsx),
 // NOT the shared [campaign] template, and it is intentionally kept out of
 // lib/jobs.ts. This file holds the intro copy + the curated video selects.
 //

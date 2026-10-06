@@ -4,7 +4,7 @@
 // local archive folder in ../resume/. PDFs are printed from the local rig by
 // scripts/export-resumes.sh (which mirrors this map); rerun it after edits.
 export const RESUMES: Record<string, { folder: string; id: string }> = {
-  "figma-brand": { folder: "Figma Brand", id: "384a9b" },
+  figma: { folder: "Figma Brand", id: "384a9b" },
   linear: { folder: "Linear", id: "179c05" },
   supabase: { folder: "Supabase", id: "d81fc6" },
   fieldguide: { folder: "Fieldguide", id: "3465b8" },

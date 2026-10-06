@@ -9,7 +9,7 @@
 set -e
 cd "$(dirname "$0")/.."
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-for t in "figma-brand:384a9b:Figma Brand" "linear:179c05:Linear" "supabase:d81fc6:Supabase" "fieldguide:3465b8:Fieldguide" "baseten:e2a521:Baseten"; do
+for t in "figma:384a9b:Figma Brand" "linear:179c05:Linear" "supabase:d81fc6:Supabase" "fieldguide:3465b8:Fieldguide" "baseten:e2a521:Baseten"; do
   slug="${t%%:*}"; rest="${t#*:}"; id="${rest%%:*}"; folder="${rest#*:}"
   mkdir -p "public/resume/$id" "../resume/$folder"
   out="public/resume/$id/alexander-prins-resume.pdf"

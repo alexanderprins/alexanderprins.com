@@ -32,10 +32,10 @@ const introVideo = (slug: string, company: string): Video => ({
 
 export const jobs: JobPage[] = [
   {
-    slug: "figma-brand",
+    slug: "figma",
     company: "Figma",
     role: "Brand Designer, Product Launches",
-    introVideo: introVideo("figma-brand", "Figma"),
+    introVideo: introVideo("figma", "Figma"),
     layout: "hero", // intro below is kept as draft copy but not shown on this layout
     intro: [
       `Figma is the one tool I open every single day, so a role helping shape how you tell the story of what you're building feels about as close to home as it gets. You're looking for someone who can take product complexity and turn it into something people actually feel, and finding the single idea inside something complicated and carrying it all the way to finished work is the throughline of my career.`,
