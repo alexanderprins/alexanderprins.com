@@ -1,6 +1,7 @@
 // Bake the hero's project shapes (coupe, Lily, Cascata, NV, Patient Pipeline) into one
 // signed-distance-field atlas: public/home/shape-sdf.png.
 // Run after changing any SVG in scripts/hero-shapes/: npx tsx scripts/buildShapeSdf.ts
+// THEN bump the ?v= on ATLAS.src in components/home/morphEngine.ts (cache bust).
 //
 // What's an SDF? Each pixel stores "how far is the nearest edge of the logo,
 // and am I inside or outside it". The hero shader reads that to raymarch the

@@ -1,20 +1,20 @@
 #!/bin/sh
 # Print each tailored resume from the local rig (needs `npm run dev` on :3000).
 # Writes two copies of each:
-#   public/resume/alexander-prins-resume-<slug>.pdf  (served by the job page's download link)
-#   ../resume/<Company>/Alexander Prins Resume.pdf     (local archive, one folder per company)
-# Folder names mirror lib/resumes.ts.
+#   public/resume/<id>/alexander-prins-resume.pdf  (served by the job page's download link;
+#                                                   <id> is neutral, never the company)
+#   ../resume/<Company>/Alexander Prins Resume.pdf  (local archive, one folder per company)
+# slug:id:folder triples MIRROR lib/resumes.ts; keep them in sync.
 # Usage: sh scripts/export-resumes.sh
 set -e
 cd "$(dirname "$0")/.."
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-mkdir -p public/resume
-for pair in "figma-brand:Figma Brand" "linear:Linear" "supabase:Supabase" "fieldguide:Fieldguide" "baseten:Baseten"; do
-  slug="${pair%%:*}"; folder="${pair#*:}"
-  out="public/resume/alexander-prins-resume-$slug.pdf"
+for t in "figma-brand:384a9b:Figma Brand" "linear:179c05:Linear" "supabase:d81fc6:Supabase" "fieldguide:3465b8:Fieldguide" "baseten:e2a521:Baseten"; do
+  slug="${t%%:*}"; rest="${t#*:}"; id="${rest%%:*}"; folder="${rest#*:}"
+  mkdir -p "public/resume/$id" "../resume/$folder"
+  out="public/resume/$id/alexander-prins-resume.pdf"
   "$CHROME" --headless=new --no-pdf-header-footer --virtual-time-budget=6000 \
     --print-to-pdf="$out" "http://localhost:3000/lab/resume?for=$slug" 2>/dev/null
-  mkdir -p "../resume/$folder"
   cp "$out" "../resume/$folder/Alexander Prins Resume.pdf"
   echo "$slug -> $out + ../resume/$folder/"
 done

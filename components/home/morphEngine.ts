@@ -82,7 +82,9 @@ export type MorphControls = {
 // Atlas layout, in sync with scripts/buildShapeSdf.ts: a 3x2 grid of cells
 // (top: coupe, lily, cascata; bottom: nv, pp). Each cell spans [-M, M] units;
 // texture uv origin is bottom-left (flipY), so the top row is v 0.5..1.
-const ATLAS = { src: "/home/shape-sdf.png", M: 1.2, R: 0.12, texel: (2 * 1.2) / 512 };
+// ?v= busts browser caches (the PNG is cached ~4h). BUMP IT whenever you rerun
+// scripts/buildShapeSdf.ts, or visitors can pair new code with an old atlas.
+const ATLAS = { src: "/home/shape-sdf.png?v=3x2-pp", M: 1.2, R: 0.12, texel: (2 * 1.2) / 512 };
 const FOV = 20;
 const FIT = 1.25; // half-height of the box, in shape units (sphere radius = 1)
 const OVERSCAN = 0.4; // extra canvas above and below, as a fraction of the box height

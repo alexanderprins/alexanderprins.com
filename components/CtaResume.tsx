@@ -6,7 +6,7 @@ import { RESUMES, resumeDownloadName, resumeFile } from "@/lib/resumes";
 
 // Footer CTA, second line: the tailored resume for this job page, styled to
 // match CtaEmail (same type, icon mirrors its copy icon). Only renders on job
-// pages that have a resume in lib/resumes.ts.
+// pages that have a resume in lib/resumes.ts. The URL path is neutral (no company).
 export function CtaResume() {
   const slug = usePathname().replace(/^\/|\/$/g, "");
   if (!RESUMES[slug]) return null;
