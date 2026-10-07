@@ -3,6 +3,8 @@ import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { RouteTheme } from "@/components/RouteTheme";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // Single typeface sitewide: Aktiv Grotesk, served from Adobe Fonts (licensed
 // through Creative Cloud). It loads via the Typekit <link> in <head> below —
@@ -70,6 +72,9 @@ export default function RootLayout({
         <SiteHeader />
         <div className="flex-1">{children}</div>
         <SiteFooter />
+        {/* Vercel Web Analytics + Speed Insights; no-ops outside Vercel. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
