@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "dialkit": "^1.4.3",
     "flubber": "^0.4.2",
     "lucide-react": "^1.18.0",
