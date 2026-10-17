@@ -39,8 +39,15 @@ export const jobs: JobPage[] = [
     company: "Descript",
     role: "Brand Design Lead",
     layout: "hero",
-    // the Loom walkthrough for Rocky (via Corey Moen); embedUrl lands when recorded
-    introVideo: { title: "Loom: how I use Descript (coming soon)", aspect: "landscape" },
+    // the Loom walkthrough for Rocky (via Corey Moen), self-hosted (Loom's own
+    // download, faststart remux). Its close points to the video below, so share
+    // the PAGE link, not the Loom link.
+    introVideo: {
+      title: "How I use Descript",
+      src: "/intro/descript-loom.mp4",
+      poster: "/intro/descript-loom.jpg",
+      aspect: "landscape",
+    },
     secondaryVideo: {
       label: "A bit more about me",
       video: {

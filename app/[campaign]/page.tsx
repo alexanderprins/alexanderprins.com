@@ -26,7 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description =
     job.ogDescription ?? `Portfolio of Alexander Prins, tailored for ${job.company}.`;
   // pages with an intro video share its cover frame as the preview image
-  const image = job.introVideo?.poster ?? job.secondaryVideo?.video.poster;
+  // link preview: prefer the designed cover of a secondary video (Descript's Loom
+  // poster is a screen grab), else the intro video's cover
+  const image = job.secondaryVideo?.video.poster ?? job.introVideo?.poster;
   return { title, description, ...jobSocial(title, description, image) };
 }
 
