@@ -17,6 +17,9 @@ export type JobPage = {
   // (plus Patient Pipeline), then one line linking /video and /logos. No cover
   // letter, no project cards. Default ("cards"): cover letter + project cards.
   layout?: "cards" | "hero";
+  // optional second video under the intro, with a small label above it
+  // (Descript: the Loom is the intro, the spine sits below as "A bit more about me")
+  secondaryVideo?: { label: string; video: Video };
   surfaceTags?: string[]; // tags to emphasize for this audience (unused for now)
   ogTitle?: string;
   ogDescription?: string;
@@ -31,6 +34,28 @@ const introVideo = (slug: string, company: string): Video => ({
 });
 
 export const jobs: JobPage[] = [
+  {
+    slug: "descript",
+    company: "Descript",
+    role: "Brand Design Lead",
+    layout: "hero",
+    // the Loom walkthrough for Rocky (via Corey Moen); embedUrl lands when recorded
+    introVideo: { title: "Loom: how I use Descript (coming soon)", aspect: "landscape" },
+    secondaryVideo: {
+      label: "A bit more about me",
+      video: {
+        title: "A bit more about me",
+        src: "/intro/descript.mp4",
+        poster: "/intro/descript.jpg",
+        aspect: "landscape",
+      },
+    },
+    intro: [], // hero layout: no cover letter
+    projectOrder: [],
+    ogTitle: "Alexander Prins for Descript",
+    ogDescription:
+      "A brand and motion designer who builds in code, and a daily Descript user. Tailored for Descript's Brand Design Lead role.",
+  },
   {
     slug: "figma",
     company: "Figma",

@@ -8,6 +8,7 @@ export const RESUMES: Record<string, { folder: string; id: string }> = {
   linear: { folder: "Linear", id: "179c05" },
   supabase: { folder: "Supabase", id: "d81fc6" },
   fieldguide: { folder: "Fieldguide", id: "3465b8" },
+  descript: { folder: "Descript", id: "2d5a48" },
   baseten: { folder: "Baseten", id: "e2a521" },
 };
 

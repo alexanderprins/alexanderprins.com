@@ -55,3 +55,6 @@ next-env.d.ts
 
 # local-only 3D shape study; never deploy (until it earns a real spot)
 /app/lab/shapes*/
+
+# Claude Code worktrees (separate checkouts, never committed)
+.claude/worktrees/

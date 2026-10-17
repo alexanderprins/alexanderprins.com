@@ -26,7 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description =
     job.ogDescription ?? `Portfolio of Alexander Prins, tailored for ${job.company}.`;
   // pages with an intro video share its cover frame as the preview image
-  return { title, description, ...jobSocial(title, description, job.introVideo?.poster) };
+  const image = job.introVideo?.poster ?? job.secondaryVideo?.video.poster;
+  return { title, description, ...jobSocial(title, description, image) };
 }
 
 // Renders intro paragraphs, turning markdown-style [label](href) into inline
@@ -93,6 +94,13 @@ export default async function CampaignPage({ params }: Props) {
       {job.introVideo ? (
         <section className="mt-16">
           <VideoFigure video={job.introVideo} showCaption={false} />
+        </section>
+      ) : null}
+
+      {job.secondaryVideo ? (
+        <section className="mt-16">
+          <h2 className="mb-6 text-sm text-black/60">{job.secondaryVideo.label}</h2>
+          <VideoFigure video={job.secondaryVideo.video} showCaption={false} />
         </section>
       ) : null}
 
