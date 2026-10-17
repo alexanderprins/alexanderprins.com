@@ -45,8 +45,8 @@ export const jobs: JobPage[] = [
       label: "A bit more about me",
       video: {
         title: "A bit more about me",
-        src: "/intro/descript.mp4",
-        poster: "/intro/descript.jpg",
+        src: "/intro/default.mp4", // spine-only "about me" cut, reusable on any page
+        poster: "/intro/default.jpg",
         aspect: "landscape",
       },
     },
