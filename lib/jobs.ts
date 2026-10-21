@@ -23,8 +23,16 @@ export type JobPage = {
   secondaryVideo?: { label: string; video: Video };
   // headline override; default is "Hi, {company} team."
   greeting?: string;
+  // cards layout: hide the cover letter but keep `intro` as draft copy
+  hideIntro?: boolean;
   // cards layout: optional small heading above the project cards
   workLabel?: string;
+  // cards layout: heading above the motion grid (default "Motion")
+  motionLabel?: string;
+  // cards layout: motion grid above the project cards (motion roles)
+  motionFirst?: boolean;
+  // cards layout: a separate "Print" group of project cards, after motion
+  printOrder?: string[];
   // cards layout: show only each project's big cover image, no 3-up thumb strip
   coverOnly?: boolean;
   // cards layout: a "Motion" grid of standalone 9:16 loops (public/work/motion/),
@@ -58,6 +66,38 @@ const motionLoop = (slug: string, alt: string): ProjectImage => ({
   aspect: "portrait",
 });
 
+// The work-first page (Noah Stokes + Kris Puckett feedback, 2026-10-20/21):
+// intro video, then the work right under it (cover images only), the 9:16
+// motion grid, and a More work line. No cover letter. Brand roles spread
+// `workFirst`; motion roles spread `motionFirst`, which flips the order.
+const workFirst = {
+  workLabel: "Featured Brand Work",
+  coverOnly: true,
+  motionReel: [
+    motionLoop("weather-app", "Weather app UI motion loop"),
+    motionLoop("pds", "Play, discover, systemize flat shape animation"),
+    motionLoop("claude-card", "Claude card motion loop"),
+    motionLoop("nv-spring", "Northern Vessel spring campaign motion loop"),
+    motionLoop("music-player", "Music player UI motion loop"),
+    motionLoop("shape-morph", "Play, discover, systemize shape morph"),
+  ],
+  motionLoops: [
+    "/work/patient-pipeline/02-logo-evolution.mp4",
+    "/work/northern-vessel/11-shapes-fill.mp4",
+  ],
+  otherWork: [
+    { label: "Video", href: "/video" },
+    { label: "Logos", href: "/logos" },
+  ],
+} satisfies Partial<JobPage>;
+
+const motionFirst = {
+  ...workFirst,
+  motionFirst: true,
+  motionLabel: "Featured Motion Work",
+  workLabel: "Other Work",
+} satisfies Partial<JobPage>;
+
 export const jobs: JobPage[] = [
   {
     // Work-first layout (Noah Stokes, 2026-10-20): video, then the work right
@@ -74,27 +114,55 @@ export const jobs: JobPage[] = [
       "northern-vessel",
       "lily-development",
     ],
-    workLabel: "Featured Brand Work",
-    coverOnly: true,
-    motionReel: [
-      motionLoop("weather-app", "Weather app UI motion loop"),
-      motionLoop("pds", "Play, discover, systemize flat shape animation"),
-      motionLoop("claude-card", "Claude card motion loop"),
-      motionLoop("nv-spring", "Northern Vessel spring campaign motion loop"),
-      motionLoop("music-player", "Music player UI motion loop"),
-      motionLoop("shape-morph", "Play, discover, systemize shape morph"),
-    ],
-    motionLoops: [
-      "/work/patient-pipeline/02-logo-evolution.mp4",
-      "/work/northern-vessel/11-shapes-fill.mp4",
-    ],
-    otherWork: [
-      { label: "Video", href: "/video" },
-      { label: "Logos", href: "/logos" },
-    ],
+    ...workFirst,
     ogTitle: "Alexander Prins for Turquoise Health",
     ogDescription:
       "A brand designer who makes complex things simple. Tailored for Turquoise Health's Brand Designer role.",
+  },
+  {
+    // Motion role: same work-first page, motion grid leads, brand work follows.
+    slug: "fieldguide",
+    company: "Fieldguide",
+    role: "Senior Motion Designer",
+    introVideo: introVideo("fieldguide", "Fieldguide"),
+    hideIntro: true, // cover letter kept as draft copy, not shown
+  intro: [
+    `The Senior Motion Designer role is built around the thing I do best: taking something dense and technical and turning it into motion that actually makes sense. That is the core of what I do day to day.`,
+    `At [Shift Nudge](https://shiftnudge.com), Matt D. Smith's design education platform, I produce motion videos that teach dense UI concepts simply. I own the whole pipeline: co-scripting, storyboarding, animating, editing, and publishing. The formats I have built and iterated on have driven more than 2 million views and grown the audience past 2x. Making complex ideas clear through motion is the whole job.`,
+    `I also think in systems, so building and owning a motion language, not just cranking out one-off animations, is exactly how I like to work. Motion and video were my entry point into design, and I still design brand identities and build in code. Selected work is below, and a deeper set of motion and video lives [here](/video).`,
+  ],
+    projectOrder: [
+      "patient-pipeline",
+      "cascata-group",
+      "northern-vessel",
+      "lily-development",
+    ],
+    ...motionFirst,
+    ogTitle: "Alexander Prins for Fieldguide",
+    ogDescription:
+      "A motion designer who turns dense, technical ideas into clear motion. Tailored for Fieldguide's Senior Motion Designer role.",
+  },
+  {
+    slug: "baseten",
+    company: "Baseten",
+    role: "Motion Designer, Brand Team",
+    introVideo: introVideo("baseten", "Baseten"),
+    hideIntro: true, // cover letter kept as draft copy, not shown
+  intro: [
+    `One line in your job description stopped me: you want someone who can make complex, technical concepts compelling without falling back on generic AI visuals. I have strong opinions about that, and I would love to bring them.`,
+    `At [Shift Nudge](https://shiftnudge.com), Matt D. Smith's design education platform, I produce motion videos that turn dense UI concepts into something people actually watch and learn from. I own the pipeline end to end, and the formats I have built have driven more than 2 million views and grown the audience past 2x.`,
+    `I think in systems and I have spent the last several months building in code, so defining and building a motion language from the ground up is exactly the kind of work I want. I care about fundamentals, typography, pacing, and composition, more than trends or technique. Selected work is below, and a deeper set of motion and video lives [here](/video).`,
+  ],
+    projectOrder: [
+      "patient-pipeline",
+      "cascata-group",
+      "northern-vessel",
+      "lily-development",
+    ],
+    ...motionFirst,
+    ogTitle: "Alexander Prins for Baseten",
+    ogDescription:
+      "A motion designer with a real point of view on making technical products compelling. Tailored for Baseten's Motion Designer, Brand Team role.",
   },
   {
     slug: "descript",
@@ -130,7 +198,8 @@ export const jobs: JobPage[] = [
     company: "Figma",
     role: "Brand Designer, Product Launches",
     introVideo: introVideo("figma", "Figma"),
-    layout: "hero", // intro below is kept as draft copy but not shown on this layout
+    hideIntro: true, // cover letter kept as draft copy, not shown
+    ...workFirst,
     intro: [
       `Figma is the one tool I open every single day, so a role helping shape how you tell the story of what you're building feels about as close to home as it gets. You're looking for someone who can take product complexity and turn it into something people actually feel, and finding the single idea inside something complicated and carrying it all the way to finished work is the throughline of my career.`,
       `At [Shift Nudge](https://shiftnudge.com), Matt D. Smith's design education platform, I take dense UI curriculum and turn it into short, clear stories, work that's grown the audience from ~40K to 88K and driven 2.2M+ views. Before that I co-founded Northern Vessel and built its entire identity and launch campaign, and I've done brand and web work that made a solo operator read like an institution.`,
@@ -152,7 +221,8 @@ export const jobs: JobPage[] = [
     company: "Linear",
     role: "Designer, Magic Team",
     introVideo: introVideo("linear", "Linear"),
-    layout: "hero", // intro below is kept as draft copy but not shown on this layout
+    hideIntro: true, // cover letter kept as draft copy, not shown
+    ...workFirst,
     intro: [
       `This site is the shortest version of why I'm writing: one typeface, hierarchy built from spacing and restraint. That approach came straight from watching how Linear's team designs, and I've followed your work closely for a couple of years.`,
       `I care about the same things the Magic Team does: taste, craft, and the details most people skip, both how something works and how it looks. At [Shift Nudge](https://shiftnudge.com), Matt D. Smith's design education platform, I turn dense design curriculum into clear, considered work and hold one visual system across every surface. I design brand identities, build in code, and sweat the small stuff.`,
@@ -164,6 +234,7 @@ export const jobs: JobPage[] = [
       "patient-pipeline",
       "northern-vessel",
     ],
+    printOrder: ["hello-marjorie"],
     surfaceTags: ["Craft", "Systems", "Web", "Brand"],
     ogTitle: "Alexander Prins for Linear",
     ogDescription:
@@ -174,7 +245,8 @@ export const jobs: JobPage[] = [
     company: "Supabase",
     role: "Brand Designer",
     introVideo: introVideo("supabase", "Supabase"),
-    layout: "hero", // intro below is kept as draft copy but not shown on this layout
+    hideIntro: true, // cover letter kept as draft copy, not shown
+    ...workFirst,
     intro: [
       `I've spent the last stretch living in the developer's world myself, building this site and client work in code, so designing brand for a developer audience is exactly where my head is right now. I love the challenge of making something technical clear without dumbing it down.`,
       `The role is brand across every medium, decks, print, video, and social, held together with real consistency. That's systems work, which is how my brain runs. At [Shift Nudge](https://shiftnudge.com), Matt D. Smith's design education platform, I produce multi-medium content and hold one brand system across all of it, work that's driven 2.2M+ views and grown the audience past 2x. I also think good brand for developers earns trust by being honest and precise, not flashy.`,
@@ -186,6 +258,7 @@ export const jobs: JobPage[] = [
       "cascata-group",
       "lily-development",
     ],
+    printOrder: ["hello-marjorie"],
     surfaceTags: ["Brand", "Multi-medium", "Systems", "Web"],
     ogTitle: "Alexander Prins for Supabase",
     ogDescription:

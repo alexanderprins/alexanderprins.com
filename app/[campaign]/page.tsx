@@ -78,6 +78,60 @@ export default async function CampaignPage({ params }: Props) {
   if (!job) notFound();
 
   const projects = getProjectsInOrder(job.projectOrder);
+  const showIntro = job.intro.length > 0 && !job.hideIntro;
+  const sectionLabel = "mb-4 font-serif text-base font-medium text-black/60";
+
+  const workSection = projects.length ? (
+    <section key="work">
+      {job.workLabel ? <h2 className={sectionLabel}>{job.workLabel}</h2> : null}
+      <div className="space-y-20">
+        {projects.map((p) => (
+          <ProjectCard key={p.slug} project={p} coverOnly={job.coverOnly} />
+        ))}
+      </div>
+    </section>
+  ) : null;
+
+  const printSection = job.printOrder?.length ? (
+    <section key="print">
+      <h2 className={sectionLabel}>Print</h2>
+      <div className="space-y-20">
+        {getProjectsInOrder(job.printOrder).map((p) => (
+          <ProjectCard key={p.slug} project={p} coverOnly={job.coverOnly} />
+        ))}
+      </div>
+    </section>
+  ) : null;
+
+  const motionSection =
+    job.motionReel?.length || job.motionLoops?.length ? (
+      <section key="motion">
+        <h2 className={sectionLabel}>{job.motionLabel ?? "Motion"}</h2>
+        <div className="space-y-4">
+          {job.motionReel?.length ? (
+            <div className="-mx-6 grid grid-cols-1 gap-4 sm:mx-0 sm:grid-cols-3">
+              {job.motionReel.map((img) => (
+                <div key={img.src} className="aspect-[9/16] overflow-hidden bg-black/[0.04] sm:p-2">
+                  <Media img={img} className="h-full w-full object-cover" />
+                </div>
+              ))}
+            </div>
+          ) : null}
+          {job.motionLoops?.length ? (
+            <div className="-mx-6 grid grid-cols-1 gap-4 sm:mx-0 sm:grid-cols-2">
+              {job.motionLoops.map((src) => {
+                const img = getImageBySrc(src);
+                return img ? (
+                  <div key={src} className="aspect-video overflow-hidden bg-black/[0.04] sm:p-2">
+                    <Media img={img} className="h-full w-full object-cover" />
+                  </div>
+                ) : null;
+              })}
+            </div>
+          ) : null}
+        </div>
+      </section>
+    ) : null;
 
   return (
     <main className="mx-auto w-full max-w-[1440px] px-6">
@@ -126,8 +180,8 @@ export default async function CampaignPage({ params }: Props) {
         </>
       ) : (
         <>
-          {/* intro: 64px below the hero group; left-aligned, max 600px; 14/24 body */}
-          {job.intro.length > 0 ? (
+          {/* intro: 64px below the hero group; left-aligned, max 600px */}
+          {showIntro ? (
             <section className="mt-20">
               <div className="max-w-[600px] space-y-4 text-base leading-7 text-black/60">
                 {job.intro.map((p, i) => (
@@ -137,45 +191,12 @@ export default async function CampaignPage({ params }: Props) {
             </section>
           ) : null}
 
-          {/* section 1 -> first project: 128px; projects 64px apart. With no
-              cover letter, the work sits right under the video (64px). */}
-          <section
-            className={`${job.intro.length > 0 ? "mt-32" : "mt-16"} ${job.otherWork ? "pb-16" : "pb-24"}`}
-          >
-            {job.workLabel ? (
-              <h2 className="mb-4 font-serif text-base font-medium text-black/60">{job.workLabel}</h2>
-            ) : null}
-            <div className="space-y-20">
-              {projects.map((p) => (
-                <ProjectCard key={p.slug} project={p} coverOnly={job.coverOnly} />
-              ))}
-            </div>
-          </section>
-
-          {job.motionReel?.length || job.motionLoops?.length ? (
-            <section className="space-y-4 pb-16">
-              <h2 className="font-serif text-base font-medium text-black/60">Motion</h2>
-              {job.motionReel?.length ? (
-                <div className="-mx-6 grid grid-cols-1 gap-4 sm:mx-0 sm:grid-cols-3">
-                  {job.motionReel.map((img) => (
-                    <div key={img.src} className="aspect-[9/16] overflow-hidden bg-black/[0.04] sm:p-2">
-                      <Media img={img} className="h-full w-full object-cover" />
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-              <div className="-mx-6 grid grid-cols-1 gap-4 sm:mx-0 sm:grid-cols-2">
-                {(job.motionLoops ?? []).map((src) => {
-                  const img = getImageBySrc(src);
-                  return img ? (
-                    <div key={src} className="aspect-video overflow-hidden bg-black/[0.04] sm:p-2">
-                      <Media img={img} className="h-full w-full object-cover" />
-                    </div>
-                  ) : null;
-                })}
-              </div>
-            </section>
-          ) : null}
+          {/* work + motion (+ print) sections, 64px apart, in the job's chosen order.
+              First section sits 128px under a cover letter, or 64px under the video. */}
+          <div className={`${showIntro ? "mt-32" : "mt-16"} space-y-16 ${job.otherWork ? "pb-16" : "pb-24"}`}>
+            {job.motionFirst ? [motionSection, workSection] : [workSection, motionSection]}
+            {printSection}
+          </div>
 
           {job.otherWork ? (
             <section className="pb-24 text-base text-black/60">
