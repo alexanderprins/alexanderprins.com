@@ -582,3 +582,12 @@ export function getProjectsInOrder(slugs: string[]): Project[] {
     .map((slug) => getProject(slug))
     .filter((p): p is Project => Boolean(p));
 }
+
+// Find a project image by its src (e.g. a motion loop reused on a job page).
+export function getImageBySrc(src: string): ProjectImage | undefined {
+  for (const p of projects) {
+    const img = p.images.find((i) => i.src === src);
+    if (img) return img;
+  }
+  return undefined;
+}

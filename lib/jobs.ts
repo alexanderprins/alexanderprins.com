@@ -5,6 +5,7 @@
 // To add application #N: copy a block, fill in the fields, done.
 
 import type { Video } from "./videos";
+import type { ProjectImage } from "./projects";
 
 export type JobPage = {
   slug: string; // URL segment, e.g. "ideogram" -> /ideogram
@@ -20,6 +21,21 @@ export type JobPage = {
   // optional second video under the intro, with a small label above it
   // (Descript: the Loom is the intro, the spine sits below as "A bit more about me")
   secondaryVideo?: { label: string; video: Video };
+  // headline override; default is "Hi, {company} team."
+  greeting?: string;
+  // cards layout: optional small heading above the project cards
+  workLabel?: string;
+  // cards layout: show only each project's big cover image, no 3-up thumb strip
+  coverOnly?: boolean;
+  // cards layout: a "Motion" grid of standalone 9:16 loops (public/work/motion/),
+  // three across, under the projects. Use motionLoop(slug, alt) to build entries.
+  motionReel?: ProjectImage[];
+  // cards layout: 16:9 loops under the motion reel, two across.
+  // Each entry is the src of a looping video already in lib/projects.ts, so
+  // poster + alt come from there (one source of truth).
+  motionLoops?: string[];
+  // cards layout: a short "More work" line of links under the projects
+  otherWork?: { label: string; href: string }[];
   surfaceTags?: string[]; // tags to emphasize for this audience (unused for now)
   ogTitle?: string;
   ogDescription?: string;
@@ -33,7 +49,53 @@ const introVideo = (slug: string, company: string): Video => ({
   aspect: "landscape",
 });
 
+// Standalone 9:16 motion loop: /public/work/motion/{slug}.mp4 + .jpg poster.
+const motionLoop = (slug: string, alt: string): ProjectImage => ({
+  src: `/work/motion/${slug}.mp4`,
+  poster: `/work/motion/${slug}.jpg`,
+  alt,
+  type: "motion",
+  aspect: "portrait",
+});
+
 export const jobs: JobPage[] = [
+  {
+    // Work-first layout (Noah Stokes, 2026-10-20): video, then the work right
+    // under it. No cover letter, cover images only. Noah emails it to Tabby.
+    slug: "turquoise",
+    company: "Turquoise Health",
+    role: "Brand Designer",
+    greeting: "Hi, Tabby and the Turquoise team.",
+    introVideo: introVideo("turquoise", "Turquoise Health"),
+    intro: [],
+    projectOrder: [
+      "patient-pipeline",
+      "cascata-group",
+      "northern-vessel",
+      "lily-development",
+    ],
+    workLabel: "Featured Brand Work",
+    coverOnly: true,
+    motionReel: [
+      motionLoop("weather-app", "Weather app UI motion loop"),
+      motionLoop("pds", "Play, discover, systemize flat shape animation"),
+      motionLoop("claude-card", "Claude card motion loop"),
+      motionLoop("nv-spring", "Northern Vessel spring campaign motion loop"),
+      motionLoop("music-player", "Music player UI motion loop"),
+      motionLoop("shape-morph", "Play, discover, systemize shape morph"),
+    ],
+    motionLoops: [
+      "/work/patient-pipeline/02-logo-evolution.mp4",
+      "/work/northern-vessel/11-shapes-fill.mp4",
+    ],
+    otherWork: [
+      { label: "Video", href: "/video" },
+      { label: "Logos", href: "/logos" },
+    ],
+    ogTitle: "Alexander Prins for Turquoise Health",
+    ogDescription:
+      "A brand designer who makes complex things simple. Tailored for Turquoise Health's Brand Designer role.",
+  },
   {
     slug: "descript",
     company: "Descript",

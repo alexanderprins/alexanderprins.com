@@ -3,7 +3,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { jobs, getJob } from "@/lib/jobs";
-import { getProjectsInOrder, jobHeroOrder } from "@/lib/projects";
+import { getImageBySrc, getProjectsInOrder, jobHeroOrder } from "@/lib/projects";
+import { Media } from "@/components/Media";
 import { HeroMorph } from "@/components/home/HeroMorph";
 import { ProjectCard } from "@/components/ProjectCard";
 import { VideoFigure } from "@/components/VideoFigure";
@@ -82,13 +83,13 @@ export default async function CampaignPage({ params }: Props) {
     <main className="mx-auto w-full max-w-[1440px] px-6">
       {/* hero: 90px from nav; eyebrow 32px above H1 */}
       <section className="flex flex-col items-center pt-[90px] text-center">
-        <p className="max-w-md text-sm text-black/60">
-          For your consideration for the role of
+        <p className="max-w-md text-base text-black/60">
+          For your consideration for the
           <br />
-          {job.role}
+          role of {job.role}
         </p>
         <h1 className="mt-5 font-serif text-[56px] font-medium text-black">
-          Hi, {job.company} team.
+          {job.greeting ?? `Hi, ${job.company} team.`}
         </h1>
       </section>
 
@@ -101,7 +102,7 @@ export default async function CampaignPage({ params }: Props) {
 
       {job.secondaryVideo ? (
         <section className="mt-16">
-          <h2 className="mb-6 text-sm text-black/60">{job.secondaryVideo.label}</h2>
+          <h2 className="mb-6 text-base text-black/60">{job.secondaryVideo.label}</h2>
           <VideoFigure video={job.secondaryVideo.video} showCaption={false} />
         </section>
       ) : null}
@@ -126,20 +127,72 @@ export default async function CampaignPage({ params }: Props) {
       ) : (
         <>
           {/* intro: 64px below the hero group; left-aligned, max 600px; 14/24 body */}
-          <section className="mt-20">
-            <div className="max-w-[600px] space-y-4 text-sm leading-6 text-black/60">
-              {job.intro.map((p, i) => (
-                <p key={i}>{renderIntro(p)}</p>
+          {job.intro.length > 0 ? (
+            <section className="mt-20">
+              <div className="max-w-[600px] space-y-4 text-base leading-7 text-black/60">
+                {job.intro.map((p, i) => (
+                  <p key={i}>{renderIntro(p)}</p>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          {/* section 1 -> first project: 128px; projects 64px apart. With no
+              cover letter, the work sits right under the video (64px). */}
+          <section
+            className={`${job.intro.length > 0 ? "mt-32" : "mt-16"} ${job.otherWork ? "pb-16" : "pb-24"}`}
+          >
+            {job.workLabel ? (
+              <h2 className="mb-4 font-serif text-base font-medium text-black/60">{job.workLabel}</h2>
+            ) : null}
+            <div className="space-y-20">
+              {projects.map((p) => (
+                <ProjectCard key={p.slug} project={p} coverOnly={job.coverOnly} />
               ))}
             </div>
           </section>
 
-          {/* section 1 -> first project: 128px; projects 64px apart */}
-          <section className="mt-32 space-y-20 pb-24">
-            {projects.map((p) => (
-              <ProjectCard key={p.slug} project={p} />
-            ))}
-          </section>
+          {job.motionReel?.length || job.motionLoops?.length ? (
+            <section className="space-y-4 pb-16">
+              <h2 className="font-serif text-base font-medium text-black/60">Motion</h2>
+              {job.motionReel?.length ? (
+                <div className="-mx-6 grid grid-cols-1 gap-4 sm:mx-0 sm:grid-cols-3">
+                  {job.motionReel.map((img) => (
+                    <div key={img.src} className="aspect-[9/16] overflow-hidden bg-black/[0.04] sm:p-2">
+                      <Media img={img} className="h-full w-full object-cover" />
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+              <div className="-mx-6 grid grid-cols-1 gap-4 sm:mx-0 sm:grid-cols-2">
+                {(job.motionLoops ?? []).map((src) => {
+                  const img = getImageBySrc(src);
+                  return img ? (
+                    <div key={src} className="aspect-video overflow-hidden bg-black/[0.04] sm:p-2">
+                      <Media img={img} className="h-full w-full object-cover" />
+                    </div>
+                  ) : null;
+                })}
+              </div>
+            </section>
+          ) : null}
+
+          {job.otherWork ? (
+            <section className="pb-24 text-base text-black/60">
+              More work:{" "}
+              {job.otherWork.map((w, i) => (
+                <span key={w.href}>
+                  {i > 0 ? " · " : null}
+                  <Link
+                    href={w.href}
+                    className="underline decoration-black/30 underline-offset-4 hover:text-black hover:decoration-black"
+                  >
+                    {w.label}
+                  </Link>
+                </span>
+              ))}
+            </section>
+          ) : null}
         </>
       )}
     </main>

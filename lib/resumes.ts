@@ -10,6 +10,7 @@ export const RESUMES: Record<string, { folder: string; id: string }> = {
   fieldguide: { folder: "Fieldguide", id: "3465b8" },
   descript: { folder: "Descript", id: "2d5a48" },
   baseten: { folder: "Baseten", id: "e2a521" },
+  turquoise: { folder: "Turquoise", id: "7c41e9" },
 };
 
 export const resumeFile = (slug: string) =>

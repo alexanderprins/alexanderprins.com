@@ -5,11 +5,14 @@
 #                                                   <id> is neutral, never the company)
 #   ../resume/<Company>/Alexander Prins Resume.pdf  (local archive, one folder per company)
 # slug:id:folder triples MIRROR lib/resumes.ts; keep them in sync.
-# Usage: sh scripts/export-resumes.sh
+# Usage: sh scripts/export-resumes.sh                         (all)
+#        sh scripts/export-resumes.sh turquoise:7c41e9:Turquoise   (just the triples given)
 set -e
 cd "$(dirname "$0")/.."
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-for t in "figma:384a9b:Figma Brand" "linear:179c05:Linear" "supabase:d81fc6:Supabase" "fieldguide:3465b8:Fieldguide" "baseten:e2a521:Baseten" "descript:2d5a48:Descript"; do
+ALL=0
+[ $# -gt 0 ] || { ALL=1; set -- "figma:384a9b:Figma Brand" "linear:179c05:Linear" "supabase:d81fc6:Supabase" "fieldguide:3465b8:Fieldguide" "baseten:e2a521:Baseten" "descript:2d5a48:Descript" "turquoise:7c41e9:Turquoise"; }
+for t in "$@"; do
   slug="${t%%:*}"; rest="${t#*:}"; id="${rest%%:*}"; folder="${rest#*:}"
   mkdir -p "public/resume/$id" "../resume/$folder"
   out="public/resume/$id/alexander-prins-resume.pdf"
@@ -19,7 +22,9 @@ for t in "figma:384a9b:Figma Brand" "linear:179c05:Linear" "supabase:d81fc6:Supa
   echo "$slug -> $out + ../resume/$folder/"
 done
 
-# The default (untailored) resume: local archive only, no public copy.
+# The default (untailored) resume: local archive only, no public copy. Skipped
+# when specific triples were passed.
+[ "$ALL" -eq 1 ] || exit 0
 mkdir -p "../resume/default"
 "$CHROME" --headless=new --no-pdf-header-footer --virtual-time-budget=6000 \
   --print-to-pdf="../resume/default/Alexander Prins Resume.pdf" "http://localhost:3000/lab/resume" 2>/dev/null

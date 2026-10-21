@@ -31,7 +31,13 @@ function Slot({
   );
 }
 
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({
+  project,
+  coverOnly = false,
+}: {
+  project: Project;
+  coverOnly?: boolean; // big cover only, no thumb strip (work-first job pages)
+}) {
   // Card selection is decoupled from gallery order. Prefer explicit `card`
   // flags; fall back to the old "first image = cover, next 3 = thumbs" when a
   // project hasn't been flagged yet.
@@ -53,7 +59,7 @@ export function ProjectCard({ project }: { project: Project }) {
           aligns to the far right edge. 16px sits above the image via space-y-4. */}
       <header className="flex items-start justify-between gap-4">
         <Link href={href} className="min-w-0">
-          <h2 className="font-serif text-sm font-medium text-black">
+          <h2 className="font-serif text-base font-medium text-black">
             {project.descriptor}
           </h2>
         </Link>
@@ -84,7 +90,7 @@ export function ProjectCard({ project }: { project: Project }) {
           />
         </Link>
       )}
-      {thumbs.length > 0 && (
+      {!coverOnly && thumbs.length > 0 && (
         <div className="-mx-6 grid grid-cols-3 gap-4 sm:mx-0">
           {thumbs.map((img, i) => (
             <Link key={i} href={href} className="block overflow-hidden">
