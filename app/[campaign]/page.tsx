@@ -142,7 +142,7 @@ export default async function CampaignPage({ params }: Props) {
           <br />
           role of {job.role}
         </p>
-        <h1 className="mt-5 font-serif text-[56px] font-medium text-black">
+        <h1 className="mt-5 font-serif text-[56px] font-medium leading-[1.05] text-black sm:leading-normal">
           {job.greeting ?? `Hi, ${job.company} team.`}
         </h1>
       </section>
