@@ -138,7 +138,7 @@ export default async function CampaignPage({ params }: Props) {
       {/* hero: 90px from nav; eyebrow 32px above H1 */}
       <section className="flex flex-col items-center pt-[90px] text-center">
         <p className="max-w-md text-base text-black/60">
-          For your consideration for the
+          <span className="whitespace-nowrap">For your consideration for the</span>
           <br />
           role of {job.role}
         </p>
