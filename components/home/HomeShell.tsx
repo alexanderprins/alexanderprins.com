@@ -44,6 +44,10 @@ const theme = {
 // phones get tighter gaps than the 144/216 desktop rhythm (72/144)
 const SECTION_GAP = "mt-[144px] lg:mt-[216px]";
 
+// Other Work is hidden until there are real pieces to fill it (only Hello,
+// Marjorie so far). Flip to true to bring back the section and its nav link.
+const SHOW_OTHER_WORK = false;
+
 // The open case study is the URL (/work/<slug>, see lib/home.ts). Opening pushes
 // it; closing goes Back when this page pushed it (so Back/Forward stay in step),
 // else swaps it for "/" (a direct visit to /work/<slug>).
@@ -232,7 +236,7 @@ export function HomeShell() {
             <ul>
               {navItem("Marks", "marks")}
               {navItem("Motion", "motion")}
-              {navItem("Other Work", "other-work")}
+              {SHOW_OTHER_WORK ? navItem("Other Work", "other-work") : null}
               <li>
                 <Link href="/about" className="group inline-flex items-center text-black">
                   <NavArrow />
@@ -313,38 +317,40 @@ export function HomeShell() {
             </section>
 
             {/* other work: one-offs, placeholders for now */}
-            <section id="other-work" className={SECTION_GAP}>
-              <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                {OTHER_WORK.map((w, i) => {
-                  const tile = (
-                    <Tile ratio="aspect-[456/264]">
-                      {w.img ? (
-                        <Media img={w.img} className="h-full w-full object-cover" />
-                      ) : (
-                        <span className="sr-only">Placeholder</span>
-                      )}
-                    </Tile>
-                  );
-                  return (
-                    <li key={i}>
-                      <div className="flex h-6 items-center justify-between gap-6">
-                        <p className="truncate text-black/60">{w.title}</p>
-                        <SeeMore href={w.href} disabled={!w.href} />
-                      </div>
-                      <div className="mt-6">
-                        {w.href ? (
-                          <Link href={w.href} tabIndex={-1} aria-label={w.title} className="block">
-                            {tile}
-                          </Link>
+            {SHOW_OTHER_WORK ? (
+              <section id="other-work" className={SECTION_GAP}>
+                <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                  {OTHER_WORK.map((w, i) => {
+                    const tile = (
+                      <Tile ratio="aspect-[456/264]">
+                        {w.img ? (
+                          <Media img={w.img} className="h-full w-full object-cover" />
                         ) : (
-                          tile
+                          <span className="sr-only">Placeholder</span>
                         )}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
+                      </Tile>
+                    );
+                    return (
+                      <li key={i}>
+                        <div className="flex h-6 items-center justify-between gap-6">
+                          <p className="truncate text-black/60">{w.title}</p>
+                          <SeeMore href={w.href} disabled={!w.href} />
+                        </div>
+                        <div className="mt-6">
+                          {w.href ? (
+                            <Link href={w.href} tabIndex={-1} aria-label={w.title} className="block">
+                              {tile}
+                            </Link>
+                          ) : (
+                            tile
+                          )}
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            ) : null}
           </main>
 
           {/* toggles, column 12: grid on/off, then light | dark (one always on) */}
