@@ -118,8 +118,7 @@ html.home-dark .mark-dark {
   display: block;
 }
 /* Homepage top bar fade: page color through the bar, then dissolving to
-   clear by 168px, with a light blur that fades with it. Solid down to the
-   panel's top (96px) while a case study is open, so the panel edge stays crisp. */
+   clear by 168px, with a light blur that fades with it. */
 .home-fade {
   height: 168px;
   /* solid page color; the eased MASK does the fading (and fades the blur with
@@ -149,11 +148,31 @@ html.home-dark .mark-dark {
     transparent 168px
   );
 }
-html[data-case-open] .home-fade {
-  height: 96px;
+/* the same dissolve inside the case-study panel, under its top edge, so the
+   case study scrolls away softly too (72px: the panel has no bar to clear) */
+.case-fade {
+  height: 72px;
   background: var(--background);
-  mask-image: none;
-  -webkit-mask-image: none;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 12px,
+    rgb(0 0 0 / 0.8) 30px,
+    rgb(0 0 0 / 0.45) 48px,
+    rgb(0 0 0 / 0.15) 62px,
+    transparent 72px
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 12px,
+    rgb(0 0 0 / 0.8) 30px,
+    rgb(0 0 0 / 0.45) 48px,
+    rgb(0 0 0 / 0.15) 62px,
+    transparent 72px
+  );
 }
 
 /* the case-study panel's card: a crisp white top/left edge over the shadow */

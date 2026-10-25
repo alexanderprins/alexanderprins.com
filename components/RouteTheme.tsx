@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { isHomeLayout } from "@/lib/home";
 
 // Routes that always render dark. Toggles `hm-dark` on <html> as the user
 // navigates in-app. Initial page loads are handled by the inline script in the
@@ -17,8 +18,9 @@ export function RouteTheme() {
     if (pathname !== "/logos") {
       document.documentElement.classList.remove("logos-dark");
     }
-    // the homepage's dark toggle only applies on the homepage
-    if (pathname !== "/") {
+    // the homepage's dark toggle only applies on the homepage (and its
+    // case-study panel URLs)
+    if (!isHomeLayout(pathname)) {
       document.documentElement.classList.remove("home-dark");
     } else {
       // client nav back home: restore the remembered choice and tell the toggle

@@ -86,3 +86,17 @@ export const MARKS: { label: string; src: string; darkSrc?: string }[] = [
 export const OTHER_WORK: { title: string }[] = Array.from({ length: 8 }, () => ({
   title: "Work Title",
 }));
+
+// A featured case study opens in the homepage's side panel at /work/<slug>
+// (like claire.io): clicking "See more" pushes that URL, Back closes it, and a
+// direct visit renders the homepage with the panel already open. Header, footer
+// and theme treat these URLs as the homepage.
+export const HOME_CASE_PATHS = CASE_STUDIES.map((c) => `/work/${c.slug}`);
+
+export function homeCaseSlug(pathname: string): string | null {
+  return HOME_CASE_PATHS.includes(pathname) ? pathname.slice("/work/".length) : null;
+}
+
+export function isHomeLayout(pathname: string): boolean {
+  return pathname === "/" || homeCaseSlug(pathname) !== null;
+}

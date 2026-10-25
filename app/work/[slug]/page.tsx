@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { projects, getProject } from "@/lib/projects";
 import { CaseStudyBody } from "@/components/CaseStudyBody";
+import { HomeShell } from "@/components/home/HomeShell";
+import { homeCaseSlug } from "@/lib/home";
 
 export const dynamicParams = false;
 
@@ -31,6 +33,9 @@ export default async function WorkPage({ params }: Props) {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
+  // featured case studies live in the homepage's side panel: a direct visit
+  // renders the homepage with this one open (HomeShell reads the URL)
+  if (homeCaseSlug(`/work/${slug}`)) return <HomeShell />;
 
   return (
     <main className="mx-auto w-full max-w-[1440px] px-6 pb-24 pt-[90px]">

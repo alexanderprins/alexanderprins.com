@@ -1,12 +1,13 @@
 "use client";
 
-import { useCallback, useState, useSyncExternalStore, type ReactNode } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Media } from "@/components/Media";
 import { GridOverlay } from "@/components/GridOverlay";
 import { CaseStudyPanel } from "@/components/home/CaseStudyPanel";
 import { getProject } from "@/lib/projects";
-import { CASE_STUDIES, MARKS, OTHER_WORK } from "@/lib/home";
+import { CASE_STUDIES, MARKS, OTHER_WORK, homeCaseSlug } from "@/lib/home";
 import { MOTION_REEL } from "@/lib/motionReel";
 
 // The single-scroll homepage on the 1416 grid: 12 columns (96 + 24 gutters),
@@ -41,6 +42,23 @@ const theme = {
 };
 
 const SECTION_GAP = "mt-[216px]";
+
+// The open case study is the URL (/work/<slug>, see lib/home.ts). Opening pushes
+// it; closing goes Back when this page pushed it (so Back/Forward stay in step),
+// else swaps it for "/" (a direct visit to /work/<slug>).
+let pushedHere = false;
+function openCase(slug: string) {
+  pushedHere = true;
+  window.history.pushState(null, "", `/work/${slug}`);
+}
+function closeCase() {
+  if (pushedHere) {
+    pushedHere = false;
+    window.history.back();
+  } else {
+    window.history.replaceState(null, "", "/");
+  }
+}
 const STICKY_TOP = 216; // where sections land under the fixed header
 
 // Snappier than native smooth scroll (which scales with distance): a fixed
@@ -152,13 +170,18 @@ const MoonIcon = () => (
 export function HomeShell() {
   const current = useSyncExternalStore(theme.subscribe, theme.get, theme.server);
   const [grid, setGrid] = useState(false);
-  const [panel, setPanel] = useState<string | null>(null);
-  const closePanel = useCallback(() => setPanel(null), []);
+  const panel = homeCaseSlug(usePathname());
+  const closePanel = useCallback(() => closeCase(), []);
   // opening a case study turns the grid off (it fights the panel), and it stays off
   const openPanel = (slug: string) => {
     setGrid(false);
-    setPanel(slug);
+    openCase(slug);
   };
+  // the tab title follows the panel (Next only sets it on real navigations)
+  useEffect(() => {
+    const p = panel ? getProject(panel) : undefined;
+    document.title = p ? `${p.title} — Alexander Prins` : "Alexander Prins";
+  }, [panel]);
 
   const navItem = (label: string, id: string, extra?: ReactNode) => (
     <li key={id}>
@@ -180,7 +203,7 @@ export function HomeShell() {
         <div className="grid grid-cols-1 gap-x-6 lg:grid-cols-12">
           {/* table of contents, columns 1-3 */}
           <nav aria-label="Sections" className="sticky top-[216px] hidden self-start lg:col-span-3 lg:block">
-            <p className="text-black/60">Branding</p>
+            <p className="text-black/60">Featured Branding</p>
             <ul className="pl-6">
               {CASE_STUDIES.map((c) =>
                 navItem(

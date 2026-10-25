@@ -3,6 +3,7 @@ import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { RouteTheme } from "@/components/RouteTheme";
+import { HOME_CASE_PATHS } from "@/lib/home";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -62,8 +63,7 @@ export default function RootLayout({
         {/* Dark-mode routes: set the class before paint so there's no flash. */}
         <script
           dangerouslySetInnerHTML={{
-            __html:
-              "try{var p=location.pathname;if(p==='/work/hello-marjorie')document.documentElement.classList.add('hm-dark');if(p==='/logos')document.documentElement.classList.add('logos-dark');if(p==='/'&&localStorage.getItem('home-theme')==='dark')document.documentElement.classList.add('home-dark')}catch(e){}",
+            __html: `try{var p=location.pathname;if(p==='/work/hello-marjorie')document.documentElement.classList.add('hm-dark');if(p==='/logos')document.documentElement.classList.add('logos-dark');if((p==='/'||${JSON.stringify(HOME_CASE_PATHS)}.indexOf(p)>-1)&&localStorage.getItem('home-theme')==='dark')document.documentElement.classList.add('home-dark')}catch(e){}`,
           }}
         />
       </head>

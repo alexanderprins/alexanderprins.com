@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { isHomeLayout } from "@/lib/home";
 import { Logo } from "@/components/Logo";
 
 // Logo left; a hamburger right, at ALL sizes ("Made with [crab]" lives in the
@@ -24,7 +25,7 @@ const NAV: { label: string; href: string }[] = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
-  const home = usePathname() === "/";
+  const home = isHomeLayout(usePathname());
 
   const bar = (
     <header
@@ -100,12 +101,14 @@ export function SiteHeader() {
   );
 
   // homepage: pinned to the top over a fade (page color to clear, with a soft
-  // blur) so the work dissolves under the bar instead of hitting a hard edge
+  // blur) so the work dissolves under the bar instead of hitting a hard edge.
+  // Separate layers: the fade sits BELOW the case-study panel (z-30), the bar
+  // above it, so the panel's shadow reads over the fade and the logo stays put.
   return home ? (
-    <div className="fixed inset-x-0 top-0 z-40">
-      <div aria-hidden="true" className="home-fade pointer-events-none absolute inset-x-0 top-0" />
-      {bar}
-    </div>
+    <>
+      <div aria-hidden="true" className="home-fade pointer-events-none fixed inset-x-0 top-0 z-20" />
+      <div className="fixed inset-x-0 top-0 z-40">{bar}</div>
+    </>
   ) : (
     bar
   );

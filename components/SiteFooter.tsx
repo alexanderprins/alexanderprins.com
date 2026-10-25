@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { isHomeLayout } from "@/lib/home";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { CtaEmail } from "@/components/CtaEmail";
 import { CtaResume } from "@/components/CtaResume";
@@ -12,7 +13,7 @@ const GITHUB = "https://github.com/alexanderprins";
 export function SiteFooter() {
   // homepage: the 1416 grid (1440 frame, 12px margins); other pages keep the
   // original frame until they move to the new grid
-  const home = usePathname() === "/";
+  const home = isHomeLayout(usePathname());
   return (
     // max-w-[1488px] + px-6 -> a 1440 content column that matches the grid
     // overlay and the rest of the site chrome (header, page mains).
