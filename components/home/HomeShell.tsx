@@ -41,7 +41,8 @@ const theme = {
   },
 };
 
-const SECTION_GAP = "mt-[216px]";
+// phones get tighter gaps than the 144/216 desktop rhythm (72/144)
+const SECTION_GAP = "mt-[144px] lg:mt-[216px]";
 
 // The open case study is the URL (/work/<slug>, see lib/home.ts). Opening pushes
 // it; closing goes Back when this page pushed it (so Back/Forward stay in step),
@@ -95,10 +96,11 @@ function NavArrow() {
 }
 
 // "See more": the label stays put; the arrow slides in from the left beside it.
-function SeeMore({ onClick, disabled }: { onClick?: () => void; disabled?: boolean }) {
-  if (disabled) return <span className="text-black/30">See more</span>;
-  return (
-    <button type="button" onClick={onClick} className="group relative cursor-pointer text-black">
+// A button (opens the panel) or, with `href`, a link to a page of its own.
+function SeeMore({ onClick, href, disabled }: { onClick?: () => void; href?: string; disabled?: boolean }) {
+  if (disabled) return <span className="shrink-0 text-black/30">See more</span>;
+  const inner = (
+    <>
       <span
         aria-hidden="true"
         className="pointer-events-none absolute right-full mr-2 -translate-x-2 opacity-0 transition duration-300 ease-out group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
@@ -106,6 +108,16 @@ function SeeMore({ onClick, disabled }: { onClick?: () => void; disabled?: boole
         →
       </span>
       See more
+    </>
+  );
+  const cls = "group relative shrink-0 cursor-pointer text-black";
+  return href ? (
+    <Link href={href} className={cls}>
+      {inner}
+    </Link>
+  ) : (
+    <button type="button" onClick={onClick} className={cls}>
+      {inner}
     </button>
   );
 }
@@ -199,7 +211,7 @@ export function HomeShell() {
 
   return (
     <>
-      <div className="mx-auto w-full max-w-[1440px] px-3 pb-[216px] pt-[120px] text-base leading-6 lg:pt-[216px]">
+      <div className="mx-auto w-full max-w-[1440px] px-4 pb-[144px] pt-[120px] text-base leading-6 lg:px-3 lg:pb-[216px] lg:pt-[216px]">
         <div className="grid grid-cols-1 gap-x-6 lg:grid-cols-12">
           {/* table of contents, columns 1-3 */}
           <nav aria-label="Sections" className="sticky top-[216px] hidden self-start lg:col-span-3 lg:block">
@@ -232,18 +244,28 @@ export function HomeShell() {
 
           {/* the work, columns 4-11 */}
           <main className="lg:col-span-8 lg:col-start-4">
-            <div className="space-y-[144px]">
+            <div className="space-y-[72px] lg:space-y-[144px]">
               {CASE_STUDIES.map((c) => (
                 <section key={c.slug} id={c.slug}>
-                  <div className="flex h-6 items-center justify-between">
-                    <h2 className="text-black/60">{c.title}</h2>
+                  <div className="flex h-6 items-center justify-between gap-6">
+                    <h2 className="truncate text-black/60">{c.title}</h2>
                     <SeeMore onClick={() => openPanel(c.slug)} />
                   </div>
+                  {/* the tiles open the case study too (the big target on phones) */}
                   <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-6">
                     {c.images.map((img) => (
-                      <Tile key={img.src} ratio="aspect-[456/264]">
-                        <Media img={img} className="h-full w-full object-cover" />
-                      </Tile>
+                      <button
+                        key={img.src}
+                        type="button"
+                        tabIndex={-1}
+                        aria-label={`${c.title} case study`}
+                        onClick={() => openPanel(c.slug)}
+                        className="block cursor-pointer"
+                      >
+                        <Tile ratio="aspect-[456/264]">
+                          <Media img={img} className="h-full w-full object-cover" />
+                        </Tile>
+                      </button>
                     ))}
                   </div>
                 </section>
@@ -255,7 +277,7 @@ export function HomeShell() {
               <ul className="grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3 sm:gap-x-[72px] sm:gap-y-[72px]">
                 {MARKS.map((m, i) => (
                   <li key={`${m.src}-${i}`} className="sm:pb-6">
-                    <p className="h-6 text-black/60">{m.label}</p>
+                    <p className="h-6 truncate text-black/60">{m.label}</p>
                     <div className="mt-6 aspect-square">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
@@ -278,7 +300,7 @@ export function HomeShell() {
               <ul className="grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3 sm:gap-x-[72px] sm:gap-y-[72px]">
                 {MOTION_REEL.map((m) => (
                   <li key={m.img.src}>
-                    <p className="h-6 text-black/60">{m.label}</p>
+                    <p className="h-6 truncate text-black/60">{m.label}</p>
                     <div className="mt-6">
                       <Tile ratio="aspect-[264/456]">
                         <Media img={m.img} className="h-full w-full object-cover" />
@@ -292,19 +314,34 @@ export function HomeShell() {
             {/* other work: one-offs, placeholders for now */}
             <section id="other-work" className={SECTION_GAP}>
               <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                {OTHER_WORK.map((w, i) => (
-                  <li key={i}>
-                    <div className="flex h-6 items-center justify-between">
-                      <p className="text-black/60">{w.title}</p>
-                      <SeeMore disabled />
-                    </div>
-                    <div className="mt-6">
-                      <Tile ratio="aspect-[456/264]">
+                {OTHER_WORK.map((w, i) => {
+                  const tile = (
+                    <Tile ratio="aspect-[456/264]">
+                      {w.img ? (
+                        <Media img={w.img} className="h-full w-full object-cover" />
+                      ) : (
                         <span className="sr-only">Placeholder</span>
-                      </Tile>
-                    </div>
-                  </li>
-                ))}
+                      )}
+                    </Tile>
+                  );
+                  return (
+                    <li key={i}>
+                      <div className="flex h-6 items-center justify-between gap-6">
+                        <p className="truncate text-black/60">{w.title}</p>
+                        <SeeMore href={w.href} disabled={!w.href} />
+                      </div>
+                      <div className="mt-6">
+                        {w.href ? (
+                          <Link href={w.href} tabIndex={-1} aria-label={w.title} className="block">
+                            {tile}
+                          </Link>
+                        ) : (
+                          tile
+                        )}
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             </section>
           </main>

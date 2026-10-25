@@ -57,12 +57,16 @@ body {
 
 /* NO ORPHANS: never let a paragraph or heading end on a lone word.
    "pretty" rebalances the last lines of body copy; headings + short centered
-   lines (eyebrows) use "balance" so multi-line headings split evenly. */
-p, li, figcaption, blockquote {
-  text-wrap: pretty;
-}
-h1, h2, h3, h4 {
-  text-wrap: balance;
+   lines (eyebrows) use "balance" so multi-line headings split evenly.
+   In the base layer so a utility (e.g. `truncate`) can still override it;
+   unlayered, it beat every Tailwind class. */
+@layer base {
+  p, li, figcaption, blockquote {
+    text-wrap: pretty;
+  }
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
 }
 
 /* Per-page dark theme (the Hello, Marjorie study — a menu made for a dark room).
@@ -120,7 +124,8 @@ html.home-dark .mark-dark {
 /* Homepage top bar fade: page color through the bar, then dissolving to
    clear by 168px, with a light blur that fades with it. */
 .home-fade {
-  height: 168px;
+  /* phones: a 72px bar, so a shorter fade (stops are % so it scales) */
+  height: 120px;
   /* solid page color; the eased MASK does the fading (and fades the blur with
      it). color-mix with a var gets flattened by the CSS compiler, so no
      partial-alpha stops on the background itself. */
@@ -130,24 +135,30 @@ html.home-dark .mark-dark {
   mask-image: linear-gradient(
     to bottom,
     #000 0,
-    #000 64px,
-    rgb(0 0 0 / 0.9) 84px,
-    rgb(0 0 0 / 0.66) 108px,
-    rgb(0 0 0 / 0.36) 132px,
-    rgb(0 0 0 / 0.12) 152px,
-    transparent 168px
+    #000 38%,
+    rgb(0 0 0 / 0.9) 50%,
+    rgb(0 0 0 / 0.66) 64%,
+    rgb(0 0 0 / 0.36) 79%,
+    rgb(0 0 0 / 0.12) 90%,
+    transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to bottom,
     #000 0,
-    #000 64px,
-    rgb(0 0 0 / 0.9) 84px,
-    rgb(0 0 0 / 0.66) 108px,
-    rgb(0 0 0 / 0.36) 132px,
-    rgb(0 0 0 / 0.12) 152px,
-    transparent 168px
+    #000 38%,
+    rgb(0 0 0 / 0.9) 50%,
+    rgb(0 0 0 / 0.66) 64%,
+    rgb(0 0 0 / 0.36) 79%,
+    rgb(0 0 0 / 0.12) 90%,
+    transparent 100%
   );
 }
+@media (min-width: 1024px) {
+  .home-fade {
+    height: 168px;
+  }
+}
+
 /* the same dissolve inside the case-study panel, under its top edge, so the
    case study scrolls away softly too (72px: the panel has no bar to clear) */
 .case-fade {

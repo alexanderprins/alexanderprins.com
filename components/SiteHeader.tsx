@@ -31,7 +31,7 @@ export function SiteHeader() {
     <header
       className={
         home
-          ? "relative mx-auto flex h-[96px] w-full max-w-[1440px] items-start justify-between px-3 pt-12"
+          ? "relative mx-auto flex h-[72px] w-full max-w-[1440px] items-start justify-between px-4 pt-6 lg:h-[96px] lg:px-3 lg:pt-12"
           : "relative mx-auto flex h-[72px] w-full max-w-[1488px] items-end justify-between px-6 pb-3"
       }
     >
@@ -76,7 +76,7 @@ export function SiteHeader() {
             aria-hidden="true"
             onClick={() => setOpen(false)}
           />
-          <div className={`hm-pop absolute ${home ? "right-3" : "right-6"} top-full z-20 mt-3 flex min-w-40 flex-col border border-black/10 bg-[var(--background)] p-2 shadow-sm`}>
+          <div className={`hm-pop absolute ${home ? "right-4 lg:right-3" : "right-6"} top-full z-20 mt-3 flex min-w-40 flex-col border border-black/10 bg-[var(--background)] p-2 shadow-sm`}>
             {NAV.map((item) => (
               <Link
                 key={item.href}

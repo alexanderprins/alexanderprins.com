@@ -81,11 +81,20 @@ export const MARKS: { label: string; src: string; darkSrc?: string }[] = [
   { label: "Super Secret Brunch Club", src: "/logos/super-secret-brunch-club.png" },
 ];
 
-// Other Work: one-off pieces (wedding suite, cards, merch, menus). Placeholders
-// until Alexander gathers the files.
-export const OTHER_WORK: { title: string }[] = Array.from({ length: 8 }, () => ({
-  title: "Work Title",
-}));
+// Other Work: one-off pieces (wedding suite, cards, merch, menus). None are full
+// case studies; some open a lighter page of their own (`href`). Placeholders
+// (no image) until Alexander gathers the files in Figma.
+export type OtherWork = { title: string; img?: ProjectImage; href?: string };
+
+export const OTHER_WORK: OtherWork[] = [
+  {
+    // its own interactive, dark page (not the panel: it themes the whole page)
+    title: "Hello, Marjorie",
+    img: pick("/work/hello-marjorie/cover.png")[0],
+    href: "/work/hello-marjorie",
+  },
+  ...Array.from({ length: 7 }, () => ({ title: "Work Title" })),
+];
 
 // A featured case study opens in the homepage's side panel at /work/<slug>
 // (like claire.io): clicking "See more" pushes that URL, Back closes it, and a

@@ -17,7 +17,7 @@ export function SiteFooter() {
   return (
     // max-w-[1488px] + px-6 -> a 1440 content column that matches the grid
     // overlay and the rest of the site chrome (header, page mains).
-    <footer className={`mx-auto w-full ${home ? "max-w-[1440px] px-3" : "max-w-[1488px] px-6"}`}>
+    <footer className={`mx-auto w-full ${home ? "max-w-[1440px] px-4 lg:px-3" : "max-w-[1488px] px-6"}`}>
       {/* CTA: the email is the statement (no form). Shown openly, not hover.
           py is a grid multiple (72 = 3 majors) to keep the block on the grid. */}
       <div className="[box-shadow:inset_0_1px_0_color-mix(in_srgb,var(--color-black)_10%,transparent)] py-[72px] text-center text-sm leading-6">
