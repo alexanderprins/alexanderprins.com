@@ -58,8 +58,13 @@ are skipped silently, so the list is safe on Vercel where they don't exist.)
 
 ## Routes
 
-- `/` — homepage. Just the hero: name + positioning, featured project titles,
-  Play / Discover / Systematize pills, and the stipple morph (see `components/home/`).
+- `/` — homepage. Single-scroll portfolio on the 1416 grid (Oct 2026, from the
+  Figma "Homepage" frame): sticky TOC nav (cols 1-3), 4 case-study 2x2 grids,
+  logo wall, motion grid, Other Work (cols 4-11), grid + light/dark toggles
+  (col 12). "See more" slides `/work/<slug>` in as a side panel (no URL change).
+  Content lives in `lib/home.ts` + `lib/motionReel.ts`; shell in
+  `components/home/HomeShell.tsx`. The old hero/stipple morph files remain in
+  `components/home/` but are not rendered.
 - `/[campaign]` — tailored job pages (e.g. `/ideogram`). Direct-address intro +
   reordered/filtered project gallery. `dynamicParams = false` + `generateStaticParams`
   so only slugs in `lib/jobs.ts` resolve; everything else 404s.

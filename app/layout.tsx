@@ -63,7 +63,7 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{var p=location.pathname;if(p==='/work/hello-marjorie')document.documentElement.classList.add('hm-dark');if(p==='/logos')document.documentElement.classList.add('logos-dark')}catch(e){}",
+              "try{var p=location.pathname;if(p==='/work/hello-marjorie')document.documentElement.classList.add('hm-dark');if(p==='/logos')document.documentElement.classList.add('logos-dark');if(p==='/'&&localStorage.getItem('home-theme')==='dark')document.documentElement.classList.add('home-dark')}catch(e){}",
           }}
         />
       </head>

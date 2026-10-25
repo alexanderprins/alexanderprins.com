@@ -6,6 +6,7 @@
 
 import type { Video } from "./videos";
 import type { ProjectImage } from "./projects";
+import { MOTION_REEL } from "./motionReel";
 
 export type JobPage = {
   slug: string; // URL segment, e.g. "ideogram" -> /ideogram
@@ -36,7 +37,7 @@ export type JobPage = {
   // cards layout: show only each project's big cover image, no 3-up thumb strip
   coverOnly?: boolean;
   // cards layout: a "Motion" grid of standalone 9:16 loops (public/work/motion/),
-  // three across, under the projects. Use motionLoop(slug, alt) to build entries.
+  // three across, under the projects. Entries live in lib/motionReel.ts.
   motionReel?: ProjectImage[];
   // cards layout: 16:9 loops under the motion reel, two across.
   // Each entry is the src of a looping video already in lib/projects.ts, so
@@ -57,15 +58,6 @@ const introVideo = (slug: string, company: string): Video => ({
   aspect: "landscape",
 });
 
-// Standalone 9:16 motion loop: /public/work/motion/{slug}.mp4 + .jpg poster.
-const motionLoop = (slug: string, alt: string): ProjectImage => ({
-  src: `/work/motion/${slug}.mp4`,
-  poster: `/work/motion/${slug}.jpg`,
-  alt,
-  type: "motion",
-  aspect: "portrait",
-});
-
 // The work-first page (Noah Stokes + Kris Puckett feedback, 2026-10-20/21):
 // intro video, then the work right under it (cover images only), the 9:16
 // motion grid, and a More work line. No cover letter. Brand roles spread
@@ -73,14 +65,7 @@ const motionLoop = (slug: string, alt: string): ProjectImage => ({
 const workFirst = {
   workLabel: "Featured Brand Work",
   coverOnly: true,
-  motionReel: [
-    motionLoop("weather-app", "Weather app UI motion loop"),
-    motionLoop("pds", "Play, discover, systemize flat shape animation"),
-    motionLoop("claude-card", "Claude card motion loop"),
-    motionLoop("nv-spring", "Northern Vessel spring campaign motion loop"),
-    motionLoop("music-player", "Music player UI motion loop"),
-    motionLoop("shape-morph", "Play, discover, systemize shape morph"),
-  ],
+  motionReel: MOTION_REEL.map((m) => m.img), // shared with the homepage Motion grid
   motionLoops: [
     "/work/patient-pipeline/02-logo-evolution.mp4",
     "/work/northern-vessel/11-shapes-fill.mp4",

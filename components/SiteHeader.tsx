@@ -2,11 +2,17 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Logo } from "@/components/Logo";
 
 // Logo left; a hamburger right, at ALL sizes ("Made with [crab]" lives in the
 // footer). Every page link lives in the dropdown so the nav never runs out of room as pages are
 // added. To add a page: build the route, then add it to NAV below.
+//
+// On the homepage it's the fixed top bar of the single-scroll layout: logo +
+// name at the content's left edge (1416 grid, 12px margin), hamburger at the
+// right edge, 48px from the top. Other pages keep the original header until they
+// move to the new grid.
 
 const EMAIL = "hello@alexanderprins.com";
 
@@ -18,14 +24,28 @@ const NAV: { label: string; href: string }[] = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const home = usePathname() === "/";
 
-  return (
-    <header className="relative mx-auto flex h-[72px] w-full max-w-[1488px] items-end justify-between px-6 pb-3">
+  const bar = (
+    <header
+      className={
+        home
+          ? "relative mx-auto flex h-[96px] w-full max-w-[1440px] items-start justify-between px-3 pt-12"
+          : "relative mx-auto flex h-[72px] w-full max-w-[1488px] items-end justify-between px-6 pb-3"
+      }
+    >
       {/* No opacity dim on hover: the logo's shape re-composition (globals.css
           .logo-mark) IS the hover feedback. */}
-      <Link href="/" aria-label="Home" className="text-black">
-        <Logo size={28} />
-      </Link>
+      {home ? (
+        <Link href="/" aria-label="Home" className="flex items-center gap-2 text-base leading-6 text-black">
+          <Logo size={24} />
+          Alexander Prins
+        </Link>
+      ) : (
+        <Link href="/" aria-label="Home" className="text-black">
+          <Logo size={28} />
+        </Link>
+      )}
 
       <nav className="flex items-center gap-5">
         <button
@@ -55,7 +75,7 @@ export function SiteHeader() {
             aria-hidden="true"
             onClick={() => setOpen(false)}
           />
-          <div className="hm-pop absolute right-6 top-full z-20 mt-3 flex min-w-40 flex-col border border-black/10 bg-white p-2 shadow-sm">
+          <div className={`hm-pop absolute ${home ? "right-3" : "right-6"} top-full z-20 mt-3 flex min-w-40 flex-col border border-black/10 bg-[var(--background)] p-2 shadow-sm`}>
             {NAV.map((item) => (
               <Link
                 key={item.href}
@@ -77,5 +97,16 @@ export function SiteHeader() {
         </>
       )}
     </header>
+  );
+
+  // homepage: pinned to the top over a fade (page color to clear, with a soft
+  // blur) so the work dissolves under the bar instead of hitting a hard edge
+  return home ? (
+    <div className="fixed inset-x-0 top-0 z-40">
+      <div aria-hidden="true" className="home-fade pointer-events-none absolute inset-x-0 top-0" />
+      {bar}
+    </div>
+  ) : (
+    bar
   );
 }

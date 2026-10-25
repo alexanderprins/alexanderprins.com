@@ -17,6 +17,18 @@ export function RouteTheme() {
     if (pathname !== "/logos") {
       document.documentElement.classList.remove("logos-dark");
     }
+    // the homepage's dark toggle only applies on the homepage
+    if (pathname !== "/") {
+      document.documentElement.classList.remove("home-dark");
+    } else {
+      // client nav back home: restore the remembered choice and tell the toggle
+      try {
+        if (localStorage.getItem("home-theme") === "dark") {
+          document.documentElement.classList.add("home-dark");
+          window.dispatchEvent(new Event("home-theme"));
+        }
+      } catch {}
+    }
   }, [pathname]);
   return null;
 }

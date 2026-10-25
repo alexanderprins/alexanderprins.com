@@ -50,7 +50,7 @@ export function EmailCopy() {
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <div className="flex items-center gap-2 border border-black/10 bg-white px-3 py-2 shadow-sm">
+        <div className="flex items-center gap-2 border border-black/10 bg-[var(--background)] px-3 py-2 shadow-sm">
           <span className="whitespace-nowrap font-mono text-sm text-black/60">
             {EMAIL}
           </span>

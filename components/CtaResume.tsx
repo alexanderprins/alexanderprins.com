@@ -15,7 +15,7 @@ export function CtaResume() {
     <a
       href={resumeFile(slug)}
       download={resumeDownloadName}
-      className="group mt-1 inline-flex items-center gap-2 font-serif text-sm font-medium text-black"
+      className="group inline-flex h-6 items-center gap-2 font-serif text-sm font-medium text-black"
     >
       <span>Download resume</span>
       <span className="text-black/40 transition-colors group-hover:text-black">

@@ -1,3 +1,6 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { GithubIcon, LinkedinIcon } from "@/components/SocialIcons";
 import { CtaEmail } from "@/components/CtaEmail";
 import { CtaResume } from "@/components/CtaResume";
@@ -7,14 +10,17 @@ const LINKEDIN = "https://www.linkedin.com/in/alexander-prins-81694a259/";
 const GITHUB = "https://github.com/alexanderprins";
 
 export function SiteFooter() {
+  // homepage: the 1416 grid (1440 frame, 12px margins); other pages keep the
+  // original frame until they move to the new grid
+  const home = usePathname() === "/";
   return (
     // max-w-[1488px] + px-6 -> a 1440 content column that matches the grid
     // overlay and the rest of the site chrome (header, page mains).
-    <footer className="mx-auto w-full max-w-[1488px] px-6">
+    <footer className={`mx-auto w-full ${home ? "max-w-[1440px] px-3" : "max-w-[1488px] px-6"}`}>
       {/* CTA: the email is the statement (no form). Shown openly, not hover.
           py is a grid multiple (72 = 3 majors) to keep the block on the grid. */}
-      <div className="border-t border-black/10 py-[72px] text-center">
-        <p className="text-sm text-black/60">Get in touch</p>
+      <div className="[box-shadow:inset_0_1px_0_color-mix(in_srgb,var(--color-black)_10%,transparent)] py-[72px] text-center text-sm leading-6">
+        <p className="text-sm leading-6 text-black/60">Get in touch</p>
         <CtaEmail />
         {/* job pages only: their tailored resume, directly below the email */}
         <div>
@@ -24,7 +30,7 @@ export function SiteFooter() {
 
       {/* bottom bar: 3 equal columns so legal pins to the far-left grid edge,
           P/D/S is truly page-centered, and "Made with" + socials pin to the far-right edge. */}
-      <div className="grid grid-cols-1 justify-items-center gap-4 border-t border-black/10 py-8 text-sm text-black/60 sm:grid-cols-3 sm:items-center">
+      <div className="grid grid-cols-1 justify-items-center gap-4 [box-shadow:inset_0_1px_0_color-mix(in_srgb,var(--color-black)_10%,transparent)] py-6 text-sm leading-6 text-black/60 sm:grid-cols-3 sm:items-center">
         <span className="sm:justify-self-start">&copy; Alexander Prins 2026, All Rights Reserved</span>
         <span className="hidden items-center gap-3 text-sm sm:flex sm:justify-self-center">
           <span className="flex items-center gap-1.5">

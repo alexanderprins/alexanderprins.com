@@ -28,7 +28,7 @@
 @source "./lab/shapes/scene.ts";
 
 :root {
-  --background: #ffffff;
+  --background: #fbfbfb; /* page white: #FBFBFB, not pure white */
   --foreground: #1e1e1e;
 }
 
@@ -37,7 +37,7 @@
   --color-foreground: var(--foreground);
 }
 
-/* "black" = #1e1e1e sitewide (per design); white stays #ffffff.
+/* "black" = #1e1e1e sitewide (per design); page white = #FBFBFB (--background).
    ONE typeface sitewide: all three font tokens resolve to Aktiv Grotesk, so
    the legacy font-sans / font-serif / font-mono utilities scattered through
    the components all render the same face. "aktiv-grotesk" is loaded from
@@ -90,6 +90,78 @@ html.logos-dark {
 }
 html.logos-dark .hm-pop {
   background: #2a2a2a;
+}
+
+/* Homepage dark mode (the moon toggle): an inversion of the light page via the
+   same token swap, so text, rules, toggles and header/footer all flip together
+   while photos and video keep their real color. The black-ink logos flip to
+   white. Remembered per viewer in localStorage ("home-theme"). */
+html.home-dark {
+  --background: #111111;
+  --foreground: #ffffff;
+  --color-black: #ffffff;
+}
+html.home-dark .hm-pop {
+  background: #2a2a2a;
+}
+html.home-dark .mark-img {
+  filter: invert(1);
+}
+/* marks with a drawn dark version (Lily's outlined lockup) swap instead of inverting */
+.mark-dark {
+  display: none;
+}
+html.home-dark .mark-light {
+  display: none;
+}
+html.home-dark .mark-dark {
+  display: block;
+}
+/* Homepage top bar fade: page color through the bar, then dissolving to
+   clear by 168px, with a light blur that fades with it. Solid down to the
+   panel's top (96px) while a case study is open, so the panel edge stays crisp. */
+.home-fade {
+  height: 168px;
+  /* solid page color; the eased MASK does the fading (and fades the blur with
+     it). color-mix with a var gets flattened by the CSS compiler, so no
+     partial-alpha stops on the background itself. */
+  background: var(--background);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 64px,
+    rgb(0 0 0 / 0.9) 84px,
+    rgb(0 0 0 / 0.66) 108px,
+    rgb(0 0 0 / 0.36) 132px,
+    rgb(0 0 0 / 0.12) 152px,
+    transparent 168px
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 64px,
+    rgb(0 0 0 / 0.9) 84px,
+    rgb(0 0 0 / 0.66) 108px,
+    rgb(0 0 0 / 0.36) 132px,
+    rgb(0 0 0 / 0.12) 152px,
+    transparent 168px
+  );
+}
+html[data-case-open] .home-fade {
+  height: 96px;
+  background: var(--background);
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+/* the case-study panel's card: a crisp white top/left edge over the shadow */
+.case-card {
+  border-color: #ffffff;
+}
+html.home-dark .case-card {
+  border-color: rgb(255 255 255 / 0.12);
 }
 
 /* Logo hover micro-animation (reference: context/Logo Hover.mov).

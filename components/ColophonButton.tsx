@@ -54,7 +54,7 @@ export function ColophonButton({ placement = "down" }: { placement?: "down" | "u
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <div className="hm-pop border border-black/10 bg-white p-4 shadow-sm">
+        <div className="hm-pop border border-black/10 bg-[var(--background)] p-4 shadow-sm">
           <p className="flex items-center gap-2 font-mono text-sm text-black/60">
             <span className="text-[#FF6A3D]">
               <ClaudeCrab />
