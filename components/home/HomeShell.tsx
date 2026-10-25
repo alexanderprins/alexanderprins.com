@@ -251,8 +251,9 @@ export function HomeShell() {
                     <h2 className="truncate text-black/60">{c.title}</h2>
                     <SeeMore onClick={() => openPanel(c.slug)} />
                   </div>
-                  {/* the tiles open the case study too (the big target on phones) */}
-                  <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-6">
+                  {/* the tiles open the case study too (the big target on phones).
+                      Phones: one column, so every image is as big as it can be. */}
+                  <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6">
                     {c.images.map((img) => (
                       <button
                         key={img.src}
@@ -274,7 +275,7 @@ export function HomeShell() {
 
             {/* logo wall: three across (breaks the columns on purpose) */}
             <section id="marks" className={SECTION_GAP}>
-              <ul className="grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3 sm:gap-x-[72px] sm:gap-y-[72px]">
+              <ul className="grid grid-cols-1 gap-y-12 sm:grid-cols-3 sm:gap-x-[72px] sm:gap-y-[72px]">
                 {MARKS.map((m, i) => (
                   <li key={`${m.src}-${i}`} className="sm:pb-6">
                     <p className="h-6 truncate text-black/60">{m.label}</p>
@@ -297,7 +298,7 @@ export function HomeShell() {
 
             {/* motion: three across, 9:16-ish tiles */}
             <section id="motion" className={SECTION_GAP}>
-              <ul className="grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3 sm:gap-x-[72px] sm:gap-y-[72px]">
+              <ul className="grid grid-cols-1 gap-y-12 sm:grid-cols-3 sm:gap-x-[72px] sm:gap-y-[72px]">
                 {MOTION_REEL.map((m) => (
                   <li key={m.img.src}>
                     <p className="h-6 truncate text-black/60">{m.label}</p>
