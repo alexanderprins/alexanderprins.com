@@ -81,10 +81,17 @@ export const MARKS: { label: string; src: string; darkSrc?: string }[] = [
   { label: "Super Secret Brunch Club", src: "/logos/super-secret-brunch-club.png" },
 ];
 
-// Other Work: one-off pieces (wedding suite, cards, merch, menus). None are full
-// case studies; some open a lighter page of their own (`href`). Placeholders
-// (no image) until Alexander gathers the files in Figma.
+// Other Work: one-off pieces (menus, merch, packaging, posters). None are full
+// case studies; some open a lighter page of their own (`href`). Images are
+// 1368x792 (the 456x264 tile at 3x), compiled in Figma, web-encoded into
+// public/work/other/.
 export type OtherWork = { title: string; img?: ProjectImage; href?: string };
+
+const other = (src: string, alt: string): ProjectImage => ({
+  src: `/work/other/${src}`,
+  alt,
+  type: "detail",
+});
 
 export const OTHER_WORK: OtherWork[] = [
   {
@@ -93,7 +100,26 @@ export const OTHER_WORK: OtherWork[] = [
     img: pick("/work/hello-marjorie/cover.png")[0],
     href: "/work/hello-marjorie",
   },
-  ...Array.from({ length: 7 }, () => ({ title: "Work Title" })),
+  {
+    title: "2815",
+    img: other("2815.jpg", "2815 Lover Gang illustration: two hand-drawn faces and hearts under a red script lockup"),
+  },
+  {
+    title: "Campari",
+    img: other("campari-tee.jpg", "Campari Negronis t-shirt with a cartoon negroni mascot and \"Best in the Midwest!\""),
+  },
+  {
+    title: "Pepp's Pizzeria",
+    img: other("pepps-boxes.jpg", "Stacked Pepp's Pizzeria pizza boxes on red, the chef mark and checkered wordmark on each"),
+  },
+  {
+    title: "Super Secret Brunch Club",
+    img: other("ssbc-poster-1.jpg", "Super Secret Brunch Club poster in bubble lettering on a sunlit street grate"),
+  },
+  {
+    title: "Super Secret Brunch Club",
+    img: other("ssbc-poster-2.jpg", "Super Secret Brunch Club poster with a running green mascot, taped to a teal wall"),
+  },
 ];
 
 // A featured case study opens in the homepage's side panel at /work/<slug>

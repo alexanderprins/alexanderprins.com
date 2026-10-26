@@ -44,9 +44,13 @@ const theme = {
 // phones get tighter gaps than the 144/216 desktop rhythm (72/144)
 const SECTION_GAP = "mt-[144px] lg:mt-[216px]";
 
-// Other Work is hidden until there are real pieces to fill it (only Hello,
-// Marjorie so far). Flip to true to bring back the section and its nav link.
-const SHOW_OTHER_WORK = false;
+// Other Work can be switched off (section + nav link) while it's thin.
+const SHOW_OTHER_WORK = true;
+
+// Phones have no sidebar, so each section gets its sidebar name as a title.
+function MobileTitle({ children }: { children: ReactNode }) {
+  return <h2 className="mb-12 h-6 text-black lg:hidden">{children}</h2>;
+}
 
 // The open case study is the URL (/work/<slug>, see lib/home.ts). Opening pushes
 // it; closing goes Back when this page pushed it (so Back/Forward stay in step),
@@ -101,8 +105,7 @@ function NavArrow() {
 
 // "See more": the label stays put; the arrow slides in from the left beside it.
 // A button (opens the panel) or, with `href`, a link to a page of its own.
-function SeeMore({ onClick, href, disabled }: { onClick?: () => void; href?: string; disabled?: boolean }) {
-  if (disabled) return <span className="shrink-0 text-black/30">See more</span>;
+function SeeMore({ onClick, href }: { onClick?: () => void; href?: string }) {
   const inner = (
     <>
       <span
@@ -248,6 +251,7 @@ export function HomeShell() {
 
           {/* the work, columns 4-11 */}
           <main className="lg:col-span-8 lg:col-start-4">
+            <MobileTitle>Featured Branding</MobileTitle>
             <div className="space-y-[72px] lg:space-y-[144px]">
               {CASE_STUDIES.map((c) => (
                 <section key={c.slug} id={c.slug}>
@@ -279,11 +283,13 @@ export function HomeShell() {
 
             {/* logo wall: three across (breaks the columns on purpose) */}
             <section id="marks" className={SECTION_GAP}>
+              <MobileTitle>Marks</MobileTitle>
               <ul className="grid grid-cols-1 gap-y-12 sm:grid-cols-3 sm:gap-x-[72px] sm:gap-y-[72px]">
                 {MARKS.map((m, i) => (
                   <li key={`${m.src}-${i}`} className="sm:pb-6">
                     <p className="h-6 truncate text-black/60">{m.label}</p>
-                    <div className="mt-6 aspect-square">
+                    {/* phones: one mark per row, inset to 75% (centered) for air */}
+                    <div className="mt-6 aspect-square p-[12.5%] sm:p-0">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={m.src}
@@ -302,6 +308,7 @@ export function HomeShell() {
 
             {/* motion: three across, 9:16-ish tiles */}
             <section id="motion" className={SECTION_GAP}>
+              <MobileTitle>Motion</MobileTitle>
               <ul className="grid grid-cols-1 gap-y-12 sm:grid-cols-3 sm:gap-x-[72px] sm:gap-y-[72px]">
                 {MOTION_REEL.map((m) => (
                   <li key={m.img.src}>
@@ -319,6 +326,7 @@ export function HomeShell() {
             {/* other work: one-offs, placeholders for now */}
             {SHOW_OTHER_WORK ? (
               <section id="other-work" className={SECTION_GAP}>
+                <MobileTitle>Other Work</MobileTitle>
                 <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   {OTHER_WORK.map((w, i) => {
                     const tile = (
@@ -334,7 +342,8 @@ export function HomeShell() {
                       <li key={i}>
                         <div className="flex h-6 items-center justify-between gap-6">
                           <p className="truncate text-black/60">{w.title}</p>
-                          <SeeMore href={w.href} disabled={!w.href} />
+                          {/* only pieces with a page of their own get "See more" */}
+                        {w.href ? <SeeMore href={w.href} /> : null}
                         </div>
                         <div className="mt-6">
                           {w.href ? (
