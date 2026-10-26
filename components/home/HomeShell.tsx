@@ -13,7 +13,7 @@ import { MOTION_REEL } from "@/lib/motionReel";
 // The single-scroll homepage on the 1416 grid: 12 columns (96 + 24 gutters),
 // centered in 1440 with 12px margins. Columns 1-3 hold the table-of-contents nav,
 // 4-11 the work, 12 the grid/light/dark toggles; the nav and toggles stay put
-// (sticky) while the work scrolls. Vertical rhythm is 24/72: 24 gaps, 144
+// (sticky) while the work scrolls. Vertical rhythm is 24/72: 24 gaps (label to image: 12), 144
 // between case studies, 216 between sections. Image heights scale from their
 // 1440 sizes (456x264 tiles, 264x264 marks, 264x456 motion) so every box lands
 // on the 24 grid at full width.
@@ -49,7 +49,7 @@ const SHOW_OTHER_WORK = true;
 
 // Phones have no sidebar, so each section gets its sidebar name as a title.
 function MobileTitle({ children }: { children: ReactNode }) {
-  return <h2 className="mb-12 h-6 text-black lg:hidden">{children}</h2>;
+  return <h2 className="mb-6 h-6 text-black lg:hidden">{children}</h2>;
 }
 
 // The open case study is the URL (/work/<slug>, see lib/home.ts). Opening pushes
@@ -261,7 +261,7 @@ export function HomeShell() {
                   </div>
                   {/* the tiles open the case study too (the big target on phones).
                       Phones: one column, so every image is as big as it can be. */}
-                  <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6">
+                  <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6">
                     {c.images.map((img) => (
                       <button
                         key={img.src}
@@ -289,7 +289,7 @@ export function HomeShell() {
                   <li key={`${m.src}-${i}`} className="sm:pb-6">
                     <p className="h-6 truncate text-black/60">{m.label}</p>
                     {/* phones: one mark per row, inset to 75% (centered) for air */}
-                    <div className="mt-6 aspect-square p-[12.5%] sm:p-0">
+                    <div className="mt-3 aspect-square p-[12.5%] sm:p-0">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={m.src}
@@ -313,7 +313,7 @@ export function HomeShell() {
                 {MOTION_REEL.map((m) => (
                   <li key={m.img.src}>
                     <p className="h-6 truncate text-black/60">{m.label}</p>
-                    <div className="mt-6">
+                    <div className="mt-3">
                       <Tile ratio="aspect-[264/456]">
                         <Media img={m.img} className="h-full w-full object-cover" />
                       </Tile>
@@ -345,7 +345,7 @@ export function HomeShell() {
                           {/* only pieces with a page of their own get "See more" */}
                         {w.href ? <SeeMore href={w.href} /> : null}
                         </div>
-                        <div className="mt-6">
+                        <div className="mt-3">
                           {w.href ? (
                             <Link href={w.href} tabIndex={-1} aria-label={w.title} className="block">
                               {tile}
