@@ -70,9 +70,10 @@ export function CaseStudyPanel({
           className={`case-card absolute inset-y-0 right-0 rounded-tl-[24px] border-l border-t bg-[var(--background)] shadow-[-8px_-4px_48px_rgba(0,0,0,0.10),0_0_96px_rgba(0,0,0,0.10)] ${cardLeft}`}
         />
         <div
-          // top-px: starts under the card's 1px top border, so scrolled content
-          // never paints over it (that showed as a crack above the fade)
-          className="absolute inset-x-0 bottom-0 top-px overflow-y-auto overscroll-contain px-6 pb-24 pt-[47px] lg:pl-12 lg:pr-[calc(var(--frame)_+_60px)]"
+          // inset 1px top/left, inside the card's border (scrolled content painted
+          // over it: a crack above the fade), and rounded to match the card so
+          // full-bleed phone images clip to the corner instead of squaring it off
+          className="absolute bottom-0 left-px right-0 top-px overflow-y-auto overscroll-contain rounded-tl-[23px] px-6 pb-24 pt-[47px] lg:pl-12 lg:pr-[calc(var(--frame)_+_60px)]"
         >
           {project ? <CaseStudyBody project={project} /> : null}
         </div>
