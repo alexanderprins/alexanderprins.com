@@ -4,6 +4,8 @@
 // Image picks come from the Figma layer names; the code is the source of truth.
 
 import { getImageBySrc, type ProjectImage } from "./projects";
+import type { Video } from "./videos";
+import { jobs } from "./jobs";
 
 export type CaseStudyBlock = {
   slug: string; // project slug; "See more" opens /work/<slug> in the side panel
@@ -132,6 +134,28 @@ export function homeCaseSlug(pathname: string): string | null {
   return HOME_CASE_PATHS.includes(pathname) ? pathname.slice("/work/".length) : null;
 }
 
+// Job pages on the homepage layout (layout: "home" in lib/jobs.ts), e.g.
+// /ambrook: the same single scroll plus that job's video and order.
+export const HOME_JOB_PATHS = jobs.filter((j) => j.layout === "home").map((j) => `/${j.slug}`);
+
+// every URL that renders the homepage layout (header, footer and theme follow it)
+export const HOME_LAYOUT_PATHS = ["/", ...HOME_JOB_PATHS, ...HOME_CASE_PATHS];
+
 export function isHomeLayout(pathname: string): boolean {
-  return pathname === "/" || homeCaseSlug(pathname) !== null;
+  return HOME_LAYOUT_PATHS.includes(pathname);
 }
+
+// The sections after the case studies, in the homepage's order. A job page can
+// reorder them (Ambrook leads with Other Work: print and physical pieces).
+export type HomeSection = "marks" | "motion" | "other-work";
+export const HOME_SECTIONS: HomeSection[] = ["marks", "motion", "other-work"];
+
+// What a job page adds to the homepage layout (built from its lib/jobs.ts entry).
+export type HomeJob = {
+  slug: string;
+  company: string;
+  greeting: string; // the label over its intro video
+  video: Video;
+  caseOrder: string[]; // case-study slugs, in display order
+  sections: HomeSection[];
+};

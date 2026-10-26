@@ -11,6 +11,7 @@ export const RESUMES: Record<string, { folder: string; id: string }> = {
   descript: { folder: "Descript", id: "2d5a48" },
   baseten: { folder: "Baseten", id: "e2a521" },
   turquoise: { folder: "Turquoise", id: "7c41e9" },
+  ambrook: { folder: "Ambrook", id: "89644c" },
 };
 
 export const resumeFile = (slug: string) =>

@@ -6,6 +6,7 @@
 
 import type { Video } from "./videos";
 import type { ProjectImage } from "./projects";
+import type { HomeSection } from "./home";
 import { MOTION_REEL } from "./motionReel";
 
 export type JobPage = {
@@ -18,7 +19,12 @@ export type JobPage = {
   // "hero": intro video, then the homepage's featured-work + morph + PDS block
   // (plus Patient Pipeline), then one line linking /video and /logos. No cover
   // letter, no project cards. Default ("cards"): cover letter + project cards.
-  layout?: "cards" | "hero";
+  // "home": the single-scroll homepage itself (components/home/HomeShell), with
+  // the intro video sticky in the sidebar, case studies in `projectOrder`, and
+  // the later sections in `sectionOrder`. Only introVideo/greeting/og* apply.
+  layout?: "cards" | "hero" | "home";
+  // home layout: order of the sections after the case studies
+  sectionOrder?: HomeSection[];
   // optional second video under the intro, with a small label above it
   // (Descript: the Loom is the intro, the spine sits below as "A bit more about me")
   secondaryVideo?: { label: string; video: Video };
@@ -84,6 +90,33 @@ const motionFirst = {
 } satisfies Partial<JobPage>;
 
 export const jobs: JobPage[] = [
+  {
+    // First job page on the homepage layout (Noah Stokes, 2026-10-23: "each job
+    // page = the same layout + its own video"). Work leads; the video rides in
+    // the sticky sidebar so it's there without getting in the way. Print and
+    // physical first: Northern Vessel's packaging/merch, and Other Work (menus,
+    // posters, tees, boxes) right after the case studies. Noah emails Jeff
+    // Anders (cofounder) the day this goes out.
+    slug: "ambrook",
+    company: "Ambrook",
+    role: "Brand Designer",
+    layout: "home",
+    // TODO(2026-10-26 shoot): swap for introVideo("ambrook", "Ambrook") once
+    // public/intro/ambrook.mp4 + .jpg exist (sh scripts/encode-intros.sh Ambrook:ambrook).
+    // Until then, no src = a labeled placeholder box.
+    introVideo: { title: "Intro video for Ambrook", aspect: "landscape" },
+    intro: [],
+    projectOrder: [
+      "northern-vessel",
+      "lily-development",
+      "cascata-group",
+      "patient-pipeline",
+    ],
+    sectionOrder: ["other-work", "marks", "motion"],
+    ogTitle: "Alexander Prins for Ambrook",
+    ogDescription:
+      "Brand designer for the physical economy: print, packaging, merch, motion, and the AI tools that clear the plate. Tailored for Ambrook's Brand Designer role.",
+  },
   {
     // Work-first layout (Noah Stokes, 2026-10-20): video, then the work right
     // under it. No cover letter, cover images only. Noah emails it to Tabby.

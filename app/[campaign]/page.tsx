@@ -9,6 +9,8 @@ import { HeroMorph } from "@/components/home/HeroMorph";
 import { ProjectCard } from "@/components/ProjectCard";
 import { VideoFigure } from "@/components/VideoFigure";
 import { jobSocial } from "@/lib/social";
+import { HomeShell } from "@/components/home/HomeShell";
+import { HOME_SECTIONS } from "@/lib/home";
 
 // Only job slugs defined in jobs.ts resolve. Any other top-level path 404s.
 export const dynamicParams = false;
@@ -76,6 +78,22 @@ export default async function CampaignPage({ params }: Props) {
   const { campaign } = await params;
   const job = getJob(campaign);
   if (!job) notFound();
+
+  // homepage layout: the single scroll with this job's video + order
+  if (job.layout === "home") {
+    return (
+      <HomeShell
+        job={{
+          slug: job.slug,
+          company: job.company,
+          greeting: job.greeting ?? `Hi, ${job.company} team.`,
+          video: job.introVideo ?? { title: `Intro video for ${job.company}`, aspect: "landscape" },
+          caseOrder: job.projectOrder,
+          sections: job.sectionOrder ?? HOME_SECTIONS,
+        }}
+      />
+    );
+  }
 
   const projects = getProjectsInOrder(job.projectOrder);
   const showIntro = job.intro.length > 0 && !job.hideIntro;

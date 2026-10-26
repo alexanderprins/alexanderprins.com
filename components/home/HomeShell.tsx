@@ -1,13 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
+import { Fragment, useCallback, useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Media } from "@/components/Media";
 import { GridOverlay } from "@/components/GridOverlay";
 import { CaseStudyPanel } from "@/components/home/CaseStudyPanel";
 import { getProject } from "@/lib/projects";
-import { CASE_STUDIES, MARKS, OTHER_WORK, homeCaseSlug } from "@/lib/home";
+import { VideoFigure } from "@/components/VideoFigure";
+import { CASE_STUDIES, HOME_SECTIONS, MARKS, OTHER_WORK, homeCaseSlug, type HomeJob, type HomeSection } from "@/lib/home";
 import { MOTION_REEL } from "@/lib/motionReel";
 
 // The single-scroll homepage on the 1416 grid: 12 columns (96 + 24 gutters),
@@ -186,21 +187,128 @@ const MoonIcon = () => (
   </svg>
 );
 
-export function HomeShell() {
+const SECTION_LABEL: Record<HomeSection, string> = {
+  marks: "Marks",
+  motion: "Motion",
+  "other-work": "Other Work",
+};
+
+// `job`: a job page on this layout (/ambrook). It reorders the case studies and
+// later sections and adds its intro video: sticky in the sidebar under the nav on
+// desktop (there while the work scrolls, never in front of it), and after the
+// case studies on phones (work first). No job = the homepage.
+export function HomeShell({ job }: { job?: HomeJob }) {
   const current = useSyncExternalStore(theme.subscribe, theme.get, theme.server);
   const [grid, setGrid] = useState(false);
   const panel = homeCaseSlug(usePathname());
   const closePanel = useCallback(() => closeCase(), []);
-  // opening a case study turns the grid off (it fights the panel), and it stays off
+  // opening a case study turns the grid off (it fights the panel), and it stays
+  // off; it also pauses the intro video so it doesn't talk under the panel
   const openPanel = (slug: string) => {
     setGrid(false);
+    document.querySelectorAll("video[controls]").forEach((v) => (v as HTMLVideoElement).pause());
     openCase(slug);
   };
+  const baseTitle = job ? `Alexander Prins for ${job.company}` : "Alexander Prins";
   // the tab title follows the panel (Next only sets it on real navigations)
   useEffect(() => {
     const p = panel ? getProject(panel) : undefined;
-    document.title = p ? `${p.title} — Alexander Prins` : "Alexander Prins";
-  }, [panel]);
+    document.title = p ? `${p.title} — Alexander Prins` : baseTitle;
+  }, [panel, baseTitle]);
+
+  const cases = job ? job.caseOrder.flatMap((slug) => CASE_STUDIES.filter((c) => c.slug === slug)) : CASE_STUDIES;
+  const sections = (job?.sections ?? HOME_SECTIONS).filter((id) => id !== "other-work" || SHOW_OTHER_WORK);
+
+  // the sections after the case studies, placed in `sections` order
+  const later: Record<HomeSection, ReactNode> = {
+    marks: (
+      <Fragment key="marks">
+        {/* logo wall: three across (breaks the columns on purpose) */}
+        <section id="marks" className={SECTION_GAP}>
+          <MobileTitle>Marks</MobileTitle>
+          <ul className="grid grid-cols-1 gap-y-12 sm:grid-cols-3 sm:gap-x-[72px] sm:gap-y-[72px]">
+            {MARKS.map((m, i) => (
+              <li key={`${m.src}-${i}`} className="sm:pb-6">
+                <p className="h-6 truncate text-black/60">{m.label}</p>
+                {/* phones: one mark per row, inset to 75% (centered) for air */}
+                <div className="mt-3 aspect-square p-[12.5%] sm:p-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={m.src}
+                    alt={`${m.label} logo`}
+                    className={`h-full w-full object-contain ${m.darkSrc ? "mark-light" : "mark-img"}`}
+                  />
+                  {m.darkSrc ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={m.darkSrc} alt="" aria-hidden="true" className="mark-dark h-full w-full object-contain" />
+                  ) : null}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </Fragment>
+    ),
+    motion: (
+      <Fragment key="motion">
+        {/* motion: three across, 9:16-ish tiles */}
+        <section id="motion" className={SECTION_GAP}>
+          <MobileTitle>Motion</MobileTitle>
+          <ul className="grid grid-cols-1 gap-y-12 sm:grid-cols-3 sm:gap-x-[72px] sm:gap-y-[72px]">
+            {MOTION_REEL.map((m) => (
+              <li key={m.img.src}>
+                <p className="h-6 truncate text-black/60">{m.label}</p>
+                <div className="mt-3">
+                  <Tile ratio="aspect-[264/456]">
+                    <Media img={m.img} className="h-full w-full object-cover" />
+                  </Tile>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </Fragment>
+    ),
+    "other-work": (
+      <Fragment key="other-work">
+                  {/* other work: one-offs, placeholders for now */}
+        <section id="other-work" className={SECTION_GAP}>
+          <MobileTitle>Other Work</MobileTitle>
+          <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {OTHER_WORK.map((w, i) => {
+              const tile = (
+                <Tile ratio="aspect-[456/264]">
+                  {w.img ? (
+                    <Media img={w.img} className="h-full w-full object-cover" />
+                  ) : (
+                    <span className="sr-only">Placeholder</span>
+                  )}
+                </Tile>
+              );
+              return (
+                <li key={i}>
+                  <div className="flex h-6 items-center justify-between gap-6">
+                    <p className="truncate text-black/60">{w.title}</p>
+                    {/* only pieces with a page of their own get "See more" */}
+                  {w.href ? <SeeMore href={w.href} /> : null}
+                  </div>
+                  <div className="mt-3">
+                    {w.href ? (
+                      <Link href={w.href} tabIndex={-1} aria-label={w.title} className="block">
+                        {tile}
+                      </Link>
+                    ) : (
+                      tile
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      </Fragment>
+    ),
+  };
 
   const navItem = (label: string, id: string, extra?: ReactNode) => (
     <li key={id}>
@@ -220,40 +328,48 @@ export function HomeShell() {
     <>
       <div className="mx-auto w-full max-w-[1440px] px-4 pb-[144px] pt-[120px] text-base leading-6 lg:px-3 lg:pb-[216px] lg:pt-[216px]">
         <div className="grid grid-cols-1 gap-x-6 lg:grid-cols-12">
-          {/* table of contents, columns 1-3 */}
-          <nav aria-label="Sections" className="sticky top-[216px] hidden self-start lg:col-span-3 lg:block">
-            <p className="text-black/60">Featured Branding</p>
-            <ul className="pl-6">
-              {CASE_STUDIES.map((c) =>
-                navItem(
-                  c.title,
-                  c.slug,
-                  getProject(c.slug)?.status === "Spec" ? (
-                    <span className="ml-2 rounded-full border border-black/30 px-1.5 text-[10px] uppercase leading-4 text-black/60">
-                      Spec
-                    </span>
-                  ) : undefined,
-                ),
-              )}
-            </ul>
-            <ul>
-              {navItem("Marks", "marks")}
-              {navItem("Motion", "motion")}
-              {SHOW_OTHER_WORK ? navItem("Other Work", "other-work") : null}
-              <li>
-                <Link href="/about" className="group inline-flex items-center text-black">
-                  <NavArrow />
-                  About
-                </Link>
-              </li>
-            </ul>
-          </nav>
+          {/* table of contents (+ a job page's intro video), columns 1-3 */}
+          <div className="sticky top-[216px] hidden self-start lg:col-span-3 lg:block">
+            <nav aria-label="Sections">
+              <p className="text-black/60">Featured Branding</p>
+              <ul className="pl-6">
+                {cases.map((c) =>
+                  navItem(
+                    c.title,
+                    c.slug,
+                    getProject(c.slug)?.status === "Spec" ? (
+                      <span className="ml-2 rounded-full border border-black/30 px-1.5 text-[10px] uppercase leading-4 text-black/60">
+                        Spec
+                      </span>
+                    ) : undefined,
+                  ),
+                )}
+              </ul>
+              <ul>
+                {sections.map((id) => navItem(SECTION_LABEL[id], id))}
+                <li>
+                  <Link href="/about" className="group inline-flex items-center text-black">
+                    <NavArrow />
+                    About
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+            {job ? (
+              <div className="mt-12">
+                <p className="h-6 truncate text-black/60">{job.greeting}</p>
+                <div className="mt-3">
+                  <VideoFigure video={job.video} showCaption={false} />
+                </div>
+              </div>
+            ) : null}
+          </div>
 
           {/* the work, columns 4-11 */}
           <main className="lg:col-span-8 lg:col-start-4">
             <MobileTitle>Featured Branding</MobileTitle>
             <div className="space-y-[72px] lg:space-y-[144px]">
-              {CASE_STUDIES.map((c) => (
+              {cases.map((c) => (
                 <section key={c.slug} id={c.slug}>
                   <div className="flex h-6 items-center justify-between gap-6">
                     <h2 className="truncate text-black/60">{c.title}</h2>
@@ -281,85 +397,15 @@ export function HomeShell() {
               ))}
             </div>
 
-            {/* logo wall: three across (breaks the columns on purpose) */}
-            <section id="marks" className={SECTION_GAP}>
-              <MobileTitle>Marks</MobileTitle>
-              <ul className="grid grid-cols-1 gap-y-12 sm:grid-cols-3 sm:gap-x-[72px] sm:gap-y-[72px]">
-                {MARKS.map((m, i) => (
-                  <li key={`${m.src}-${i}`} className="sm:pb-6">
-                    <p className="h-6 truncate text-black/60">{m.label}</p>
-                    {/* phones: one mark per row, inset to 75% (centered) for air */}
-                    <div className="mt-3 aspect-square p-[12.5%] sm:p-0">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={m.src}
-                        alt={`${m.label} logo`}
-                        className={`h-full w-full object-contain ${m.darkSrc ? "mark-light" : "mark-img"}`}
-                      />
-                      {m.darkSrc ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={m.darkSrc} alt="" aria-hidden="true" className="mark-dark h-full w-full object-contain" />
-                      ) : null}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </section>
-
-            {/* motion: three across, 9:16-ish tiles */}
-            <section id="motion" className={SECTION_GAP}>
-              <MobileTitle>Motion</MobileTitle>
-              <ul className="grid grid-cols-1 gap-y-12 sm:grid-cols-3 sm:gap-x-[72px] sm:gap-y-[72px]">
-                {MOTION_REEL.map((m) => (
-                  <li key={m.img.src}>
-                    <p className="h-6 truncate text-black/60">{m.label}</p>
-                    <div className="mt-3">
-                      <Tile ratio="aspect-[264/456]">
-                        <Media img={m.img} className="h-full w-full object-cover" />
-                      </Tile>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </section>
-
-            {/* other work: one-offs, placeholders for now */}
-            {SHOW_OTHER_WORK ? (
-              <section id="other-work" className={SECTION_GAP}>
-                <MobileTitle>Other Work</MobileTitle>
-                <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                  {OTHER_WORK.map((w, i) => {
-                    const tile = (
-                      <Tile ratio="aspect-[456/264]">
-                        {w.img ? (
-                          <Media img={w.img} className="h-full w-full object-cover" />
-                        ) : (
-                          <span className="sr-only">Placeholder</span>
-                        )}
-                      </Tile>
-                    );
-                    return (
-                      <li key={i}>
-                        <div className="flex h-6 items-center justify-between gap-6">
-                          <p className="truncate text-black/60">{w.title}</p>
-                          {/* only pieces with a page of their own get "See more" */}
-                        {w.href ? <SeeMore href={w.href} /> : null}
-                        </div>
-                        <div className="mt-3">
-                          {w.href ? (
-                            <Link href={w.href} tabIndex={-1} aria-label={w.title} className="block">
-                              {tile}
-                            </Link>
-                          ) : (
-                            tile
-                          )}
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
+            {/* a job page's intro video on phones: after the case studies */}
+            {job ? (
+              <section className={`${SECTION_GAP} lg:hidden`}>
+                <MobileTitle>{job.greeting}</MobileTitle>
+                <VideoFigure video={job.video} showCaption={false} />
               </section>
             ) : null}
+
+            {sections.map((id) => later[id])}
           </main>
 
           {/* toggles, column 12: grid on/off, then light | dark (one always on) */}

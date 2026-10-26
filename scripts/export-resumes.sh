@@ -11,7 +11,7 @@ set -e
 cd "$(dirname "$0")/.."
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 ALL=0
-[ $# -gt 0 ] || { ALL=1; set -- "figma:384a9b:Figma Brand" "linear:179c05:Linear" "supabase:d81fc6:Supabase" "fieldguide:3465b8:Fieldguide" "baseten:e2a521:Baseten" "descript:2d5a48:Descript" "turquoise:7c41e9:Turquoise"; }
+[ $# -gt 0 ] || { ALL=1; set -- "figma:384a9b:Figma Brand" "linear:179c05:Linear" "supabase:d81fc6:Supabase" "fieldguide:3465b8:Fieldguide" "baseten:e2a521:Baseten" "descript:2d5a48:Descript" "turquoise:7c41e9:Turquoise" "ambrook:89644c:Ambrook"; }
 for t in "$@"; do
   slug="${t%%:*}"; rest="${t#*:}"; id="${rest%%:*}"; folder="${rest#*:}"
   mkdir -p "public/resume/$id" "../resume/$folder"
