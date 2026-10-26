@@ -109,12 +109,12 @@ export const OTHER_WORK: OtherWork[] = [
     img: other("campari-tee.jpg", "Campari Negronis t-shirt with a cartoon negroni mascot and \"Best in the Midwest!\""),
   },
   {
-    title: "Pepp's Pizzeria",
-    img: other("pepps-boxes.jpg", "Stacked Pepp's Pizzeria pizza boxes on red, the chef mark and checkered wordmark on each"),
-  },
-  {
     title: "Super Secret Brunch Club",
     img: other("ssbc-poster-1.jpg", "Super Secret Brunch Club poster in bubble lettering on a sunlit street grate"),
+  },
+  {
+    title: "Pepp's Pizzeria",
+    img: other("pepps-boxes.jpg", "Stacked Pepp's Pizzeria pizza boxes on red, the chef mark and checkered wordmark on each"),
   },
   {
     title: "Super Secret Brunch Club",
