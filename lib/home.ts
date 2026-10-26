@@ -101,24 +101,24 @@ export const OTHER_WORK: OtherWork[] = [
     href: "/work/hello-marjorie",
   },
   {
-    title: "2815",
-    img: other("2815.jpg", "2815 Lover Gang illustration: two hand-drawn faces and hearts under a red script lockup"),
+    title: "Super Secret Brunch Club",
+    img: other("ssbc-poster-1.jpg", "Super Secret Brunch Club poster in bubble lettering on a sunlit street grate"),
   },
   {
     title: "Campari",
     img: other("campari-tee.jpg", "Campari Negronis t-shirt with a cartoon negroni mascot and \"Best in the Midwest!\""),
   },
   {
-    title: "Super Secret Brunch Club",
-    img: other("ssbc-poster-1.jpg", "Super Secret Brunch Club poster in bubble lettering on a sunlit street grate"),
-  },
-  {
-    title: "Pepp's Pizzeria",
-    img: other("pepps-boxes.jpg", "Stacked Pepp's Pizzeria pizza boxes on red, the chef mark and checkered wordmark on each"),
+    title: "2815",
+    img: other("2815.jpg", "2815 Lover Gang illustration: two hand-drawn faces and hearts under a red script lockup"),
   },
   {
     title: "Super Secret Brunch Club",
     img: other("ssbc-poster-2.jpg", "Super Secret Brunch Club poster with a running green mascot, taped to a teal wall"),
+  },
+  {
+    title: "Pepp's Pizzeria",
+    img: other("pepps-boxes.jpg", "Stacked Pepp's Pizzeria pizza boxes on red, the chef mark and checkered wordmark on each"),
   },
 ];
 
