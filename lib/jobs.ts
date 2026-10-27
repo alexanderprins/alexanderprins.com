@@ -6,7 +6,7 @@
 
 import type { Video } from "./videos";
 import type { ProjectImage } from "./projects";
-import type { HomeSection } from "./home";
+import type { HomeSection } from "./home"; // type only: lib/home reads `jobs` at load
 import { MOTION_REEL } from "./motionReel";
 
 export type JobPage = {
@@ -82,12 +82,8 @@ const workFirst = {
   ],
 } satisfies Partial<JobPage>;
 
-const motionFirst = {
-  ...workFirst,
-  motionFirst: true,
-  motionLabel: "Featured Motion Work",
-  workLabel: "Other Work",
-} satisfies Partial<JobPage>;
+// Motion roles on the homepage layout: Motion leads, then Branding (a flat nav).
+const MOTION_FIRST_SECTIONS: HomeSection[] = ["motion", "branding", "marks", "other-work"];
 
 export const jobs: JobPage[] = [
   {
@@ -133,7 +129,7 @@ export const jobs: JobPage[] = [
       "A brand designer who makes complex things simple. Tailored for Turquoise Health's Brand Designer role.",
   },
   {
-    // Motion role: same work-first page, motion grid leads, brand work follows.
+    // Motion role on the homepage layout: Motion leads, Branding follows.
     slug: "fieldguide",
     company: "Fieldguide",
     role: "Senior Motion Designer",
@@ -150,7 +146,8 @@ export const jobs: JobPage[] = [
       "northern-vessel",
       "lily-development",
     ],
-    ...motionFirst,
+    layout: "home",
+    sectionOrder: MOTION_FIRST_SECTIONS,
     ogTitle: "Alexander Prins for Fieldguide",
     ogDescription:
       "A motion designer who turns dense, technical ideas into clear motion. Tailored for Fieldguide's Senior Motion Designer role.",
@@ -172,7 +169,8 @@ export const jobs: JobPage[] = [
       "northern-vessel",
       "lily-development",
     ],
-    ...motionFirst,
+    layout: "home",
+    sectionOrder: MOTION_FIRST_SECTIONS,
     ogTitle: "Alexander Prins for Baseten",
     ogDescription:
       "A motion designer with a real point of view on making technical products compelling. Tailored for Baseten's Motion Designer, Brand Team role.",
@@ -235,7 +233,7 @@ export const jobs: JobPage[] = [
     role: "Designer, Magic Team",
     introVideo: introVideo("linear", "Linear"),
     hideIntro: true, // cover letter kept as draft copy, not shown
-    ...workFirst,
+    layout: "home",
     intro: [
       `This site is the shortest version of why I'm writing: one typeface, hierarchy built from spacing and restraint. That approach came straight from watching how Linear's team designs, and I've followed your work closely for a couple of years.`,
       `I care about the same things the Magic Team does: taste, craft, and the details most people skip, both how something works and how it looks. At [Shift Nudge](https://shiftnudge.com), Matt D. Smith's design education platform, I turn dense design curriculum into clear, considered work and hold one visual system across every surface. I design brand identities, build in code, and sweat the small stuff.`,
@@ -247,7 +245,6 @@ export const jobs: JobPage[] = [
       "patient-pipeline",
       "northern-vessel",
     ],
-    printOrder: ["hello-marjorie"],
     surfaceTags: ["Craft", "Systems", "Web", "Brand"],
     ogTitle: "Alexander Prins for Linear",
     ogDescription:
@@ -259,7 +256,7 @@ export const jobs: JobPage[] = [
     role: "Brand Designer",
     introVideo: introVideo("supabase", "Supabase"),
     hideIntro: true, // cover letter kept as draft copy, not shown
-    ...workFirst,
+    layout: "home",
     intro: [
       `I've spent the last stretch living in the developer's world myself, building this site and client work in code, so designing brand for a developer audience is exactly where my head is right now. I love the challenge of making something technical clear without dumbing it down.`,
       `The role is brand across every medium, decks, print, video, and social, held together with real consistency. That's systems work, which is how my brain runs. At [Shift Nudge](https://shiftnudge.com), Matt D. Smith's design education platform, I produce multi-medium content and hold one brand system across all of it, work that's driven 2.2M+ views and grown the audience past 2x. I also think good brand for developers earns trust by being honest and precise, not flashy.`,
@@ -271,7 +268,6 @@ export const jobs: JobPage[] = [
       "cascata-group",
       "lily-development",
     ],
-    printOrder: ["hello-marjorie"],
     surfaceTags: ["Brand", "Multi-medium", "Systems", "Web"],
     ogTitle: "Alexander Prins for Supabase",
     ogDescription:

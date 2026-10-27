@@ -154,15 +154,20 @@ const GridIcon = () => (
 );
 
 const SECTION_LABEL: Record<HomeSection, string> = {
+  branding: "Branding",
   marks: "Marks",
   motion: "Motion",
   "other-work": "Other Work",
 };
 
-// `job`: a job page on this layout (/ambrook). It reorders the case studies and
-// later sections and adds its intro video: sticky in the sidebar above the nav on
-// desktop (there while the work scrolls, never in front of it), and after the
-// case studies on phones (work first). No job = the homepage.
+// `job`: a job page on this layout (/ambrook, /linear...). It reorders the case
+// studies and the sections and adds its intro video: sticky in the sidebar above
+// the nav on desktop (there while the work scrolls, never in front of it), and
+// after the first section on phones (work first). No job = the homepage.
+//
+// Branding first (the homepage, brand roles): "Featured Branding" heads the nav
+// with the case studies indented under it. Motion first (motion roles): a flat
+// nav, one line per section, and the case studies are just "Branding".
 export function HomeShell({ job }: { job?: HomeJob }) {
   const [grid, setGrid] = useState(false);
   const panel = homeCaseSlug(usePathname());
@@ -183,13 +188,48 @@ export function HomeShell({ job }: { job?: HomeJob }) {
 
   const cases = job ? job.caseOrder.flatMap((slug) => CASE_STUDIES.filter((c) => c.slug === slug)) : CASE_STUDIES;
   const sections = (job?.sections ?? HOME_SECTIONS).filter((id) => id !== "other-work" || SHOW_OTHER_WORK);
+  const brandingFirst = sections[0] === "branding";
+  const brandingLabel = brandingFirst ? "Featured Branding" : "Branding";
 
-  // the sections after the case studies, placed in `sections` order
+  // every section, placed in `sections` order (the gap goes above all but the first)
   const later: Record<HomeSection, ReactNode> = {
+    branding: (
+      <div id="branding">
+        <MobileTitle>{brandingLabel}</MobileTitle>
+        <div className="space-y-[72px] lg:space-y-[144px]">
+          {cases.map((c) => (
+            <section key={c.slug} id={c.slug}>
+              <div className="flex h-6 items-center justify-between gap-6">
+                <h2 className="truncate text-black/60">{c.title}</h2>
+                <SeeMore onClick={() => openPanel(c.slug)} />
+              </div>
+              {/* the tiles open the case study too (the big target on phones).
+                  Phones: one column, so every image is as big as it can be. */}
+              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6">
+                {c.images.map((img) => (
+                  <button
+                    key={img.src}
+                    type="button"
+                    tabIndex={-1}
+                    aria-label={`${c.title} case study`}
+                    onClick={() => openPanel(c.slug)}
+                    className="block cursor-pointer"
+                  >
+                    <Tile ratio="aspect-[456/264]">
+                      <Media img={img} className="h-full w-full object-cover" />
+                    </Tile>
+                  </button>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      </div>
+    ),
     marks: (
       <Fragment key="marks">
         {/* logo wall: three across (breaks the columns on purpose) */}
-        <section id="marks" className={SECTION_GAP}>
+        <section id="marks">
           <MobileTitle>Marks</MobileTitle>
           <ul className="grid grid-cols-1 gap-y-12 sm:grid-cols-3 sm:gap-x-[72px] sm:gap-y-[72px]">
             {MARKS.map((m, i) => (
@@ -217,7 +257,7 @@ export function HomeShell({ job }: { job?: HomeJob }) {
     motion: (
       <Fragment key="motion">
         {/* motion: three across, 9:16-ish tiles */}
-        <section id="motion" className={SECTION_GAP}>
+        <section id="motion">
           <MobileTitle>Motion</MobileTitle>
           <ul className="grid grid-cols-1 gap-y-12 sm:grid-cols-3 sm:gap-x-[72px] sm:gap-y-[72px]">
             {MOTION_REEL.map((m) => (
@@ -237,7 +277,7 @@ export function HomeShell({ job }: { job?: HomeJob }) {
     "other-work": (
       <Fragment key="other-work">
                   {/* other work: one-offs, placeholders for now */}
-        <section id="other-work" className={SECTION_GAP}>
+        <section id="other-work">
           <MobileTitle>Other Work</MobileTitle>
           <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {OTHER_WORK.map((w, i) => {
@@ -305,14 +345,16 @@ export function HomeShell({ job }: { job?: HomeJob }) {
               </div>
             ) : null}
             <nav aria-label="Sections">
-              <p className="text-black/60">Featured Branding</p>
-              <ul className="pl-6">
-                {cases.map((c) =>
-                  navItem(c.title, c.slug),
-                )}
-              </ul>
+              {brandingFirst ? (
+                <>
+                  <p className="text-black/60">{brandingLabel}</p>
+                  <ul className="pl-6">{cases.map((c) => navItem(c.title, c.slug))}</ul>
+                </>
+              ) : null}
               <ul>
-                {sections.map((id) => navItem(SECTION_LABEL[id], id))}
+                {sections
+                  .filter((id) => !brandingFirst || id !== "branding")
+                  .map((id) => navItem(SECTION_LABEL[id], id))}
                 <li>
                   <Link href="/about" className="group inline-flex items-center text-black">
                     <NavArrow />
@@ -325,45 +367,18 @@ export function HomeShell({ job }: { job?: HomeJob }) {
 
           {/* the work, columns 4-11 */}
           <main className="lg:col-span-8 lg:col-start-4">
-            <MobileTitle>Featured Branding</MobileTitle>
-            <div className="space-y-[72px] lg:space-y-[144px]">
-              {cases.map((c) => (
-                <section key={c.slug} id={c.slug}>
-                  <div className="flex h-6 items-center justify-between gap-6">
-                    <h2 className="truncate text-black/60">{c.title}</h2>
-                    <SeeMore onClick={() => openPanel(c.slug)} />
-                  </div>
-                  {/* the tiles open the case study too (the big target on phones).
-                      Phones: one column, so every image is as big as it can be. */}
-                  <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6">
-                    {c.images.map((img) => (
-                      <button
-                        key={img.src}
-                        type="button"
-                        tabIndex={-1}
-                        aria-label={`${c.title} case study`}
-                        onClick={() => openPanel(c.slug)}
-                        className="block cursor-pointer"
-                      >
-                        <Tile ratio="aspect-[456/264]">
-                          <Media img={img} className="h-full w-full object-cover" />
-                        </Tile>
-                      </button>
-                    ))}
-                  </div>
-                </section>
-              ))}
-            </div>
-
-            {/* a job page's intro video on phones: after the case studies */}
-            {job ? (
-              <section className={`${SECTION_GAP} lg:hidden`}>
-                <MobileTitle>{job.greeting}</MobileTitle>
-                <VideoFigure video={job.video} showCaption={false} />
-              </section>
-            ) : null}
-
-            {sections.map((id) => later[id])}
+            {sections.map((id, i) => (
+              <Fragment key={id}>
+                <div className={i ? SECTION_GAP : undefined}>{later[id]}</div>
+                {/* a job page's intro video on phones: after the first section */}
+                {i === 0 && job ? (
+                  <section className={`${SECTION_GAP} lg:hidden`}>
+                    <MobileTitle>{job.greeting}</MobileTitle>
+                    <VideoFigure video={job.video} showCaption={false} />
+                  </section>
+                ) : null}
+              </Fragment>
+            ))}
           </main>
 
           {/* column 12: the layout-grid toggle (full width only) */}

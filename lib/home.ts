@@ -145,10 +145,10 @@ export function isHomeLayout(pathname: string): boolean {
   return HOME_LAYOUT_PATHS.includes(pathname);
 }
 
-// The sections after the case studies, in the homepage's order. A job page can
-// reorder them (Ambrook leads with Other Work: print and physical pieces).
-export type HomeSection = "marks" | "motion" | "other-work";
-export const HOME_SECTIONS: HomeSection[] = ["marks", "motion", "other-work"];
+// The page's sections ("branding" = the case studies), in the homepage's order.
+// A job page can reorder them (motion roles lead with Motion).
+export type HomeSection = "branding" | "marks" | "motion" | "other-work";
+export const HOME_SECTIONS: HomeSection[] = ["branding", "marks", "motion", "other-work"];
 
 // What a job page adds to the homepage layout (built from its lib/jobs.ts entry).
 export type HomeJob = {
