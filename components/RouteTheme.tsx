@@ -18,19 +18,9 @@ export function RouteTheme() {
     if (pathname !== "/logos") {
       document.documentElement.classList.remove("logos-dark");
     }
-    // the homepage's dark toggle only applies on the homepage (and its
-    // case-study panel URLs)
-    if (!isHomeLayout(pathname)) {
-      document.documentElement.classList.remove("home-dark");
-    } else {
-      // client nav back home: restore the remembered choice and tell the toggle
-      try {
-        if (localStorage.getItem("home-theme") === "dark") {
-          document.documentElement.classList.add("home-dark");
-          window.dispatchEvent(new Event("home-theme"));
-        }
-      } catch {}
-    }
+    // the homepage layout (home, its case-study URLs, home-layout job pages)
+    // is always dark
+    document.documentElement.classList.toggle("home-dark", isHomeLayout(pathname));
   }, [pathname]);
   return null;
 }

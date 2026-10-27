@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useCallback, useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
+import { Fragment, useCallback, useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Media } from "@/components/Media";
@@ -19,28 +19,9 @@ import { MOTION_REEL } from "@/lib/motionReel";
 // 1440 sizes (456x264 tiles, 264x264 marks, 264x456 motion) so every box lands
 // on the 24 grid at full width.
 
-// Light/dark lives on <html> as the `home-dark` class (set before paint by the
-// layout's inline script, re-applied by RouteTheme on client nav), so it's read
-// as an external store: no hydration mismatch, one source of truth. The choice
-// is remembered per viewer in localStorage ("home-theme"). One of light/dark is
-// always selected; the grid is a separate on/off switch on top of either.
-type Theme = "light" | "dark";
-const THEME_EVENT = "home-theme";
-const theme = {
-  subscribe(cb: () => void) {
-    window.addEventListener(THEME_EVENT, cb);
-    return () => window.removeEventListener(THEME_EVENT, cb);
-  },
-  get: (): Theme => (document.documentElement.classList.contains("home-dark") ? "dark" : "light"),
-  server: (): Theme => "light",
-  set(t: Theme) {
-    document.documentElement.classList.toggle("home-dark", t === "dark");
-    try {
-      localStorage.setItem("home-theme", t);
-    } catch {}
-    window.dispatchEvent(new Event(THEME_EVENT));
-  },
-};
+// Always dark (Noah Stokes, 2026-10-26: "the work pops better"): the
+// `home-dark` class on <html>, set before paint by the layout's inline script
+// and kept in step by RouteTheme. Only /logos keeps a light/dark toggle.
 
 // phones get tighter gaps than the 144/216 desktop rhythm (72/144)
 const SECTION_GAP = "mt-[144px] lg:mt-[216px]";
@@ -172,21 +153,6 @@ const GridIcon = () => (
   </svg>
 );
 
-const SunIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
-    <circle cx="7" cy="7" r="2.9" />
-    {[0, 45, 90, 135, 180, 225, 270, 315].map((a) => (
-      <rect key={a} x="6.35" y="0.4" width="1.3" height="1.9" transform={`rotate(${a} 7 7)`} />
-    ))}
-  </svg>
-);
-
-const MoonIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
-    <path d="M8.9 1.1A5.9 5.9 0 1 0 12.9 9.6 4.7 4.7 0 0 1 8.9 1.1Z" />
-  </svg>
-);
-
 const SECTION_LABEL: Record<HomeSection, string> = {
   marks: "Marks",
   motion: "Motion",
@@ -198,7 +164,6 @@ const SECTION_LABEL: Record<HomeSection, string> = {
 // desktop (there while the work scrolls, never in front of it), and after the
 // case studies on phones (work first). No job = the homepage.
 export function HomeShell({ job }: { job?: HomeJob }) {
-  const current = useSyncExternalStore(theme.subscribe, theme.get, theme.server);
   const [grid, setGrid] = useState(false);
   const panel = homeCaseSlug(usePathname());
   const closePanel = useCallback(() => closeCase(), []);
@@ -408,7 +373,7 @@ export function HomeShell({ job }: { job?: HomeJob }) {
             {sections.map((id) => later[id])}
           </main>
 
-          {/* toggles, column 12: grid on/off, then light | dark (one always on) */}
+          {/* column 12: the layout-grid toggle (full width only) */}
           <div className="sticky top-[216px] hidden self-start lg:col-start-12 lg:flex">
             <ToggleButton
               label="Layout grid"
@@ -417,12 +382,6 @@ export function HomeShell({ job }: { job?: HomeJob }) {
               className="hidden min-[1440px]:flex"
             >
               <GridIcon />
-            </ToggleButton>
-            <ToggleButton label="Light mode" on={current === "light"} onClick={() => theme.set("light")}>
-              <SunIcon />
-            </ToggleButton>
-            <ToggleButton label="Dark mode" on={current === "dark"} onClick={() => theme.set("dark")}>
-              <MoonIcon />
             </ToggleButton>
           </div>
         </div>

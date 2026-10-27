@@ -17,8 +17,8 @@ import { Logo } from "@/components/Logo";
 
 const EMAIL = "hello@alexanderprins.com";
 
+// /logos stays live (to send direct) but is out of the menu.
 const NAV: { label: string; href: string }[] = [
-  { label: "Logos", href: "/logos" },
   { label: "Video", href: "/video" },
   { label: "About", href: "/about" },
 ];
@@ -38,7 +38,7 @@ export function SiteHeader() {
       {/* No opacity dim on hover: the logo's shape re-composition (globals.css
           .logo-mark) IS the hover feedback. */}
       {home ? (
-        <Link href="/" aria-label="Home" className="flex items-center gap-2 text-base leading-6 text-black">
+        <Link href="/" aria-label="Home" className="pointer-events-auto flex items-center gap-2 text-base leading-6 text-black">
           <Logo size={24} />
           Alexander Prins
         </Link>
@@ -54,7 +54,7 @@ export function SiteHeader() {
           aria-label="Menu"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="relative flex h-6 w-6 flex-col items-center justify-center gap-1.5"
+          className="pointer-events-auto relative flex h-6 w-6 flex-col items-center justify-center gap-1.5"
         >
           <span
             className={`h-0.5 w-6 bg-black transition-transform duration-200 ${
@@ -72,11 +72,11 @@ export function SiteHeader() {
       {open && (
         <>
           <div
-            className="fixed inset-0 z-10"
+            className="pointer-events-auto fixed inset-0 z-10"
             aria-hidden="true"
             onClick={() => setOpen(false)}
           />
-          <div className={`hm-pop absolute ${home ? "right-4 lg:right-3" : "right-6"} top-full z-20 mt-3 flex min-w-40 flex-col border border-black/10 bg-[var(--background)] p-2 shadow-sm`}>
+          <div className={`hm-pop pointer-events-auto absolute ${home ? "right-4 lg:right-3" : "right-6"} top-full z-20 mt-3 flex min-w-40 flex-col border border-black/10 bg-[var(--background)] p-2 shadow-sm`}>
             {NAV.map((item) => (
               <Link
                 key={item.href}
@@ -107,7 +107,11 @@ export function SiteHeader() {
   return home ? (
     <>
       <div aria-hidden="true" className="home-fade pointer-events-none fixed inset-x-0 top-0 z-20" />
-      <div className="fixed inset-x-0 top-0 z-40">{bar}</div>
+      {/* empty bar space passes clicks through (pointer-events), so clicking the
+          top of the page closes an open case study like anywhere else outside it */}
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-40">
+        {bar}
+      </div>
     </>
   ) : (
     bar

@@ -11,8 +11,8 @@ import { CaseStudyBody } from "@/components/CaseStudyBody";
 // its contents keep the frame's right content edge. Hovering anywhere left of
 // the panel eases only the CARD 24px further right (the contents stay still) to
 // reveal more of the sidebar nav, a hint that a click goes back. Clicking there
-// (or anywhere outside), or Escape, closes it. Phones: 12px from the left edge,
-// 24px padding, a Close button (no hover there); Back/swipe-back also close it.
+// (or anywhere outside, the header's empty space included), Close, Escape, or
+// Back closes it. Phones: 12px from the left edge, 24px padding, no peek.
 const FRAME = "max(0px, (100vw - 1440px) / 2)"; // the 1440 frame's offset on wide screens
 
 export function CaseStudyPanel({
@@ -99,12 +99,13 @@ export function CaseStudyPanel({
           style={{ left: `calc(-1 * (${FRAME} + 24px))`, width: `calc(${FRAME} + 24px + 48px)` }}
           className="absolute inset-y-0 z-10 hidden cursor-pointer lg:block"
         />
-        {/* phones: no hover, so a plain Close in the top-right corner */}
+        {/* a plain Close in the top-right corner, its text on the content's right
+            edge (Noah Stokes: the way out wasn't obvious) */}
         <button
           type="button"
           tabIndex={open ? 0 : -1}
           onClick={onClose}
-          className="absolute right-2 top-3 z-10 flex h-6 cursor-pointer items-center bg-[var(--background)] px-2 text-black lg:hidden"
+          className="absolute right-4 top-3 z-10 flex h-6 cursor-pointer items-center bg-[var(--background)] px-2 text-black lg:right-[calc(var(--frame)_+_52px)]"
         >
           Close
         </button>
