@@ -36,6 +36,12 @@ export function PdsMorph({ ink = "#ffffff", paper = "#111111" }: { ink?: string;
     const rm = prefersReducedMotion();
     setReduced(rm);
     morph.current = mountMorph(stage.current, { reducedMotion: rm, ink, paper });
+    // Full-res lighting pass. The engine's default (0.6) raymarches the light at
+    // 60% of screen resolution, tuned for the old full-width hero; the dots are
+    // full-res but the silhouette they follow came from that coarser image, so
+    // curved edges (the sphere) stair-stepped. This box is ~1/3 of the hero's
+    // area, so 1.0 here costs about what the hero did at 0.6.
+    morph.current.setParams({ quality: 1 });
     return () => morph.current?.dispose();
   }, [ink, paper]);
 
