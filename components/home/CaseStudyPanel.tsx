@@ -67,7 +67,7 @@ export function CaseStudyPanel({
             shadow. Only this layer moves on peek, so the contents don't shift. */}
         <div
           aria-hidden="true"
-          className={`case-card absolute inset-y-0 right-0 rounded-tl-[24px] border-l border-t bg-[var(--background)] shadow-[-8px_-4px_48px_rgba(0,0,0,0.10),0_0_96px_rgba(0,0,0,0.10)] ${cardLeft}`}
+          className={`case-card absolute inset-y-0 right-0 rounded-tl-[24px] border-l border-t bg-[var(--panel)] shadow-[-8px_-4px_48px_rgba(0,0,0,0.10),0_0_96px_rgba(0,0,0,0.10)] ${cardLeft}`}
         />
         <div
           // inset 1px top/left, inside the card's border (scrolled content painted
@@ -105,7 +105,7 @@ export function CaseStudyPanel({
           type="button"
           tabIndex={open ? 0 : -1}
           onClick={onClose}
-          className="absolute right-4 top-3 z-10 flex h-6 cursor-pointer items-center bg-[var(--background)] px-2 text-black lg:right-[calc(var(--frame)_+_52px)]"
+          className="absolute right-4 top-3 z-10 flex h-6 cursor-pointer items-center bg-[var(--panel)] px-2 text-black lg:right-[calc(var(--frame)_+_52px)]"
         >
           Close
         </button>

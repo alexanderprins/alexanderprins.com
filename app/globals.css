@@ -30,6 +30,7 @@
 :root {
   --background: #fbfbfb; /* page white: #FBFBFB, not pure white */
   --foreground: #1e1e1e;
+  --panel: #fbfbfb; /* the case-study panel; lifts off the page in dark */
 }
 
 @theme inline {
@@ -104,6 +105,9 @@ html.home-dark {
   --background: #111111;
   --foreground: #ffffff;
   --color-black: #ffffff;
+  /* one step lighter than the page so the open panel reads as a layer on top
+     (same color, only the faint edge separated them, and shadows barely show) */
+  --panel: #181818;
 }
 html.home-dark .hm-pop {
   background: #2a2a2a;
@@ -163,7 +167,7 @@ html.home-dark .mark-dark {
    case study scrolls away softly too (72px: the panel has no bar to clear) */
 .case-fade {
   height: 72px;
-  background: var(--background);
+  background: var(--panel);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   mask-image: linear-gradient(
