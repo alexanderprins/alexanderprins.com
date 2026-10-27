@@ -93,26 +93,21 @@ export const jobs: JobPage[] = [
   {
     // First job page on the homepage layout (Noah Stokes, 2026-10-23: "each job
     // page = the same layout + its own video"). Work leads; the video rides in
-    // the sticky sidebar so it's there without getting in the way. Print and
-    // physical first: Northern Vessel's packaging/merch, and Other Work (menus,
-    // posters, tees, boxes) right after the case studies. Noah emails Jeff
-    // Anders (cofounder) the day this goes out.
+    // the sticky sidebar so it's there without getting in the way. Same order as
+    // the homepage (Alexander's call). Noah emails Jeff Anders (cofounder) the
+    // day this goes out.
     slug: "ambrook",
     company: "Ambrook",
     role: "Brand Designer",
     layout: "home",
-    // TODO(2026-10-26 shoot): swap for introVideo("ambrook", "Ambrook") once
-    // public/intro/ambrook.mp4 + .jpg exist (sh scripts/encode-intros.sh Ambrook:ambrook).
-    // Until then, no src = a labeled placeholder box.
-    introVideo: { title: "Intro video for Ambrook", aspect: "landscape" },
+    introVideo: introVideo("ambrook", "Ambrook"),
     intro: [],
     projectOrder: [
-      "northern-vessel",
-      "lily-development",
       "cascata-group",
+      "lily-development",
+      "northern-vessel",
       "patient-pipeline",
     ],
-    sectionOrder: ["other-work", "marks", "motion"],
     ogTitle: "Alexander Prins for Ambrook",
     ogDescription:
       "Brand designer for the physical economy: print, packaging, merch, motion, and the AI tools that clear the plate. Tailored for Ambrook's Brand Designer role.",

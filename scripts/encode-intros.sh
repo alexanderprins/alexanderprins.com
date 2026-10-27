@@ -11,7 +11,7 @@ SRC="../../job-hunt/intro videos/export"
 FF=/opt/homebrew/bin/ffmpeg
 mkdir -p public/intro
 PAIRS="$*"
-[ -n "$PAIRS" ] || PAIRS="Figma:figma Linear:linear Supabase:supabase Fieldguide:fieldguide Baseten:baseten Default:default Turquoise:turquoise"
+[ -n "$PAIRS" ] || PAIRS="Figma:figma Linear:linear Supabase:supabase Fieldguide:fieldguide Baseten:baseten Default:default Turquoise:turquoise Ambrook:ambrook"
 for pair in $PAIRS; do
   name="${pair%%:*}"; slug="${pair#*:}"
   "$FF" -v error -y -i "$SRC/$name Application.mp4" \
