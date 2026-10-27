@@ -4,18 +4,23 @@
 // color-mix, so they adapt to light/dark. pointer-events:none. Positioned
 // `absolute` (not fixed) inside the `relative` <body>, so it spans the full
 // document height and scrolls WITH the page, starting at the document top.
+// `behind`: the furthest-back layer instead of on top. z-index -1 in the root
+// stacking context paints over the page color (body's background goes to the
+// canvas) but under every bit of content, so images and panels cover it.
 export function GridOverlay({
   show,
   minor = 24,
   major = 72,
   maxWidth = 1488, // -> 1440 content = 20 clean major blocks (60 minor cells)
   gutter = 24, // px-6
+  behind = false,
 }: {
   show: boolean;
   minor?: number;
   major?: number;
   maxWidth?: number;
   gutter?: number;
+  behind?: boolean;
 }) {
   if (!show) return null;
 
@@ -25,7 +30,7 @@ export function GridOverlay({
   return (
     <div
       aria-hidden="true"
-      style={{ position: "absolute", inset: 0, zIndex: 50, pointerEvents: "none" }}
+      style={{ position: "absolute", inset: 0, zIndex: behind ? -1 : 50, pointerEvents: "none" }}
     >
       {/* matches the page's `mx-auto max-w-[1440px] px-6` content column */}
       <div

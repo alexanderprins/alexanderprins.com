@@ -383,7 +383,7 @@ export function HomeShell({ job }: { job?: HomeJob }) {
       {/* 24/72 grid, anchored to the 1416 content edge; only at full width,
           where the layout sits exactly on it */}
       <div className="hidden min-[1440px]:block">
-        <GridOverlay show={grid} maxWidth={1440} gutter={12} />
+        <GridOverlay show={grid} maxWidth={1440} gutter={12} behind />
       </div>
 
       <CaseStudyPanel slug={panel} onClose={closePanel} />
