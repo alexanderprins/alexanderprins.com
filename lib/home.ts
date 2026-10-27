@@ -138,8 +138,9 @@ export function homeCaseSlug(pathname: string): string | null {
 // /ambrook: the same single scroll plus that job's video and order.
 export const HOME_JOB_PATHS = jobs.filter((j) => j.layout === "home").map((j) => `/${j.slug}`);
 
-// every URL that renders the homepage layout (header, footer and theme follow it)
-export const HOME_LAYOUT_PATHS = ["/", ...HOME_JOB_PATHS, ...HOME_CASE_PATHS];
+// every URL that renders the homepage layout (header, footer and theme follow it).
+// /about isn't the single scroll, but it shares the look: dark, same chrome.
+export const HOME_LAYOUT_PATHS = ["/", "/about", ...HOME_JOB_PATHS, ...HOME_CASE_PATHS];
 
 export function isHomeLayout(pathname: string): boolean {
   return HOME_LAYOUT_PATHS.includes(pathname);
