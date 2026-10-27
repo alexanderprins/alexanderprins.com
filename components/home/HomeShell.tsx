@@ -275,7 +275,7 @@ export function HomeShell({ job }: { job?: HomeJob }) {
     ),
   };
 
-  const navItem = (label: string, id: string, extra?: ReactNode) => (
+  const navItem = (label: string, id: string) => (
     <li key={id}>
       <button
         type="button"
@@ -284,7 +284,6 @@ export function HomeShell({ job }: { job?: HomeJob }) {
       >
         <NavArrow />
         {label}
-        {extra}
       </button>
     </li>
   );
@@ -295,8 +294,10 @@ export function HomeShell({ job }: { job?: HomeJob }) {
         <div className="grid grid-cols-1 gap-x-6 lg:grid-cols-12">
           {/* table of contents (+ a job page's intro video), columns 1-3 */}
           <div className="sticky top-[216px] hidden self-start lg:col-span-3 lg:block">
+            {/* fixed at 4 major rows (288) so the nav below always starts on a
+                72 line (504), whatever the video's height at this width */}
             {job ? (
-              <div className="mb-12">
+              <div className="h-[288px]">
                 <p className="h-6 truncate text-black/60">{job.greeting}</p>
                 <div className="mt-3">
                   <VideoFigure video={job.video} showCaption={false} />
@@ -307,15 +308,7 @@ export function HomeShell({ job }: { job?: HomeJob }) {
               <p className="text-black/60">Featured Branding</p>
               <ul className="pl-6">
                 {cases.map((c) =>
-                  navItem(
-                    c.title,
-                    c.slug,
-                    getProject(c.slug)?.status === "Spec" ? (
-                      <span className="ml-2 rounded-full border border-black/30 px-1.5 text-[10px] uppercase leading-4 text-black/60">
-                        Spec
-                      </span>
-                    ) : undefined,
-                  ),
+                  navItem(c.title, c.slug),
                 )}
               </ul>
               <ul>

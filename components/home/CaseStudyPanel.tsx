@@ -99,15 +99,17 @@ export function CaseStudyPanel({
           style={{ left: `calc(-1 * (${FRAME} + 24px))`, width: `calc(${FRAME} + 24px + 48px)` }}
           className="absolute inset-y-0 z-10 hidden cursor-pointer lg:block"
         />
-        {/* a plain Close in the top-right corner, its text on the content's right
-            edge (Noah Stokes: the way out wasn't obvious) */}
+        {/* an X (the hamburger's open state) straight under the hamburger, one
+            row into the panel (Noah Stokes: the way out wasn't obvious) */}
         <button
           type="button"
+          aria-label="Close"
           tabIndex={open ? 0 : -1}
           onClick={onClose}
-          className="absolute right-4 top-3 z-10 flex h-6 cursor-pointer items-center bg-[var(--panel)] px-2 text-black lg:right-[calc(var(--frame)_+_52px)]"
+          className="absolute right-4 top-6 z-10 flex h-6 w-6 cursor-pointer items-center justify-center bg-[var(--panel)] lg:right-[calc(var(--frame)_+_12px)]"
         >
-          Close
+          <span className="absolute h-0.5 w-6 rotate-45 bg-black" />
+          <span className="absolute h-0.5 w-6 -rotate-45 bg-black" />
         </button>
       </div>
     </>

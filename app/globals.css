@@ -105,9 +105,9 @@ html.home-dark {
   --background: #111111;
   --foreground: #ffffff;
   --color-black: #ffffff;
-  /* one step lighter than the page so the open panel reads as a layer on top
-     (same color, only the faint edge separated them, and shadows barely show) */
-  --panel: #181818;
+  /* a step lighter than the page so the open panel reads as a layer on top;
+     with its edge line, that's the separation (no shadow in dark) */
+  --panel: #1e1e1e;
 }
 html.home-dark .hm-pop {
   background: #2a2a2a;
@@ -196,6 +196,7 @@ html.home-dark .mark-dark {
 }
 html.home-dark .case-card {
   border-color: rgb(255 255 255 / 0.12);
+  box-shadow: none; /* invisible on dark anyway; the lighter panel + edge do the work */
 }
 
 /* Logo hover micro-animation (reference: context/Logo Hover.mov).
