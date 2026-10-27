@@ -86,7 +86,7 @@ export default async function CampaignPage({ params }: Props) {
         job={{
           slug: job.slug,
           company: job.company,
-          greeting: job.greeting ?? `Hi, ${job.company} team.`,
+          greeting: job.greeting ?? `Hi, ${job.company} team`, // a label here, so no period
           video: job.introVideo ?? { title: `Intro video for ${job.company}`, aspect: "landscape" },
           caseOrder: job.projectOrder,
           sections: job.sectionOrder ?? HOME_SECTIONS,
