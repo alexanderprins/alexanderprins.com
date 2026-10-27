@@ -238,7 +238,7 @@ export function HeroMorph({
                 aria-pressed={on}
                 onClick={() => select(i)}
                 className={`relative flex cursor-pointer items-center gap-2 rounded-full px-2.5 py-1 transition-colors duration-300 ${
-                  on ? "text-white" : "text-black/60 hover:text-black"
+                  on ? "text-[var(--background)]" : "text-black/60 hover:text-black"
                 }`}
               >
                 <svg className="relative" width="9" height="9" viewBox="0 0 9 9" fill="currentColor" aria-hidden="true">

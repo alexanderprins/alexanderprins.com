@@ -142,6 +142,13 @@ export const HOME_JOB_PATHS = jobs.filter((j) => j.layout === "home").map((j) =>
 // /about isn't the single scroll, but it shares the look: dark, same chrome.
 export const HOME_LAYOUT_PATHS = ["/", "/about", ...HOME_JOB_PATHS, ...HOME_CASE_PATHS];
 
+// Every page is dark (the `home-dark` class, named for where it started) except
+// the ones that run their own theme: /logos (its light/dark toggle), Hello,
+// Marjorie (its warm dark), and the local /lab rigs (the resume prints white).
+export function ownsTheme(pathname: string): boolean {
+  return pathname === "/logos" || pathname === "/work/hello-marjorie" || pathname.startsWith("/lab");
+}
+
 export function isHomeLayout(pathname: string): boolean {
   return HOME_LAYOUT_PATHS.includes(pathname);
 }
