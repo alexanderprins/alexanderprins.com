@@ -194,7 +194,7 @@ const SECTION_LABEL: Record<HomeSection, string> = {
 };
 
 // `job`: a job page on this layout (/ambrook). It reorders the case studies and
-// later sections and adds its intro video: sticky in the sidebar under the nav on
+// later sections and adds its intro video: sticky in the sidebar above the nav on
 // desktop (there while the work scrolls, never in front of it), and after the
 // case studies on phones (work first). No job = the homepage.
 export function HomeShell({ job }: { job?: HomeJob }) {
@@ -330,6 +330,14 @@ export function HomeShell({ job }: { job?: HomeJob }) {
         <div className="grid grid-cols-1 gap-x-6 lg:grid-cols-12">
           {/* table of contents (+ a job page's intro video), columns 1-3 */}
           <div className="sticky top-[216px] hidden self-start lg:col-span-3 lg:block">
+            {job ? (
+              <div className="mb-12">
+                <p className="h-6 truncate text-black/60">{job.greeting}</p>
+                <div className="mt-3">
+                  <VideoFigure video={job.video} showCaption={false} />
+                </div>
+              </div>
+            ) : null}
             <nav aria-label="Sections">
               <p className="text-black/60">Featured Branding</p>
               <ul className="pl-6">
@@ -355,14 +363,6 @@ export function HomeShell({ job }: { job?: HomeJob }) {
                 </li>
               </ul>
             </nav>
-            {job ? (
-              <div className="mt-12">
-                <p className="h-6 truncate text-black/60">{job.greeting}</p>
-                <div className="mt-3">
-                  <VideoFigure video={job.video} showCaption={false} />
-                </div>
-              </div>
-            ) : null}
           </div>
 
           {/* the work, columns 4-11 */}
