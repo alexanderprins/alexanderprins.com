@@ -156,6 +156,9 @@ export type HomeJob = {
   company: string;
   greeting: string; // the label over its intro video
   video: Video;
+  // optional second video (Descript: the Loom leads, the spine is "a bit more
+  // about me"). The sidebar swaps between the two with a line under the player.
+  secondVideo?: { label: string; video: Video };
   caseOrder: string[]; // case-study slugs, in display order
   sections: HomeSection[];
 };

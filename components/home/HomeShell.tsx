@@ -170,6 +170,7 @@ const SECTION_LABEL: Record<HomeSection, string> = {
 // nav, one line per section, and the case studies are just "Branding".
 export function HomeShell({ job }: { job?: HomeJob }) {
   const [grid, setGrid] = useState(false);
+  const [second, setSecond] = useState(false); // sidebar shows the job's second video
   const panel = homeCaseSlug(usePathname());
   const closePanel = useCallback(() => closeCase(), []);
   // opening a case study turns the grid off (it fights the panel), and it stays
@@ -186,7 +187,9 @@ export function HomeShell({ job }: { job?: HomeJob }) {
     document.title = p ? `${p.title} — Alexander Prins` : baseTitle;
   }, [panel, baseTitle]);
 
-  const cases = job ? job.caseOrder.flatMap((slug) => CASE_STUDIES.filter((c) => c.slug === slug)) : CASE_STUDIES;
+  const cases = job?.caseOrder.length
+    ? job.caseOrder.flatMap((slug) => CASE_STUDIES.filter((c) => c.slug === slug))
+    : CASE_STUDIES;
   const sections = (job?.sections ?? HOME_SECTIONS).filter((id) => id !== "other-work" || SHOW_OTHER_WORK);
   const brandingFirst = sections[0] === "branding";
   const brandingLabel = brandingFirst ? "Featured Branding" : "Branding";
@@ -340,8 +343,22 @@ export function HomeShell({ job }: { job?: HomeJob }) {
               <div className="h-[288px]">
                 <p className="h-6 truncate text-black/60">{job.greeting}</p>
                 <div className="mt-3">
-                  <VideoFigure video={job.video} showCaption={false} />
+                  {/* keyed so a swap starts the other video fresh (and stops this one) */}
+                  <VideoFigure
+                    key={second ? "second" : "first"}
+                    video={second && job.secondVideo ? job.secondVideo.video : job.video}
+                    showCaption={false}
+                  />
                 </div>
+                {job.secondVideo ? (
+                  <button
+                    type="button"
+                    onClick={() => setSecond((v) => !v)}
+                    className="group mt-3 inline-flex h-6 cursor-pointer items-center text-black"
+                  >
+                    {second ? `← ${job.video.title}` : `${job.secondVideo.label} →`}
+                  </button>
+                ) : null}
               </div>
             ) : null}
             <nav aria-label="Sections">
@@ -375,6 +392,14 @@ export function HomeShell({ job }: { job?: HomeJob }) {
                   <section className={`${SECTION_GAP} lg:hidden`}>
                     <MobileTitle>{job.greeting}</MobileTitle>
                     <VideoFigure video={job.video} showCaption={false} />
+                    {job.secondVideo ? (
+                      <div className="mt-12">
+                        <p className="h-6 text-black/60">{job.secondVideo.label}</p>
+                        <div className="mt-3">
+                          <VideoFigure video={job.secondVideo.video} showCaption={false} />
+                        </div>
+                      </div>
+                    ) : null}
                   </section>
                 ) : null}
               </Fragment>

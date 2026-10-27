@@ -109,8 +109,8 @@ export const jobs: JobPage[] = [
       "Brand designer for the physical economy: print, packaging, merch, motion, and the AI tools that clear the plate. Tailored for Ambrook's Brand Designer role.",
   },
   {
-    // Work-first layout (Noah Stokes, 2026-10-20): video, then the work right
-    // under it. No cover letter, cover images only. Noah emails it to Tabby.
+    // Homepage layout (moved 2026-10-26; interview already scheduled). Noah
+    // emailed it to Tabby.
     slug: "turquoise",
     company: "Turquoise Health",
     role: "Brand Designer",
@@ -123,7 +123,7 @@ export const jobs: JobPage[] = [
       "northern-vessel",
       "lily-development",
     ],
-    ...workFirst,
+    layout: "home",
     ogTitle: "Alexander Prins for Turquoise Health",
     ogDescription:
       "A brand designer who makes complex things simple. Tailored for Turquoise Health's Brand Designer role.",
@@ -179,10 +179,11 @@ export const jobs: JobPage[] = [
     slug: "descript",
     company: "Descript",
     role: "Brand Design Lead",
-    layout: "hero",
+    layout: "home",
     // the Loom walkthrough for Rocky (via Corey Moen), self-hosted (Loom's own
-    // download, faststart remux). Its close points to the video below, so share
-    // the PAGE link, not the Loom link.
+    // download, faststart remux). Its close points to the video below: on the
+    // homepage layout that's the "A bit more about me" swap right under it.
+    // Share the PAGE link, not the Loom link.
     introVideo: {
       title: "How I use Descript",
       src: "/intro/descript-loom.mp4",
@@ -199,7 +200,7 @@ export const jobs: JobPage[] = [
       },
     },
     intro: [], // hero layout: no cover letter
-    projectOrder: [],
+    projectOrder: [], // empty = the homepage's case-study order
     ogTitle: "Alexander Prins for Descript",
     ogDescription:
       "A brand and motion designer who builds in code, and a daily Descript user. Tailored for Descript's Brand Design Lead role.",
