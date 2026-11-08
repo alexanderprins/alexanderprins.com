@@ -58,3 +58,5 @@ next-env.d.ts
 
 # Claude Code worktrees (separate checkouts, never committed)
 .claude/worktrees/
+# local-only voice agent test page; never deploy
+/app/lab/voice*/

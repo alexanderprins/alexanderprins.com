@@ -26,6 +26,7 @@
 @source "./lab/resume/layout.tsx";
 @source "./lab/shapes/page.tsx";
 @source "./lab/shapes/scene.ts";
+@source "./lab/voice/page.tsx";
 
 :root {
   --background: #fbfbfb; /* page white: #FBFBFB, not pure white */
