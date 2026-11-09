@@ -14,7 +14,7 @@ FF=/opt/homebrew/bin/ffmpeg
 CRF="${CRF:-20}"
 mkdir -p public/intro
 PAIRS="$*"
-[ -n "$PAIRS" ] || PAIRS="Figma:figma Linear:linear Supabase:supabase Fieldguide:fieldguide Baseten:baseten Default:default Turquoise:turquoise Ambrook:ambrook"
+[ -n "$PAIRS" ] || PAIRS="Figma:figma Linear:linear Supabase:supabase Fieldguide:fieldguide Baseten:baseten Default:default Turquoise:turquoise Ambrook:ambrook Thatch:thatch Runlayer:runlayer Hex:hex"
 for pair in $PAIRS; do
   name="${pair%%:*}"; slug="${pair#*:}"
   "$FF" -v error -y -i "$SRC/$name Application.mp4" \

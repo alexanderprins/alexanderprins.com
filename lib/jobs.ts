@@ -109,6 +109,64 @@ export const jobs: JobPage[] = [
       "Brand designer for the physical economy: print, packaging, merch, motion, and the AI tools that clear the plate. Tailored for Ambrook's Brand Designer role.",
   },
   {
+    // Lily first: evolving a brand people already love is their exact brief.
+    // R2 batch (2026-11-07). Reshoot shot 2026-11-09.
+    slug: "thatch",
+    company: "Thatch",
+    role: "Brand Designer",
+    layout: "home",
+    introVideo: introVideo("thatch", "Thatch"),
+    intro: [],
+    projectOrder: [
+      "lily-development",
+      "patient-pipeline",
+      "cascata-group",
+      "northern-vessel",
+    ],
+    ogTitle: "Alexander Prins for Thatch",
+    ogDescription:
+      "A brand designer who makes complex things simple, across web, motion, and print. Tailored for Thatch's Brand Designer role.",
+  },
+  {
+    // Lily first: built in Framer through Claude Code + MCP, their product in practice.
+    // R2 batch (2026-11-07). Reshoot shot 2026-11-09.
+    slug: "runlayer",
+    company: "Runlayer",
+    role: "Senior Designer, Brand",
+    layout: "home",
+    introVideo: introVideo("runlayer", "Runlayer"),
+    intro: [],
+    projectOrder: [
+      "lily-development",
+      "patient-pipeline",
+      "cascata-group",
+      "northern-vessel",
+    ],
+    ogTitle: "Alexander Prins for Runlayer",
+    ogDescription:
+      "A brand designer who builds with MCPs and AI tools every day. Tailored for Runlayer's first brand designer role.",
+  },
+  {
+    // Maker angle (briefs/hex.md): NV first, illustration (Other Work) right after the case studies.
+    // R2 batch (2026-11-07). Reshoot shot 2026-11-09.
+    slug: "hex",
+    company: "Hex",
+    role: "Brand Designer",
+    layout: "home",
+    introVideo: introVideo("hex", "Hex"),
+    sectionOrder: ["branding", "other-work", "marks", "motion"],
+    intro: [],
+    projectOrder: [
+      "northern-vessel",
+      "patient-pipeline",
+      "lily-development",
+      "cascata-group",
+    ],
+    ogTitle: "Alexander Prins for Hex",
+    ogDescription:
+      "A brand designer who makes things: illustration, merch, packaging, and motion. Tailored for Hex's Brand Designer role.",
+  },
+  {
     // Homepage layout (moved 2026-10-26; interview already scheduled). Noah
     // emailed it to Tabby.
     slug: "turquoise",
