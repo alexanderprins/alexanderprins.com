@@ -38,7 +38,7 @@ h1, h2, h3 { text-wrap: balance; font-weight: 400; margin: 0; }
 .day { margin-top: 120px; }
 .head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; border-top: 1px solid var(--line); padding-top: 24px; margin-bottom: 24px; }
 .head h2 { font-size: 16px; line-height: 24px; }
-.job { display: grid; grid-template-columns: 72px minmax(0, 4fr) minmax(0, 5fr) 260px; column-gap: 24px; row-gap: 12px; padding-block: 24px; border-bottom: 1px solid var(--line); align-items: start; }
+.job { display: grid; grid-template-columns: 72px minmax(0, 4fr) 128px minmax(0, 5fr) 260px; column-gap: 24px; row-gap: 12px; padding-block: 24px; border-bottom: 1px solid var(--line); align-items: start; }
 .score { font-size: 32px; line-height: 32px; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
 .who { display: grid; gap: 8px; min-width: 0; }
 .who h3 { font-size: 16px; line-height: 24px; }
@@ -53,9 +53,15 @@ h1, h2, h3 { text-wrap: balance; font-weight: 400; margin: 0; }
 .sub { margin-top: 48px; margin-bottom: 8px; font-size: 14px; line-height: 21px; color: var(--ink-60); }
 .empty { padding-block: 24px; border-bottom: 1px solid var(--line); color: var(--ink-60); }
 .skipped { margin-top: 144px; }
-.sk { display: grid; grid-template-columns: 72px minmax(0, 3fr) minmax(0, 4fr) 260px; column-gap: 24px; padding-block: 10px; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 21px; }
+.sk { display: grid; grid-template-columns: 72px minmax(0, 3fr) 128px minmax(0, 4fr) 260px; column-gap: 24px; padding-block: 10px; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 21px; }
 .sk .links { font-size: 14px; line-height: 21px; }
 .status { margin-top: 120px; color: var(--ink-60); }
+.comp { font-variant-numeric: tabular-nums; }
+.job .comp { line-height: 24px; }
+.comp.none { color: var(--ink-60); }
+.colhead { display: grid; column-gap: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 21px; color: var(--ink-60); }
+.colhead.j { grid-template-columns: 72px minmax(0, 4fr) 128px minmax(0, 5fr) 260px; }
+.colhead.s { grid-template-columns: 72px minmax(0, 3fr) 128px minmax(0, 4fr) 260px; }
 .parts { font-size: 14px; line-height: 21px; color: var(--ink-60); }
 .act { display: grid; gap: 8px; justify-items: end; align-content: start; }
 .marks { display: flex; gap: 12px; font-size: 14px; line-height: 21px; color: var(--ink-60); }
@@ -73,10 +79,11 @@ h1, h2, h3 { text-wrap: balance; font-weight: 400; margin: 0; }
 .local { margin-top: 144px; }
 @media (max-width: 900px) {
   .job { grid-template-columns: 56px minmax(0, 1fr); }
-  .job .note, .job .act { grid-column: 2; }
+  .job .note, .job .act, .job .comp { grid-column: 2; }
+  .colhead { display: none; }
   .score { font-size: 24px; line-height: 24px; }
   .sk { grid-template-columns: 56px minmax(0, 1fr); row-gap: 4px; }
-  .sk .why, .sk .act { grid-column: 2; }
+  .sk .why, .sk .act, .sk .comp { grid-column: 2; }
   .links { justify-content: flex-start; }
   .act { justify-items: start; }
   .key { grid-template-columns: 1fr; }
@@ -141,6 +148,8 @@ function act(j) {
   return `<div class="act">${links(j)}<div class="marks" data-id="${esc(j.id)}">${STATES.map(s =>
     `<label><input type="checkbox" value="${s}"${m === s ? " checked" : ""}> ${s}</label>`).join("")}</div></div>`;
 }
+const comp = j => { const c = j.comp && j.comp !== "unlisted" ? j.comp : ""; return `<span class="comp${c ? "" : " none"}">${esc(c || "Unlisted")}</span>`; };
+const JHEAD = '<div class="colhead j"><span>Score</span><span>Role</span><span>Comp</span><span>Why</span><span></span></div>';
 const cls = j => marks[j.id] ? " marked" : "";
 document.addEventListener("change", e => {
   const box = e.target;
@@ -178,7 +187,8 @@ function tags(j, isNew, extra = []) {
 function job(j, isNew, notable) {
   return `<article class="job${cls(j)}">
     <div class="score">${notable ? "" : esc(j.score)}</div>
-    <div class="who"><h3>${esc(j.company)}, ${esc(j.role)}</h3>${tags(j, isNew, [j.comp, notable ? j.where : j.location])}${notable ? "" : parts(j)}</div>
+    <div class="who"><h3>${esc(j.company)}, ${esc(j.role)}</h3>${tags(j, isNew, [notable ? j.where : j.location])}${notable ? "" : parts(j)}</div>
+    ${comp(j)}
     <p class="note">${esc(j.note)}</p>
     ${act(j)}
   </article>`;
@@ -196,7 +206,7 @@ function render(feed) {
   document.getElementById("days").innerHTML = days.map(d => {
     const isNew = last !== null && d.date > last;
     const picks = d.picks.length
-      ? d.picks.map(j => job(j, isNew)).join("")
+      ? JHEAD + d.picks.map(j => job(j, isNew)).join("")
       : '<p class="empty">Nothing scored 55 or more.</p>';
     const notable = d.notable.length
       ? `<p class="sub">In office, but notable</p>${d.notable.map(j => job(j, isNew, true)).join("")}` : "";
@@ -210,9 +220,10 @@ function render(feed) {
   if (lo.length) {
     document.getElementById("local").hidden = false;
     document.getElementById("lo-count").textContent = `${lo.length} roles, any work type, newest first. Not ranked.`;
-    document.getElementById("lo-list").innerHTML = lo.map(s => `<div class="sk${cls(s)}">
+    document.getElementById("lo-list").innerHTML = '<div class="colhead s"><span>Found</span><span>Role</span><span>Comp</span><span>What it is</span><span></span></div>' + lo.map(s => `<div class="sk${cls(s)}">
       <span class="muted">${esc(short(s.day))}</span>
-      <span>${esc(s.company)}, ${esc(s.role)}<br><span class="muted">${esc(s.comp)} · ${esc(s.city)}</span></span>
+      <span>${esc(s.company)}, ${esc(s.role)}<br><span class="muted">${esc(s.city)}</span></span>
+      ${comp(s)}
       <span class="why muted">${esc(s.note)}</span>
       ${act(s)}
     </div>`).join("");
@@ -222,9 +233,10 @@ function render(feed) {
   if (sk.length) {
     document.getElementById("skipped").hidden = false;
     document.getElementById("sk-count").textContent = `${sk.length} roles, newest first`;
-    document.getElementById("sk-list").innerHTML = sk.map(s => `<div class="sk${cls(s)}">
+    document.getElementById("sk-list").innerHTML = '<div class="colhead s"><span>Found</span><span>Role</span><span>Comp</span><span>Why skipped</span><span></span></div>' + sk.map(s => `<div class="sk${cls(s)}">
       <span class="muted">${esc(short(s.day))}</span>
       <span>${esc(s.company)}, ${esc(s.role)}</span>
+      ${comp(s)}
       <span class="why muted">${esc(s.reason)}</span>
       ${act(s)}
     </div>`).join("");
