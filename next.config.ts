@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   // instrumentation-client.ts.
   async rewrites() {
     return [
+      // Resume review page for mentors (static file in public/resume-set,
+      // noindex, not linked from the site).
+      { source: "/resumes", destination: "/resume-set/index.html" },
       {
         source: "/ingest/static/:path*",
         destination: "https://us-assets.i.posthog.com/static/:path*",
