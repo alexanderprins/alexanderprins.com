@@ -15,6 +15,8 @@ export const RESUMES: Record<string, { folder: string; id: string }> = {
   thatch: { folder: "Thatch", id: "7539f5" },
   runlayer: { folder: "Runlayer", id: "e5d2bf" },
   hex: { folder: "Hex", id: "1e635b" },
+  boldin: { folder: "Boldin", id: "48d87c" },
+  rula: { folder: "Rula", id: "918118" },
 };
 
 export const resumeFile = (slug: string) =>

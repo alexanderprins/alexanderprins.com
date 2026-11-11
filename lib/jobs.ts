@@ -167,6 +167,44 @@ export const jobs: JobPage[] = [
       "A brand designer who makes things: illustration, merch, packaging, and motion. Tailored for Hex's Brand Designer role.",
   },
   {
+    // briefs/boldin.md: Cascata (finance, credibility) first.
+    // R2 batch (2026-11-07). Reshoot shot 2026-11-10.
+    slug: "boldin",
+    company: "Boldin",
+    role: "Senior Brand Designer",
+    layout: "home",
+    introVideo: introVideo("boldin", "Boldin"),
+    intro: [],
+    projectOrder: [
+      "cascata-group",
+      "lily-development",
+      "patient-pipeline",
+      "northern-vessel",
+    ],
+    ogTitle: "Alexander Prins for Boldin",
+    ogDescription:
+      "A brand designer who builds brand systems that hold up at speed. Tailored for Boldin's Senior Brand Designer role.",
+  },
+  {
+    // Reskin of /turquoise: Patient Pipeline (healthcare) first.
+    // R2 batch (2026-11-07). Reshoot shot 2026-11-10.
+    slug: "rula",
+    company: "Rula",
+    role: "Brand Designer",
+    layout: "home",
+    introVideo: introVideo("rula", "Rula"),
+    intro: [],
+    projectOrder: [
+      "patient-pipeline",
+      "cascata-group",
+      "northern-vessel",
+      "lily-development",
+    ],
+    ogTitle: "Alexander Prins for Rula",
+    ogDescription:
+      "A brand designer who makes complex things clear, with motion and templates that scale. Tailored for Rula's Brand Designer role.",
+  },
+  {
     // Homepage layout (moved 2026-10-26; interview already scheduled). Noah
     // emailed it to Tabby.
     slug: "turquoise",
