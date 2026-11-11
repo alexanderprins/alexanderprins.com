@@ -4,157 +4,153 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
+<title>Resumes | Alexander Prins</title>
 <link rel="icon" href="/favicon_light.svg" type="image/svg+xml">
-<title>Alexander's Resume Set</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="preconnect" href="https://use.typekit.net" crossorigin>
+<link rel="stylesheet" href="https://use.typekit.net/nsl4rke.css">
 <style>
-html { color-scheme: light; } body { margin: 0; } img { max-width: 100%; } [hidden] { display: none !important; }
-/* Layout: a review desk. One base sheet up top, then the tailored sheets in a grid, newest first. Click a sheet to read it full size. */
+/* Matches alexanderprins.com: one face (Aktiv Grotesk), #1e1e1e on #FBFBFB,
+   secondary text at 60%, square outlined tags, no shadows, 72/144px rhythm. */
 :root {
-  --bg: #eef0f3;
-  --surface: #ffffff;
-  --ink: #16191f;
-  --muted: #5b6270;
-  --line: #d6dae1;
-  --accent: #2f4fd8;
-  --chip-ok-bg: #e2f3e8; --chip-ok-fg: #1d6b3a;
-  --chip-no-bg: #f6e3e1; --chip-no-fg: #9a2f24;
-  --chip-off-bg: #e8eaee; --chip-off-fg: #4d5461;
-  --shadow: 0 1px 2px rgba(20,25,40,.08), 0 8px 24px rgba(20,25,40,.08);
-  --scrim: rgba(14,16,22,.82);
-  --f-display: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
-  --f-body: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
-  --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --bg: #fbfbfb;
+  --ink: #1e1e1e;
+  --ink-60: rgb(30 30 30 / 0.6);
+  --line: rgb(30 30 30 / 0.15);
+  --sheet-bg: #ffffff;
+  --font: "aktiv-grotesk", system-ui, sans-serif;
+  color-scheme: light;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #12151b; --surface: #1b1f27; --ink: #e9ecf2; --muted: #9aa2b1; --line: #2c323d; --accent: #8ea2ff;
-  --chip-ok-bg: #18331f; --chip-ok-fg: #8fd8a6; --chip-no-bg: #3a1d1a; --chip-no-fg: #f0a59b; --chip-off-bg: #262b35; --chip-off-fg: #b3bac7;
-  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35); --scrim: rgba(5,6,9,.88); color-scheme: dark; } }
-:root[data-theme="dark"] {
-  --bg: #12151b; --surface: #1b1f27; --ink: #e9ecf2; --muted: #9aa2b1; --line: #2c323d; --accent: #8ea2ff;
-  --chip-ok-bg: #18331f; --chip-ok-fg: #8fd8a6; --chip-no-bg: #3a1d1a; --chip-no-fg: #f0a59b; --chip-off-bg: #262b35; --chip-off-fg: #b3bac7;
-  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35); --scrim: rgba(5,6,9,.88); color-scheme: dark; }
-
 * { box-sizing: border-box; }
-body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.55; }
-.wrap { max-width: 1180px; margin: 0 auto; padding-block: 48px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 40px; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 24px; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+p, li { text-wrap: pretty; }
+h1, h2, h3 { text-wrap: balance; font-weight: 400; margin: 0; }
+[hidden] { display: none !important; }
 
-.label { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-header { display: grid; gap: 14px; max-width: 68ch; }
-h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(30px, 4.4vw, 44px); line-height: 1.08; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
-header p { margin: 0; color: var(--muted); font-size: 16.5px; }
+.page { max-width: 1440px; margin: 0 auto; padding-block: 48px 144px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.top a { text-decoration: none; }
+.top a:hover { text-decoration: underline; }
+.muted { color: var(--ink-60); }
 
-.how { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
-.how div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 6px; min-width: 0; }
-.how b { font-weight: 600; font-size: 15px; }
-.how span { color: var(--muted); font-size: 14px; }
-code { font-family: var(--f-mono); font-size: .86em; background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; overflow-wrap: anywhere; }
+.intro { margin-top: 120px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; row-gap: 24px; }
+.intro h1 { grid-column: 1 / span 7; font-size: clamp(28px, 3.4vw, 40px); line-height: 1.15; letter-spacing: -0.01em; }
+.intro .lede { grid-column: 1 / span 6; margin: 0; }
+.how { grid-column: 1 / -1; margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; }
+.how div { min-width: 0; }
+.how p { margin: 0; }
+.how .k { margin-bottom: 4px; }
+.url { overflow-wrap: anywhere; }
 
-h2 { font-family: var(--f-display); font-size: 22px; font-weight: 650; letter-spacing: -.01em; margin: 0; }
-.section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
-.section-head p { margin: 0; color: var(--muted); font-size: 14px; }
+.section { margin-top: 144px; }
+.section-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; border-top: 1px solid var(--line); padding-top: 24px; margin-bottom: 48px; }
+.section-head h2 { font-size: 16px; line-height: 24px; }
 
-/* base resume: sheet + notes side by side */
-.base { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 32px; align-items: start; }
-.base .notes { display: grid; gap: 14px; padding-top: 6px; }
-.base h3 { font-size: 26px; }
+.base { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; row-gap: 32px; align-items: start; }
+.base .sheet { grid-column: 1 / span 5; }
+.base .info { grid-column: 7 / span 5; }
+.base h3 { font-size: 24px; line-height: 32px; }
 
-.sheet { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 4px; position: relative; }
-.sheet img { display: block; width: 100%; height: auto; aspect-ratio: 8.5 / 11; object-fit: cover; object-position: top; border-radius: 3px; box-shadow: var(--shadow); background: #fff; transition: transform .2s ease, box-shadow .2s ease; }
-.sheet:hover img { transform: translateY(-2px); }
-.sheet:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
-.sheet .zoom { position: absolute; right: 10px; bottom: 10px; font-family: var(--f-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; background: var(--ink); color: var(--bg); padding: 5px 8px; border-radius: 4px; opacity: 0; transition: opacity .2s ease; }
-.sheet:hover .zoom, .sheet:focus-visible .zoom { opacity: 1; }
+.sheet { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; text-align: left; font: inherit; color: inherit; }
+.sheet img { width: 100%; height: auto; aspect-ratio: 8.5 / 11; object-fit: cover; object-position: top; background: var(--sheet-bg); outline: 1px solid var(--line); outline-offset: -1px; transition: opacity .3s ease; }
+.sheet:hover img { opacity: .85; }
+.sheet:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px 28px; }
-.card { display: grid; gap: 14px; align-content: start; min-width: 0; }
-.meta { display: grid; gap: 6px; }
-h3 { font-family: var(--f-display); font-weight: 650; font-size: 19px; letter-spacing: -.01em; margin: 0; line-height: 1.2; }
-.role { color: var(--muted); font-size: 14px; }
-.row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.chip { font-family: var(--f-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; white-space: nowrap; }
-.chip.ok { background: var(--chip-ok-bg); color: var(--chip-ok-fg); }
-.chip.no { background: var(--chip-no-bg); color: var(--chip-no-fg); }
-.chip.off { background: var(--chip-off-bg); color: var(--chip-off-fg); }
-.date { font-family: var(--f-mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
-ul.t { margin: 0; padding-left: 18px; display: grid; gap: 5px; font-size: 14px; }
-ul.t li::marker { color: var(--accent); }
-.link { font-family: var(--f-mono); font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 72px; row-gap: 96px; }
+.card { min-width: 0; display: grid; gap: 16px; align-content: start; }
+.card h3 { font-size: 16px; line-height: 24px; }
+.info { display: grid; gap: 16px; min-width: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.tag { display: inline-block; border: 1px solid var(--line); padding: 1px 10px; font-size: 14px; line-height: 20px; color: var(--ink-60); }
+.tag.live { color: var(--ink); border-color: rgb(30 30 30 / 0.4); }
+ul.t { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; line-height: 21px; }
+.link { font-size: 14px; line-height: 21px; }
 
-footer { color: var(--muted); font-size: 13.5px; max-width: 72ch; border-top: 1px solid var(--line); padding-top: 20px; }
+.foot { margin-top: 144px; border-top: 1px solid var(--line); padding-top: 24px; max-width: 720px; font-size: 14px; line-height: 21px; }
 
-/* lightbox */
-dialog { border: 0; padding: 0; margin: 0; width: 100%; height: 100%; max-width: none; max-height: none; background: var(--scrim); color: #fff; }
-dialog::backdrop { background: transparent; }
+/* viewer */
+dialog { border: 0; padding: 0; margin: 0; width: 100%; height: 100%; max-width: none; max-height: none; background: var(--bg); color: var(--ink); }
+dialog::backdrop { background: var(--bg); }
 .lb { height: 100%; display: grid; grid-template-rows: auto 1fr; }
-.lb-bar { display: flex; align-items: center; gap: 12px; padding: calc(10px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px)); background: rgba(0,0,0,.35); }
-.lb-title { flex: 1; min-width: 0; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.lb-bar button { font: 500 13px var(--f-body); color: #fff; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); border-radius: 6px; padding: 7px 12px; cursor: pointer; }
-.lb-bar button:hover { background: rgba(255,255,255,.22); }
-.lb-bar button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
-.lb-scroll { overflow: auto; padding: 24px max(16px, env(safe-area-inset-right, 0px)) calc(48px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
-.lb-scroll img { display: block; margin: 0 auto; width: 100%; max-width: 1050px; height: auto; background: #fff; border-radius: 3px; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
-.lb-scroll.big img { max-width: 1500px; }
-.hint { font-family: var(--f-mono); font-size: 11px; color: rgba(255,255,255,.6); }
+.lb-bar { display: flex; align-items: center; gap: 24px; padding: calc(16px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 16px max(16px, env(safe-area-inset-left, 0px)); border-bottom: 1px solid var(--line); }
+.lb-title { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lb-bar button { font: inherit; color: var(--ink-60); background: none; border: 0; padding: 0; cursor: pointer; }
+.lb-bar button:hover, .lb-bar button:focus-visible { color: var(--ink); }
+.lb-bar button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+.lb-scroll { overflow: auto; padding: 48px max(16px, env(safe-area-inset-right, 0px)) calc(96px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.lb-scroll img { margin: 0 auto; width: 100%; max-width: 960px; height: auto; background: var(--sheet-bg); outline: 1px solid var(--line); outline-offset: -1px; }
+.lb-scroll.big img { max-width: 1600px; }
 
-@media (max-width: 760px) {
-  .base { grid-template-columns: 1fr; }
-  .wrap { padding-block: 32px 56px; gap: 32px; }
-  .hint, .lb-bar .size { display: none; }
+@media (max-width: 1023px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; row-gap: 72px; }
+  .intro h1, .intro .lede { grid-column: 1 / -1; }
+  .base .sheet { grid-column: 1 / span 6; }
+  .base .info { grid-column: 7 / -1; }
+}
+@media (max-width: 640px) {
+  .intro { margin-top: 72px; }
+  .how { grid-template-columns: 1fr; }
+  .grid { grid-template-columns: 1fr; row-gap: 72px; }
+  .base .sheet, .base .info { grid-column: 1 / -1; }
+  .section { margin-top: 96px; }
+  .lb-bar .size, .lb-bar .keys { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
-
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <span class="label">For Noah Stokes · November 11, 2026</span>
-    <h1>Every resume I've sent this search</h1>
-    <p>One base resume, then a tailored copy for each role. The base comes first. Click any sheet to read it full size.</p>
-  </header>
+<div class="page">
+  <div class="top">
+    <a href="/">Alexander Prins</a>
+    <span class="muted">Resumes, November 2026</span>
+  </div>
 
-  <section class="how" aria-label="How the tailoring works">
-    <div><b>Same base, small swaps</b><span>Each copy changes the skills and tools lists, plus one to four bullets that echo the job post's own wording. The jobs and numbers never change.</span></div>
-    <div><b>The top link is the pitch</b><span>The site link goes to that company's page, with an intro video and the work in the order that fits the role. For example: <code>alexanderprins.com/glow</code></span></div>
-    <div><b>Clicks are tracked</b><span>The visible link stays clean. The real link carries <code>?utm_source=resume</code>, so PostHog shows when someone clicks from the PDF.</span></div>
+  <section class="intro">
+    <h1>Every resume I've sent this search</h1>
+    <p class="lede muted">One base resume, then a tailored copy for each role. The base comes first. Click any resume to read it full size.</p>
+    <div class="how">
+      <div><p class="k">Same base, small swaps</p><p class="muted">Each copy changes the skills and tools lists, plus one to four bullets that echo the job post's own wording. The jobs and numbers never change.</p></div>
+      <div><p class="k">The top link goes to their page</p><p class="muted">Each company gets its own page on my site, with an intro video and the work in the order that fits the role.</p></div>
+      <div><p class="k">Clicks are tracked</p><p class="muted">The resume shows a clean link. Underneath, it carries <span style="white-space:nowrap">?utm_source=resume</span>, so PostHog tells me when someone clicks from the PDF.</p></div>
+    </div>
   </section>
 
-  <section style="display:grid;gap:18px" aria-labelledby="base-h">
-    <div class="section-head"><h2 id="base-h">The base resume</h2><p>Used for cold applications with no tailored page.</p></div>
+  <section class="section" aria-labelledby="base-h">
+    <div class="section-head"><h2 id="base-h">The base resume</h2><span class="muted">Used for cold applications with no tailored page</span></div>
     <div class="base">
-      <button class="sheet" data-i="0" aria-label="Open the base resume full size"><img src="/resume-set/img/default.jpg" alt="Base resume, page 1" loading="eager"><span class="zoom">View full size</span></button>
-      <div class="notes">
+      <button class="sheet" data-i="0" aria-label="Open the base resume full size"><img src="/resume-set/img/default-thumb.jpg" alt="Base resume" width="820" height="1061"></button>
+      <div class="info">
         <h3>Default</h3>
-        <div class="role">Brand Designer · links to the homepage</div>
+        <div class="muted">Brand Designer</div>
         <ul class="t">
           <li>Shift Nudge: audience 40K to 88K+, 3M+ views, 16,500+ email subscribers from Instagram funnels, full production pipeline, edited the 20-lesson "Claude Code for Designers" course.</li>
           <li>Freelance since 2019: brand identities plus the websites they live on, 30+ clients.</li>
           <li>Northern Vessel cofounder: raised $300K, built the whole brand, shipped the Coffee Club app.</li>
           <li>Skills: brand identity and systems, prototyping, motion, video, web, building in code.</li>
         </ul>
+        <div class="link"><span class="muted">Top link:</span> <span class="url">alexanderprins.com/?utm_source=resume</span></div>
       </div>
     </div>
   </section>
 
-  <section style="display:grid;gap:18px" aria-labelledby="t-h">
-    <div class="section-head"><h2 id="t-h">Tailored copies</h2><p>Newest first. "What changed" is measured against the base.</p></div>
+  <section class="section" aria-labelledby="t-h">
+    <div class="section-head"><h2 id="t-h">Tailored copies</h2><span class="muted">Newest first. Changes are measured against the base.</span></div>
     <div class="grid" id="grid"></div>
   </section>
 
-  <footer>These are the current exports. Some older copies were reprinted on November 7 after small edits to the base, so a word or two may differ from the version that was submitted. The roles, numbers, and tailoring are the same.</footer>
+  <p class="foot muted">These are the current exports. Some older copies were reprinted on November 7 after small edits to the base, so a word or two may differ from what was submitted. The roles, numbers, and tailoring are the same.</p>
 </div>
 
 <dialog id="lb" aria-label="Resume viewer">
   <div class="lb">
     <div class="lb-bar">
-      <button id="prev" aria-label="Previous resume">←</button>
       <span class="lb-title" id="lbTitle"></span>
-      <span class="hint">← → to switch · Esc to close</span>
+      <span class="muted keys">← → to switch</span>
       <button class="size" id="size">Larger</button>
-      <button id="next" aria-label="Next resume">→</button>
+      <button id="prev" aria-label="Previous resume">Previous</button>
+      <button id="next" aria-label="Next resume">Next</button>
       <button id="close">Close</button>
     </div>
     <div class="lb-scroll" id="lbScroll"><img id="lbImg" alt=""></div>
@@ -164,84 +160,83 @@ dialog::backdrop { background: transparent; }
 <script>
 const R = [
   { s: "default", name: "Default", role: "Base resume" },
-  { s: "glow", name: "Glow", role: "Senior Brand Designer (first brand hire)", st: ["ok", "Applied"], d: "Nov 11", link: "/glow",
+  { s: "glow", name: "Glow", role: "Senior Brand Designer (first brand hire)", st: [1, "Applied"], d: "Nov 11", link: "/glow",
     t: ["Skills lead with rebrands and design systems, because the post asks for both by name.",
         "New bullet: \"Lead rebrands from audit to rollout,\" in the post's own words.",
         "New bullet: building brand systems \"in Figma and in code,\" with templates and components.",
         "Speed test: applied about a day after the post, with the general intro video."] },
-  { s: "boldin", name: "Boldin", role: "Senior Brand Designer", st: ["ok", "Applied"], d: "Nov 10", link: "/boldin",
+  { s: "boldin", name: "Boldin", role: "Senior Brand Designer", st: [1, "Applied"], d: "Nov 10", link: "/boldin",
     t: ["Shift Nudge opens with the email funnel (16,500+ subscribers). The post wants creative tied to marketing tests.",
         "Finance and real estate lead the client industries.",
         "New bullet: using AI \"from ideation to production,\" with my own judgment as the filter.",
         "Skills add AI brand pipelines and design systems."] },
-  { s: "rula", name: "Rula", role: "Brand Designer", st: ["ok", "Applied"], d: "Nov 10", link: "/rula",
+  { s: "rula", name: "Rula", role: "Brand Designer", st: [1, "Applied"], d: "Nov 10", link: "/rula",
     t: ["First freelance bullet names \"templates and modular systems,\" from their preferred list.",
         "Healthcare leads the client industries.",
         "Skills: campaigns, decks and print, events, motion, AI workflows."] },
-  { s: "thatch", name: "Thatch", role: "Brand Designer", st: ["ok", "Applied"], d: "Nov 9", link: "/thatch",
+  { s: "thatch", name: "Thatch", role: "Brand Designer", st: [1, "Applied"], d: "Nov 9", link: "/thatch",
     t: ["New bullet: \"Evolve existing brands\" as often as I build new ones. Their brief is evolving a brand people love.",
         "New bullet: shipping sites \"in Framer and in code,\" from their wish list.",
         "Adds the Descript API course bullet as proof of AI in the workflow.",
         "Skills lead with brand evolution and campaign creative."] },
-  { s: "runlayer", name: "Runlayer", role: "Senior Designer, Brand (first brand hire)", st: ["ok", "Applied"], d: "Nov 9", link: "/runlayer",
+  { s: "runlayer", name: "Runlayer", role: "Senior Designer, Brand (first brand hire)", st: [1, "Applied"], d: "Nov 9", link: "/runlayer",
     t: ["New bullet: defining brands from zero, down to the templates and systems.",
         "New bullet: building with MCPs and AI agents daily. Their product runs MCPs and agents.",
         "Skills add AI brand tooling and events and swag."] },
-  { s: "hex", name: "Hex", role: "Brand Designer", st: ["off", "Not sent"], d: "Role closed Nov 9", link: "/hex",
+  { s: "hex", name: "Hex", role: "Brand Designer", st: [0, "Not sent"], d: "Role closed Nov 9", link: "/hex",
     t: ["New bullet on original illustration and image-making, from characters to packaging.",
         "Skills: illustration, packaging and merch, art direction.",
         "Tools add Illustrator and Photoshop."] },
-  { s: "ambrook", name: "Ambrook", role: "Brand Designer", st: ["ok", "Applied"], d: "Oct 27", link: "/ambrook",
+  { s: "ambrook", name: "Ambrook", role: "Brand Designer", st: [1, "Applied"], d: "Oct 27", link: "/ambrook",
     t: ["A family-run orchard leads the client list. Ambrook serves farms and family businesses.",
         "Adds the Descript API bullet, an AI system that stayed in use.",
         "Skills lead with print and production, packaging and merch."] },
-  { s: "yahoo", name: "Yahoo", role: "Brand Designer, Marketing Studio", st: ["ok", "Applied"], d: "Nov 2", link: "homepage (cold, no page)",
+  { s: "yahoo", name: "Yahoo", role: "Brand Designer, Marketing Studio", st: [1, "Applied"], d: "Nov 2", link: "/",
     t: ["New bullet on \"production-ready files\" for digital and print.",
         "Tools follow the post's order: Photoshop, Illustrator, InDesign first.",
-        "Control group: no tailored page and no video."] },
-  { s: "turquoise", name: "Turquoise Health", role: "Brand Designer", st: ["no", "Rejected"], d: "Nov 3, after round 1", link: "/turquoise",
+        "Control group: no tailored page and no video, so the link goes to the homepage."] },
+  { s: "turquoise", name: "Turquoise Health", role: "Brand Designer", st: [0, "Rejected"], d: "Nov 3, after round 1", link: "/turquoise",
     t: ["New bullet: designing inside established brands (decks, one-pagers, offering memorandums).",
         "Healthcare leads the client industries.",
         "Tools add Illustrator, InDesign, After Effects, as named in the post."] },
-  { s: "descript", name: "Descript", role: "Brand Design Lead", st: ["off", "Presumed closed"], d: "Nov 3", link: "/descript",
+  { s: "descript", name: "Descript", role: "Brand Design Lead", st: [0, "Presumed closed"], d: "Nov 3", link: "/descript",
     t: ["Adds the Descript API bullet: the course workflow built on their own product.",
         "Skills add generative tooling.",
         "Descript in the tools list."] },
-  { s: "supabase", name: "Supabase", role: "Brand Designer", st: ["off", "Not sent"], d: "Role unlisted", link: "/supabase",
+  { s: "supabase", name: "Supabase", role: "Brand Designer", st: [0, "Not sent"], d: "Role unlisted", link: "/supabase",
     t: ["New bullet: carrying a brand across every medium, from decks and print to video and web.",
         "New bullet: designing for technical and non-technical audiences.",
         "Skills: presentation design, print, merchandise."] },
-  { s: "fieldguide", name: "Fieldguide", role: "Senior Motion Designer", st: ["ok", "Applied"], d: "Oct 5", link: "/fieldguide",
+  { s: "fieldguide", name: "Fieldguide", role: "Senior Motion Designer", st: [1, "Applied"], d: "Oct 5", link: "/fieldguide",
     t: ["Title changes to Motion Designer.",
         "Shift Nudge bullets rewritten motion-first: explainers capped at 3 to 4 focal points, full motion pipeline.",
         "Skills: product explainers, UI animation, motion systems."] },
-  { s: "baseten", name: "Baseten", role: "Motion Designer, Brand Team", st: ["ok", "Applied"], d: "Oct 5", link: "/baseten",
+  { s: "baseten", name: "Baseten", role: "Motion Designer, Brand Team", st: [1, "Applied"], d: "Oct 5", link: "/baseten",
     t: ["Title changes to Motion Designer.",
         "Same motion-first Shift Nudge bullets as Fieldguide.",
         "Skills: brand motion, motion systems, sound design."] },
-  { s: "linear", name: "Linear", role: "Designer, Magic Team", st: ["no", "Rejected"], d: "Oct 27", link: "/linear",
+  { s: "linear", name: "Linear", role: "Designer, Magic Team", st: [0, "Rejected"], d: "Oct 27", link: "/linear",
     t: ["New bullet: designed and shipped my own site in code (Next.js, Tailwind) with custom motion.",
         "Skills: web design, landing pages, interaction design, prototyping.",
         "Tools add Vercel and GitHub."] },
-  { s: "figma", name: "Figma", role: "Brand Designer, Product Launches", st: ["off", "Role closed"], d: "Oct 26", link: "/figma",
+  { s: "figma", name: "Figma", role: "Brand Designer, Product Launches", st: [0, "Role closed"], d: "Oct 26", link: "/figma",
     t: ["New Shift Nudge bullet: storyboards and short-form visual stories, one clear idea per brief.",
         "Skills: visual storytelling, storyboards, styleframes, art direction."] },
 ];
 
 const esc = (x) => String(x).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const grid = document.getElementById("grid");
-grid.innerHTML = R.slice(1).map((r, k) => `
+const shown = (p) => `alexanderprins.com${p}?utm_source=resume`;
+document.getElementById("grid").innerHTML = R.slice(1).map((r, k) => `
   <article class="card">
     <button class="sheet" data-i="${k + 1}" aria-label="Open the ${esc(r.name)} resume full size">
-      <img src="/resume-set/img/${r.s}.jpg" alt="${esc(r.name)} resume, page 1" loading="lazy"><span class="zoom">View full size</span>
+      <img src="/resume-set/img/${r.s}-thumb.jpg" alt="${esc(r.name)} resume" width="820" height="1061" loading="lazy">
     </button>
-    <div class="meta">
-      <h3>${esc(r.name)}</h3>
-      <div class="role">${esc(r.role)}</div>
-      <div class="row"><span class="chip ${r.st[0]}">${esc(r.st[1])}</span><span class="date">${esc(r.d)}</span></div>
+    <div class="info">
+      <div><h3>${esc(r.name)}</h3><div class="muted">${esc(r.role)}</div></div>
+      <div class="row"><span class="tag${r.st[0] ? " live" : ""}">${esc(r.st[1])}</span><span class="muted">${esc(r.d)}</span></div>
+      <ul class="t">${r.t.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
+      <div class="link"><span class="muted">Top link:</span> <span class="url">${esc(shown(r.link))}</span></div>
     </div>
-    <ul class="t">${r.t.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
-    <div class="link">Top link: ${r.link.startsWith("/") ? "alexanderprins.com" + esc(r.link) : esc(r.link)}</div>
   </article>`).join("");
 
 const lb = document.getElementById("lb"), img = document.getElementById("lbImg"),
@@ -250,8 +245,8 @@ let cur = 0, opener = null;
 function show(i) {
   cur = (i + R.length) % R.length;
   const r = R[cur];
-  img.src = `/resume-set/img/${r.s}.jpg`; img.alt = `${r.name} resume, full size`;
-  title.textContent = `${r.name} · ${r.role}`;
+  img.src = `/resume-set/img/${r.s}-full.jpg`; img.alt = `${r.name} resume, full size`;
+  title.textContent = `${r.name}, ${r.role}`;
   scroll.scrollTop = 0;
 }
 document.addEventListener("click", (e) => {
@@ -272,6 +267,5 @@ lb.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") { e.preventDefault(); show(cur - 1); }
 });
 </script>
-
 </body>
 </html>
