@@ -31,12 +31,14 @@ h1, h2, h3 { text-wrap: balance; font-weight: 400; margin: 0; }
 .top a { text-decoration: none; }
 .top a:hover { text-decoration: underline; }
 .muted { color: var(--ink-60); }
-.intro { margin-top: 120px; display: grid; gap: 16px; max-width: 720px; }
+.intro { margin-top: 120px; display: grid; gap: 16px; }
+.intro > h1, .intro > p { max-width: 720px; }
+.intro > .toggle { justify-self: start; }
 .intro h1 { font-size: clamp(28px, 3.4vw, 40px); line-height: 1.15; letter-spacing: -0.01em; }
 .day { margin-top: 120px; }
 .head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; border-top: 1px solid var(--line); padding-top: 24px; margin-bottom: 24px; }
 .head h2 { font-size: 16px; line-height: 24px; }
-.job { display: grid; grid-template-columns: 72px minmax(0, 4fr) minmax(0, 5fr) 240px; column-gap: 24px; row-gap: 12px; padding-block: 24px; border-bottom: 1px solid var(--line); align-items: start; }
+.job { display: grid; grid-template-columns: 72px minmax(0, 4fr) minmax(0, 5fr) 260px; column-gap: 24px; row-gap: 12px; padding-block: 24px; border-bottom: 1px solid var(--line); align-items: start; }
 .score { font-size: 32px; line-height: 32px; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
 .who { display: grid; gap: 8px; min-width: 0; }
 .who h3 { font-size: 16px; line-height: 24px; }
@@ -51,21 +53,38 @@ h1, h2, h3 { text-wrap: balance; font-weight: 400; margin: 0; }
 .sub { margin-top: 48px; margin-bottom: 8px; font-size: 14px; line-height: 21px; color: var(--ink-60); }
 .empty { padding-block: 24px; border-bottom: 1px solid var(--line); color: var(--ink-60); }
 .skipped { margin-top: 144px; }
-.sk { display: grid; grid-template-columns: 72px minmax(0, 3fr) minmax(0, 4fr) 240px; column-gap: 24px; padding-block: 10px; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 21px; }
+.sk { display: grid; grid-template-columns: 72px minmax(0, 3fr) minmax(0, 4fr) 260px; column-gap: 24px; padding-block: 10px; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 21px; }
 .sk .links { font-size: 14px; line-height: 21px; }
 .status { margin-top: 120px; color: var(--ink-60); }
+.parts { font-size: 14px; line-height: 21px; color: var(--ink-60); }
+.act { display: grid; gap: 8px; justify-items: end; align-content: start; }
+.marks { display: flex; gap: 12px; font-size: 14px; line-height: 21px; color: var(--ink-60); }
+.marks label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.marks input { appearance: none; margin: 0; width: 14px; height: 14px; border: 1px solid rgb(30 30 30 / 0.4); background: var(--bg); cursor: pointer; display: grid; place-content: center; }
+.marks input:checked { background: var(--ink); border-color: var(--ink); }
+.marks input:checked::after { content: ""; width: 8px; height: 4px; border: solid var(--bg); border-width: 0 0 1.5px 1.5px; transform: translateY(-1px) rotate(-45deg); }
+.marks input:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.marks label:has(input:checked) { color: var(--ink); }
+.marked > :not(.act) { opacity: 0.4; }
+.hide-marked .marked { display: none; }
+.toggle { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.key { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 32px; border-top: 1px solid var(--line); padding-top: 24px; max-width: none; }
+.key p { font-size: 14px; line-height: 21px; }
+.local { margin-top: 144px; }
 @media (max-width: 900px) {
   .job { grid-template-columns: 56px minmax(0, 1fr); }
-  .job .note, .job .links { grid-column: 2; }
+  .job .note, .job .act { grid-column: 2; }
   .score { font-size: 24px; line-height: 24px; }
   .sk { grid-template-columns: 56px minmax(0, 1fr); row-gap: 4px; }
-  .sk .why, .sk .links { grid-column: 2; }
+  .sk .why, .sk .act { grid-column: 2; }
   .links { justify-content: flex-start; }
+  .act { justify-items: start; }
+  .key { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
   .intro { margin-top: 72px; }
   .day, .status { margin-top: 96px; }
-  .skipped { margin-top: 120px; }
+  .skipped, .local { margin-top: 120px; }
 }
 </style>
 </head>
@@ -79,8 +98,18 @@ h1, h2, h3 { text-wrap: balance; font-weight: 400; margin: 0; }
     <h1>Job Watch</h1>
     <p class="muted">New brand and motion roles from LinkedIn and company job boards, ranked against my rubric. Checked every morning at 7am. Refresh for the newest list.</p>
     <p class="muted" id="meta"></p>
+    <label class="toggle muted marks"><input type="checkbox" id="hide"> Hide roles I've marked</label>
+    <div class="key">
+      <div><p>The number is a score out of 100</p><p class="muted">From my rubric. Each of six things is rated 1 to 5, then weighted: Fit ×5, Odds ×4, Comp ×3, Company ×3, Warm path ×3, Energy ×2.</p></div>
+      <div><p>What the score means</p><p class="muted">75 and up: apply first, full tailored page. 55 to 74: apply, reuse a page. Under 55 goes to Skipped.</p></div>
+      <div><p>Marks stay in this browser</p><p class="muted">Applied, Closed and Skipped are saved on this computer only. They don't update pipeline.md.</p></div>
+    </div>
   </section>
   <main id="days"><p class="status">Loading…</p></main>
+  <section class="local" id="local" hidden>
+    <div class="head"><h2>Iowa snapshot</h2><span class="muted" id="lo-count"></span></div>
+    <div id="lo-list"></div>
+  </section>
   <section class="skipped" id="skipped" hidden>
     <div class="head"><h2>Skipped</h2><span class="muted" id="sk-count"></span></div>
     <div id="sk-list"></div>
@@ -104,6 +133,39 @@ function links(j) {
   return `<div class="links">${a.join("") || '<span class="none">No link</span>'}</div>`;
 }
 
+let marks = {};
+try { marks = JSON.parse(localStorage.getItem("jw-marks") || "{}"); } catch {}
+const STATES = ["Applied", "Closed", "Skipped"];
+function act(j) {
+  const m = marks[j.id];
+  return `<div class="act">${links(j)}<div class="marks" data-id="${esc(j.id)}">${STATES.map(s =>
+    `<label><input type="checkbox" value="${s}"${m === s ? " checked" : ""}> ${s}</label>`).join("")}</div></div>`;
+}
+const cls = j => marks[j.id] ? " marked" : "";
+document.addEventListener("change", e => {
+  const box = e.target;
+  if (box.id === "hide") {
+    document.body.classList.toggle("hide-marked", box.checked);
+    try { localStorage.setItem("jw-hide", box.checked ? "1" : ""); } catch {}
+    return;
+  }
+  const wrap = box.closest(".marks[data-id]");
+  if (!wrap) return;
+  const id = wrap.dataset.id;
+  wrap.querySelectorAll("input").forEach(i => { if (i !== box) i.checked = false; });
+  if (box.checked) marks[id] = box.value; else delete marks[id];
+  try { localStorage.setItem("jw-marks", JSON.stringify(marks)); } catch {}
+  document.querySelectorAll(`.marks[data-id="${CSS.escape(id)}"]`).forEach(w => {
+    w.querySelectorAll("input").forEach(i => i.checked = marks[id] === i.value);
+    w.closest(".job, .sk")?.classList.toggle("marked", !!marks[id]);
+  });
+});
+try { if (localStorage.getItem("jw-hide")) { document.getElementById("hide").checked = true; document.body.classList.add("hide-marked"); } } catch {}
+
+const PARTS = [["fit", "Fit"], ["odds", "Odds"], ["comp", "Comp"], ["company", "Company"], ["warm", "Warm"], ["energy", "Energy"]];
+const parts = j => j.parts && Object.keys(j.parts).length
+  ? `<p class="parts">${PARTS.map(([k, n]) => `${n} ${esc(j.parts[k] ?? "?")}`).join(" · ")}</p>` : "";
+
 function tags(j, isNew, extra = []) {
   const t = [];
   if (isNew) t.push('<span class="tag dark">New</span>');
@@ -114,11 +176,11 @@ function tags(j, isNew, extra = []) {
 }
 
 function job(j, isNew, notable) {
-  return `<article class="job">
+  return `<article class="job${cls(j)}">
     <div class="score">${notable ? "" : esc(j.score)}</div>
-    <div class="who"><h3>${esc(j.company)}, ${esc(j.role)}</h3>${tags(j, isNew, [j.comp, notable ? j.where : j.location])}</div>
+    <div class="who"><h3>${esc(j.company)}, ${esc(j.role)}</h3>${tags(j, isNew, [j.comp, notable ? j.where : j.location])}${notable ? "" : parts(j)}</div>
     <p class="note">${esc(j.note)}</p>
-    ${links(j)}
+    ${act(j)}
   </article>`;
 }
 
@@ -144,15 +206,27 @@ function render(feed) {
     </section>`;
   }).join("") || '<p class="status">No runs yet.</p>';
 
+  const lo = days.flatMap(d => (d.local || []).map(s => ({ ...s, day: d.date })));
+  if (lo.length) {
+    document.getElementById("local").hidden = false;
+    document.getElementById("lo-count").textContent = `${lo.length} roles, any work type, newest first. Not ranked.`;
+    document.getElementById("lo-list").innerHTML = lo.map(s => `<div class="sk${cls(s)}">
+      <span class="muted">${esc(short(s.day))}</span>
+      <span>${esc(s.company)}, ${esc(s.role)}<br><span class="muted">${esc(s.comp)} · ${esc(s.city)}</span></span>
+      <span class="why muted">${esc(s.note)}</span>
+      ${act(s)}
+    </div>`).join("");
+  }
+
   const sk = days.flatMap(d => d.skipped.map(s => ({ ...s, day: d.date })));
   if (sk.length) {
     document.getElementById("skipped").hidden = false;
     document.getElementById("sk-count").textContent = `${sk.length} roles, newest first`;
-    document.getElementById("sk-list").innerHTML = sk.map(s => `<div class="sk">
+    document.getElementById("sk-list").innerHTML = sk.map(s => `<div class="sk${cls(s)}">
       <span class="muted">${esc(short(s.day))}</span>
       <span>${esc(s.company)}, ${esc(s.role)}</span>
       <span class="why muted">${esc(s.reason)}</span>
-      ${links(s)}
+      ${act(s)}
     </div>`).join("");
   }
   try { if (newest) localStorage.setItem("jw-last-day", newest); } catch {}
