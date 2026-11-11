@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       // Resume review page for mentors (static file in public/resume-set,
       // noindex, not linked from the site).
       { source: "/resumes", destination: "/resume-set/index.html" },
+      { source: "/job-watch", destination: "/job-watch/index.html" }, // noindex; data from a secret gist
       {
         source: "/ingest/static/:path*",
         destination: "https://us-assets.i.posthog.com/static/:path*",
