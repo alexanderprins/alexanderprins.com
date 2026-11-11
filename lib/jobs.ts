@@ -205,6 +205,32 @@ export const jobs: JobPage[] = [
       "A brand designer who makes complex things clear, with motion and templates that scale. Tailored for Rula's Brand Designer role.",
   },
   {
+    // Glow (2026-11-11): first brand hire under a Creative Director; rebrand,
+    // design system, motion a bonus. Speed test: applied within ~a day of the
+    // post with the spine-only Default video (no bookends) behind a Glow cover.
+    // Lily first: their bar names direct rebrand / brand-evolution experience.
+    slug: "glow",
+    company: "Glow",
+    role: "Senior Brand Designer",
+    layout: "home",
+    introVideo: {
+      title: "Intro video for Glow",
+      src: "/intro/default.mp4",
+      poster: "/intro/glow.jpg",
+      aspect: "landscape",
+    },
+    intro: [],
+    projectOrder: [
+      "lily-development",
+      "patient-pipeline",
+      "cascata-group",
+      "northern-vessel",
+    ],
+    ogTitle: "Alexander Prins for Glow",
+    ogDescription:
+      "A brand designer who builds brand systems and brings them to life with motion. Tailored for Glow's Senior Brand Designer role.",
+  },
+  {
     // Homepage layout (moved 2026-10-26; interview already scheduled). Noah
     // emailed it to Tabby.
     slug: "turquoise",
