@@ -97,6 +97,14 @@
     aside { border-left: 0; border-top: 1px solid var(--line); }
   }
 </style>
+<script>
+// PostHog (same project as the rest of the site): pageviews, UTM tags, clicks. Live site only.
+// Events go through the site's /ingest rewrite so ad blockers don't drop them.
+if (/(^|\.)alexanderprins\.com$/.test(location.hostname)) {
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once unregister identify reset get_distinct_id get_session_id set_config startSessionRecording stopSessionRecording opt_in_capturing opt_out_capturing".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+posthog.init('phc_kqz2Zc9uNM4wnPmbdT9FqtKpPGcWZ8GQHmpZAsbxKWa7', { api_host: '/ingest', ui_host: 'https://us.posthog.com', defaults: '2026-08-30' });
+}
+</script>
 </head>
 <body>
 <div class="app">
