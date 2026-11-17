@@ -384,25 +384,29 @@ export function HomeShell({ job }: { job?: HomeJob }) {
 
           {/* the work, columns 4-11 */}
           <main className="lg:col-span-8 lg:col-start-4">
-            {sections.map((id, i) => (
-              <Fragment key={id}>
-                <div className={i ? SECTION_GAP : undefined}>{later[id]}</div>
-                {/* a job page's intro video on phones: after the first section */}
-                {i === 0 && job ? (
-                  <section className={`${SECTION_GAP} lg:hidden`}>
-                    <MobileTitle>{job.greeting}</MobileTitle>
-                    <VideoFigure video={job.video} showCaption={false} />
-                    {job.secondVideo ? (
-                      <div className="mt-12">
-                        <p className="h-6 text-black/60">{job.secondVideo.label}</p>
-                        <div className="mt-3">
-                          <VideoFigure video={job.secondVideo.video} showCaption={false} />
-                        </div>
-                      </div>
-                    ) : null}
-                  </section>
+            {/* a job page's intro video on phones: first thing on the page, so
+                visitors don't scroll past the featured work to find it */}
+            {job ? (
+              <section className="lg:hidden">
+                <MobileTitle>{job.greeting}</MobileTitle>
+                <VideoFigure video={job.video} showCaption={false} />
+                {job.secondVideo ? (
+                  <div className="mt-12">
+                    <p className="h-6 text-black/60">{job.secondVideo.label}</p>
+                    <div className="mt-3">
+                      <VideoFigure video={job.secondVideo.video} showCaption={false} />
+                    </div>
+                  </div>
                 ) : null}
-              </Fragment>
+              </section>
+            ) : null}
+            {sections.map((id, i) => (
+              <div
+                key={id}
+                className={i ? SECTION_GAP : job ? "mt-[144px] lg:mt-0" : undefined}
+              >
+                {later[id]}
+              </div>
             ))}
           </main>
 
