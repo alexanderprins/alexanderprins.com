@@ -4,9 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Pathways: social template</title>
+<title>Pathways</title>
+<meta name="description" content="A system generator/playground built from the Thatch wordmark and other brand elements. Concept by Alexander Prins.">
+<meta property="og:title" content="Pathways">
+<meta property="og:description" content="A system generator/playground built from the Thatch wordmark and other brand elements. Concept by Alexander Prins.">
+<meta property="og:url" content="https://www.alexanderprins.com/thatch/pathways">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://www.alexanderprins.com/thatch/pathways/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Pathways tool: a Thatch social post on the left, its controls on the right.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.alexanderprins.com/thatch/pathways/og.png">
 <style>
   /* Selecta (Maxitype) trial, used under the trial license for pitches. */
+  @font-face { font-family: Selecta; font-weight: 300; src: url(/thatch/pathways/fonts/SelectaTrialUnlicensed-Light.woff2) format('woff2'); }
   @font-face { font-family: Selecta; font-weight: 400; src: url(/thatch/pathways/fonts/SelectaTrialUnlicensed-Regular.woff2) format('woff2'); }
   @font-face { font-family: Selecta; font-weight: 500; src: url(/thatch/pathways/fonts/SelectaTrialUnlicensed-Medium.woff2) format('woff2'); }
   @font-face { font-family: Selecta; font-weight: 700; src: url(/thatch/pathways/fonts/SelectaTrialUnlicensed-Bold.woff2) format('woff2'); }
@@ -19,12 +31,12 @@
   body { background: var(--bg); color: var(--text); font: 14px/1.45 Selecta, system-ui, sans-serif; }
   .app { display: grid; grid-template-columns: 1fr 340px; height: 100vh; }
   .stage { display: grid; place-items: center; padding: 24px; min-height: 0; position: relative; }
-  .intro { position: absolute; top: 26px; left: 30px; max-width: 270px; }
-  .intro p { color: var(--muted); font-size: 13px; line-height: 1.5; margin: 0 0 6px; }
+  .intro { position: absolute; top: 26px; left: 30px; max-width: 340px; }
+  .intro p { color: var(--muted); font-size: 16px; font-weight: 300; line-height: 1.75; letter-spacing: 0; margin: 0 0 6px; }
   canvas { display: block; max-height: calc(100vh - 48px); max-width: 100%; height: auto; width: auto;
            border-radius: 10px; box-shadow: 0 20px 60px #0008; }
   aside { background: var(--panel); border-left: 1px solid var(--line); padding: 24px 22px; overflow: auto; }
-  h1 { font-size: 18px; font-weight: 500; margin: 0 0 8px; letter-spacing: .01em; }
+  h1 { font-size: 90px; font-weight: 700; line-height: .95; margin: 0 0 16px; letter-spacing: -.03em; }
   label { display: block; font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
           color: var(--muted); margin: 18px 0 8px; }
   textarea, input[type=text] { width: 100%; background: #1a1a18; color: var(--text); border: 1px solid var(--line);
@@ -34,11 +46,14 @@
            padding: 8px 11px; font: 500 13px Selecta, system-ui, sans-serif; cursor: pointer; }
   button:hover { border-color: #55554d; }
   button[aria-pressed=true] { background: var(--text); color: #1b1b19; border-color: var(--text); }
+  #themes { justify-content: space-between; }
   .swatch { width: 30px; height: 30px; padding: 0; border-radius: 50%; position: relative; }
   .swatch[aria-pressed=true] { outline: 2px solid var(--text); outline-offset: 2px; }
   .go { background: var(--red); border-color: var(--red); color: #fff; font-weight: 500; }
   .go:hover { border-color: #fff; }
   .note { color: var(--muted); font-size: 12px; margin-top: 26px; border-top: 1px solid var(--line); padding-top: 14px; }
+  .intro a { color: var(--text); text-underline-offset: 2px; }
+  .intro a:hover { color: var(--red); }
   .status { color: var(--muted); font-size: 12px; min-height: 18px; margin-top: 8px; }
   details { border-top: 1px solid var(--line); margin-top: 18px; }
   summary { cursor: pointer; list-style: none; padding: 14px 0 4px; font-size: 11px; font-weight: 500;
@@ -71,7 +86,7 @@
   .thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; cursor: pointer; display: block;
                 border: 2px solid transparent; }
   .thumbs img:hover { border-color: var(--text); }
-  @media (max-width: 1180px) {
+  @media (max-width: 1360px) {
     .stage { display: flex; flex-direction: column; align-items: center; }
     .intro { position: static; align-self: stretch; max-width: 520px; margin-bottom: 18px; }
     canvas { max-height: calc(100vh - 150px); }
@@ -88,8 +103,9 @@
   <div class="stage">
     <header class="intro">
       <h1>Pathways</h1>
-      <p>A social motion system built from the Thatch wordmark: the bend in the T, its square pixel, and the line that draws it on.</p>
+      <p>A system generator/playground built from the Thatch wordmark and other brand elements.</p>
       <p>Edit the words, color and effects on the right, then export a post or a video.</p>
+      <p class="credit">Concept by <a href="https://www.alexanderprins.com/thatch?utm_source=pathways" target="_blank" rel="noopener">Alexander Prins</a>. Not affiliated with Thatch. Palette and wordmark are from thatch.com. Type is Selecta by Maxitype (trial license).</p>
     </header>
     <canvas id="c" aria-label="Animated social post preview"></canvas>
   </div>
@@ -143,8 +159,6 @@
       <div class="status" id="status"></div>
     </details>
 
-    <p class="note">Concept by Alexander Prins. Not affiliated with Thatch. Palette and wordmark are from thatch.com.
-      Type is Selecta by Maxitype (trial license).</p>
   </aside>
 </div>
 
@@ -530,7 +544,16 @@ function draw(t, clock = performance.now() / 1000) {
   // Ambient pixels (always moving, independent of the intro)
   drawBlocks(col(th.path));
 
-  // Photo card, sitting in the pathway band so the route crosses in front of it
+  // Grain
+  if (opts.grain && opts.grainAmt > 0) {
+    const pat = grainPats[opts.grainMove ? Math.floor(clock * 12) % 4 : 0];
+    pat.setTransform(new DOMMatrix([opts.grainSize, 0, 0, opts.grainSize, 0, 0]));
+    ctx.globalAlpha = Math.min(1, th.grain * opts.grainAmt); ctx.globalCompositeOperation = 'overlay';
+    ctx.fillStyle = pat; ctx.fillRect(0, 0, W, H);
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  }
+
+  // Photo card, above the grain so the photo stays clean; the route still crosses in front of it
   if (photo && opts.photo === 'card') {
     const e = easeOut(prog(t, .35, .9)), bandH = L.y1 - L.y0;
     const cw = Math.min(W * .5 * opts.photoSize, W - 2 * M), ch = Math.min(cw * 1.1, bandH + S * 2);
@@ -540,15 +563,6 @@ function draw(t, clock = performance.now() / 1000) {
     ctx.beginPath(); ctx.roundRect(0, 0, cw, ch, W * .03); ctx.clip();
     drawCover(photo.img, 0, 0, cw, ch);
     ctx.restore();
-  }
-
-  // Grain
-  if (opts.grain && opts.grainAmt > 0) {
-    const pat = grainPats[opts.grainMove ? Math.floor(clock * 12) % 4 : 0];
-    pat.setTransform(new DOMMatrix([opts.grainSize, 0, 0, opts.grainSize, 0, 0]));
-    ctx.globalAlpha = Math.min(1, th.grain * opts.grainAmt); ctx.globalCompositeOperation = 'overlay';
-    ctx.fillStyle = pat; ctx.fillRect(0, 0, W, H);
-    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
   }
 
   // Pathway
