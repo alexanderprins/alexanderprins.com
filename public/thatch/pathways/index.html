@@ -1,0 +1,871 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Pathways: social template</title>
+<style>
+  /* Selecta (Maxitype) trial, used under the trial license for pitches. */
+  @font-face { font-family: Selecta; font-weight: 400; src: url(/thatch/pathways/fonts/SelectaTrialUnlicensed-Regular.woff2) format('woff2'); }
+  @font-face { font-family: Selecta; font-weight: 500; src: url(/thatch/pathways/fonts/SelectaTrialUnlicensed-Medium.woff2) format('woff2'); }
+  @font-face { font-family: Selecta; font-weight: 700; src: url(/thatch/pathways/fonts/SelectaTrialUnlicensed-Bold.woff2) format('woff2'); }
+  :root {
+    --bg: #1b1b19; --panel: #232320; --line: #34342f; --text: #f3f1ea; --muted: #9a978d;
+    --red: #F31616; --cream: #F8F5EE;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--bg); color: var(--text); font: 14px/1.45 Selecta, system-ui, sans-serif; }
+  .app { display: grid; grid-template-columns: 1fr 340px; height: 100vh; }
+  .stage { display: grid; place-items: center; padding: 24px; min-height: 0; position: relative; }
+  .intro { position: absolute; top: 26px; left: 30px; max-width: 270px; }
+  .intro p { color: var(--muted); font-size: 13px; line-height: 1.5; margin: 0 0 6px; }
+  canvas { display: block; max-height: calc(100vh - 48px); max-width: 100%; height: auto; width: auto;
+           border-radius: 10px; box-shadow: 0 20px 60px #0008; }
+  aside { background: var(--panel); border-left: 1px solid var(--line); padding: 24px 22px; overflow: auto; }
+  h1 { font-size: 18px; font-weight: 500; margin: 0 0 8px; letter-spacing: .01em; }
+  label { display: block; font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+          color: var(--muted); margin: 18px 0 8px; }
+  textarea, input[type=text] { width: 100%; background: #1a1a18; color: var(--text); border: 1px solid var(--line);
+          border-radius: 8px; padding: 10px 12px; font: 15px/1.35 Selecta, system-ui, sans-serif; resize: vertical; }
+  .row { display: flex; flex-wrap: wrap; gap: 6px; }
+  button { background: #2c2c28; color: var(--text); border: 1px solid var(--line); border-radius: 8px;
+           padding: 8px 11px; font: 500 13px Selecta, system-ui, sans-serif; cursor: pointer; }
+  button:hover { border-color: #55554d; }
+  button[aria-pressed=true] { background: var(--text); color: #1b1b19; border-color: var(--text); }
+  .swatch { width: 30px; height: 30px; padding: 0; border-radius: 50%; position: relative; }
+  .swatch[aria-pressed=true] { outline: 2px solid var(--text); outline-offset: 2px; }
+  .go { background: var(--red); border-color: var(--red); color: #fff; font-weight: 500; }
+  .go:hover { border-color: #fff; }
+  .note { color: var(--muted); font-size: 12px; margin-top: 26px; border-top: 1px solid var(--line); padding-top: 14px; }
+  .status { color: var(--muted); font-size: 12px; min-height: 18px; margin-top: 8px; }
+  details { border-top: 1px solid var(--line); margin-top: 18px; }
+  summary { cursor: pointer; list-style: none; padding: 14px 0 4px; font-size: 11px; font-weight: 500;
+            letter-spacing: .1em; text-transform: uppercase; color: var(--text); display: flex; justify-content: space-between; }
+  summary::after { content: '+'; color: var(--muted); font-size: 14px; letter-spacing: 0; }
+  details[open] summary::after { content: '–'; }
+  summary::-webkit-details-marker { display: none; }
+  .ctl { display: grid; grid-template-columns: 92px 1fr 38px; align-items: center; gap: 10px; margin: 9px 0;
+         font-size: 12.5px; color: var(--muted); }
+  .ctl output { text-align: right; color: var(--text); font-size: 12px; }
+  /* Sliders: a 2px track like the brand's thin rules, a small round handle */
+  .ctl input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 16px; background: transparent; cursor: pointer; }
+  .ctl input[type=range]::-webkit-slider-runnable-track { height: 2px; border-radius: 1px;
+    background: linear-gradient(var(--red), var(--red)) 0 / var(--fill, 50%) 100% no-repeat, var(--line); }
+  .ctl input[type=range]::-moz-range-track { height: 2px; background: var(--line); border-radius: 1px; }
+  .ctl input[type=range]::-moz-range-progress { height: 2px; background: var(--red); }
+  .ctl input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; margin-top: -5px;
+    border-radius: 50%; background: var(--cream); border: 0; box-shadow: 0 0 0 1px #0004; }
+  .ctl input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--cream); border: 0; }
+  .ctl input[type=range]:focus-visible { outline: 1px solid var(--muted); outline-offset: 2px; }
+  .ctl.tog { grid-template-columns: 92px 1fr; }
+  .ctl.tog input { accent-color: var(--red); width: 16px; height: 16px; margin: 0; justify-self: start; }
+  .ctl .row button { padding: 5px 9px; font-size: 12px; }
+  .ctl.wide { grid-template-columns: 92px 1fr; }
+  .hint { color: var(--muted); font-size: 12px; margin: 6px 0 0; }
+  .hint a { color: var(--text); }
+  .inline { display: flex; gap: 6px; margin-top: 8px; }
+  .inline input { flex: 1; min-width: 0; font-size: 13px; padding: 8px 10px; }
+  .thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
+  .thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; cursor: pointer; display: block;
+                border: 2px solid transparent; }
+  .thumbs img:hover { border-color: var(--text); }
+  @media (max-width: 1180px) {
+    .stage { display: flex; flex-direction: column; align-items: center; }
+    .intro { position: static; align-self: stretch; max-width: 520px; margin-bottom: 18px; }
+    canvas { max-height: calc(100vh - 150px); }
+  }
+  @media (max-width: 860px) {
+    .app { grid-template-columns: 1fr; height: auto; }
+    canvas { max-height: 70vh; }
+    aside { border-left: 0; border-top: 1px solid var(--line); }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="stage">
+    <header class="intro">
+      <h1>Pathways</h1>
+      <p>A social motion system built from the Thatch wordmark: the bend in the T, its square pixel, and the line that draws it on.</p>
+      <p>Edit the words, color and effects on the right, then export a post or a video.</p>
+    </header>
+    <canvas id="c" aria-label="Animated social post preview"></canvas>
+  </div>
+  <aside>
+    <label style="margin-top:0">Presets</label>
+    <div class="row" id="presets"></div>
+
+    <label for="headline">Headline</label>
+    <textarea id="headline" rows="3"></textarea>
+
+    <label for="eyebrow">Eyebrow</label>
+    <input type="text" id="eyebrow">
+
+    <label>Color</label>
+    <div class="row" id="themes"></div>
+
+    <label>Format</label>
+    <div class="row" id="formats"></div>
+
+    <label>Pathway</label>
+    <div class="row">
+      <button id="shuffle">Shuffle route</button>
+      <button id="replay">Replay</button>
+      <button id="pause" title="Space bar">Pause</button>
+    </div>
+    <div id="c-path"></div>
+
+    <details id="d-flare"><summary>Light flare</summary><div id="c-flare"></div></details>
+    <details id="d-pattern"><summary>Pattern</summary><div id="c-pattern"></div></details>
+    <details id="d-field"><summary>Pixel field</summary><div id="c-field"></div></details>
+    <details id="d-amb"><summary>Wandering pixels</summary><div id="c-amb"></div></details>
+    <details id="d-grain"><summary>Grain</summary><div id="c-grain"></div></details>
+    <details id="d-photo"><summary>Photo</summary>
+      <div id="c-photo"></div>
+      <div id="usKeyRow" hidden><div class="inline"><input type="password" id="usKey" placeholder="Unsplash Access Key" autocomplete="off"></div>
+      <p class="hint">Free key from <a href="https://unsplash.com/developers" target="_blank" rel="noopener">unsplash.com/developers</a>. It stays in this browser.</p></div>
+      <div class="inline"><input type="text" id="usLink" placeholder="Paste an Unsplash photo link"><button id="usLoad">Load</button></div>
+      <div class="inline"><input type="text" id="usQuery" placeholder="Search, e.g. motion blur"><button id="usSearch">Search</button></div>
+      <div class="thumbs" id="usThumbs"></div>
+      <div class="inline"><button id="upBtn">Upload your own</button><button id="phClear">Remove</button>
+        <input type="file" id="upFile" accept="image/*" hidden></div>
+      <p class="hint" id="credit"></p>
+    </details>
+
+    <details id="d-export" open><summary>Export</summary>
+      <div id="c-export"></div>
+      <div class="row" style="margin-top:10px">
+        <button class="go" id="rec">Record video</button>
+        <button id="png">Save PNG</button>
+      </div>
+      <div class="status" id="status"></div>
+    </details>
+
+    <p class="note">Concept by Alexander Prins. Not affiliated with Thatch. Palette and wordmark are from thatch.com.
+      Type is Selecta by Maxitype (trial license).</p>
+  </aside>
+</div>
+
+<script>
+/* ---------- Brand data ---------- */
+// Palette from thatch.com CSS (core palette ramps = steps 400 / 600 / 800).
+const P3_RED = 'color(display-p3 0.902 0.008 0.05)';
+const C = {
+  white: '#FFFFFF', cream: '#F8F5EE', red: '#F31616', brown: '#261703',
+  pink4: '#E297BD', pink6: '#A64C88', pink8: '#601249',
+  indigo4: '#A2A8FE', indigo6: '#6158E4', indigo8: '#2F2087',
+  sage4: '#93BBB5', sage6: '#467D76', sage8: '#0B413B',
+  red1: '#FFE8E7', red8: '#621C1F', pink2: '#F9D3E5',
+};
+// bg, two glows (grainy gradient), text, pathway, logo
+const THEMES = {
+  cream:  { name: 'Cream',  bg: C.cream,   glow: [C.pink2, C.red1],     text: C.brown, path: 'red',   logo: 'red',   grain: .06, glowA: .45 },
+  red:    { name: 'Red',    bg: 'red',     glow: ['#FF5A4F', '#C80C10'], text: C.cream, path: C.cream, logo: C.cream, grain: .10 },
+  brown:  { name: 'Brown',  bg: C.brown,   glow: [C.red8, '#3A2208'],   text: C.cream, path: 'red',   logo: 'red',   grain: .12 },
+  indigo: { name: 'Indigo', bg: C.indigo8, glow: [C.indigo6, C.pink6],  text: C.cream, path: C.indigo4, logo: C.cream, grain: .12 },
+  sage:   { name: 'Sage',   bg: C.sage8,   glow: [C.sage6, '#275F58'],  text: C.cream, path: C.sage4, logo: C.cream, grain: .12 },
+  pink:   { name: 'Pink',   bg: C.pink8,   glow: [C.pink6, '#842D69'],  text: C.cream, path: C.pink4, logo: C.cream, grain: .12 },
+};
+const FORMATS = { story: { name: '9:16', w: 1080, h: 1920 }, feed: { name: '4:5', w: 1080, h: 1350 }, square: { name: '1:1', w: 1080, h: 1080 } };
+// Headlines are Thatch's own lines from the rebrand post.
+const PRESETS = [
+  { label: 'Real choice', headline: 'Give your team real choice.', eyebrow: 'For employers', theme: 'cream', seed: 7 },
+  { label: 'Hold steady', headline: 'Health costs that hold steady, year after year.', eyebrow: 'CHOICE plans', theme: 'sage', seed: 6765 },
+  { label: 'More than', headline: 'More than just health insurance.', eyebrow: 'Thatch Cards', theme: 'brown', seed: 12 },
+  { label: 'You choose', headline: 'Healthcare you choose.', eyebrow: 'For members', theme: 'indigo', seed: 21 },
+];
+
+// Wordmark (viewBox 0 0 565 106). Fills = the glyphs. Mask strokes = the draw-on order, as on thatch.com.
+const LOGO_FILLS = [
+  'M155.449 42.2391H115.795V5.12235H95.9532V98.2771H115.795V59.7519H155.449V98.2771H175.277V5.12235H155.449V42.2391Z',
+  'M246.164 5.12235H237.299C232.717 5.12235 228.62 7.92496 226.979 12.1929L194.005 98.2771H215.103L222.283 78.0898H260.652L267.647 98.2771H289.458L256.484 12.1929C254.857 7.92496 250.746 5.12235 246.164 5.12235ZM228.421 60.8758L241.739 23.4602L254.7 60.8758H228.421Z',
+  'M402.627 29.8194C405.082 27.1876 407.965 25.1674 411.263 23.7448C414.574 22.3363 418.157 21.625 422.026 21.625C425.523 21.625 428.635 22.1941 431.376 23.3322C434.116 24.4561 436.529 25.9641 438.598 27.842C440.683 29.7199 442.381 31.9392 443.709 34.4715C444.522 36.0506 445.193 37.6867 445.721 39.3796H466.12C465.32 35.3393 463.964 31.4839 462.051 27.7708C459.639 23.1188 456.542 18.9789 452.773 15.3512C448.99 11.7234 444.522 8.87813 439.384 6.8153C434.23 4.73824 428.449 3.69971 422.026 3.69971C415.602 3.69971 409.093 4.92318 403.34 7.37013C397.574 9.81708 392.549 13.2314 388.252 17.6132C383.956 21.9807 380.601 27.088 378.189 32.9208C375.791 38.7536 374.577 45.0133 374.577 51.6997C374.577 58.3861 375.791 64.6458 378.189 70.4786C380.601 76.3114 383.956 81.4187 388.252 85.7863C392.549 90.168 397.574 93.5823 403.34 96.0293C409.093 98.4762 415.331 99.6997 422.026 99.6997C428.72 99.6997 434.23 98.6612 439.384 96.5841C444.522 94.5213 448.99 91.676 452.773 88.0483C456.542 84.4205 459.639 80.2806 462.051 75.6286C463.964 71.9155 465.32 68.0601 466.12 64.0198H445.721C445.193 65.7127 444.522 67.3346 443.709 68.9137C442.381 71.4602 440.683 73.6796 438.598 75.5574C436.529 77.4353 434.116 78.9433 431.376 80.0672C428.635 81.2053 425.523 81.7602 422.026 81.7602C416.93 81.7602 412.333 80.5225 408.222 78.0186C404.111 75.529 400.828 72.0435 398.373 67.5764C395.918 63.1093 394.69 57.8171 394.69 51.6997C394.69 47.0903 395.404 42.9504 396.817 39.28C398.23 35.6096 400.171 32.4513 402.627 29.8194Z',
+  'M544.173 5.12235V42.2391H504.518V5.12235H484.691V98.2771H504.518V59.7519H544.173V98.2771H564V5.12235H544.173Z',
+  'M77.9103 5.12235H48.8616V23.0477H77.9103V5.12235Z',
+  'M48.8616 31.5408V98.2771H29.0343V35.9795C29.0343 28.4537 26.4078 23.0477 17.2436 23.0477H0V5.12235H24.8376C39.4833 5.12235 48.8616 16.9445 48.8616 31.5408Z',
+  'M366.027 5.12235H336.978V23.0477H366.027V5.12235Z',
+  'M336.978 31.5408V98.2771H317.151V35.9795C317.151 28.4537 314.524 23.0477 305.36 23.0477H288.117V5.12235H312.954C327.6 5.12235 336.978 16.9445 336.978 31.5408Z',
+];
+const T_STEM = x => `M${x} 14.6997H${x + 22.558}C${x + 27.9592} 14.6997 ${x + 38.6028} 16.7649 ${x + 38.6028} 33.2863C${x + 38.6028} 45.7408 ${x + 38.6028} 81.05 ${x + 38.6028} 98.7363`;
+const LOGO_STROKES = [ // [seq, d, width]
+  [0, T_STEM(0), 22.558], [0, 'M48.4521 14.1681H78', 19.0631],
+  [1, 'M105.8 4.69971V98.6997', 20], [1, 'M115 51.1681H156', 19.0631], [1, 'M165.4 4.69971V98.6997', 20],
+  [2, 'M240 -2.5L203 102', 21], [2, 'M222 66L261 66', 21], [2, 'M243 -2.50009L280.5 102', 21],
+  [3, T_STEM(288.1), 22.558], [3, 'M336.552 14.1681H366.1', 19.0631],
+  [4, 'M458.5 51.6997A37 38 0 1 1 384.5 51.6997A37 38 0 1 1 458.5 51.6997', 21],
+  [5, 'M494.55 4.69971V98.6997', 20], [5, 'M503.75 51.1681H544.75', 19.0631], [5, 'M554.15 4.69971V98.6997', 20],
+];
+
+/* ---------- Setup ---------- */
+const canvas = document.getElementById('c');
+let ctx;
+try { ctx = canvas.getContext('2d', { colorSpace: 'display-p3' }); } catch (e) { ctx = canvas.getContext('2d'); }
+const P3 = ctx.getContextAttributes && ctx.getContextAttributes().colorSpace === 'display-p3';
+const col = c => c === 'red' ? (P3 ? P3_RED : C.red) : c;
+
+const svgNS = 'http://www.w3.org/2000/svg';
+const meas = document.createElementNS(svgNS, 'svg');
+meas.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
+document.body.appendChild(meas);
+function pathLen(d) { const p = document.createElementNS(svgNS, 'path'); p.setAttribute('d', d); meas.appendChild(p); const l = p.getTotalLength(); p.remove(); return l; }
+
+const logoFill = new Path2D(); LOGO_FILLS.forEach(d => logoFill.addPath(new Path2D(d))); // one shape: source-in must run once
+const strokes = LOGO_STROKES.map(([seq, d, w], i) => ({ seq, w, path: new Path2D(d), len: pathLen(d),
+  sub: LOGO_STROKES.slice(0, i).filter(s => s[0] === seq).length }));
+const logoCanvas = document.createElement('canvas');
+const lctx = logoCanvas.getContext('2d');
+
+// Film grain tiles, cycled for a living texture.
+const grain = Array.from({ length: 4 }, () => {
+  const g = document.createElement('canvas'); g.width = g.height = 256;
+  const gx = g.getContext('2d'), img = gx.createImageData(256, 256);
+  for (let i = 0; i < img.data.length; i += 4) { const v = Math.random() * 255 | 0; img.data[i] = img.data[i + 1] = img.data[i + 2] = v; img.data[i + 3] = 255; }
+  gx.putImageData(img, 0, 0); return g;
+});
+const grainPats = grain.map(g => ctx.createPattern(g, 'repeat'));
+
+/* ---------- State ---------- */
+const state = Object.assign({ format: 'story' }, PRESETS[1]);
+try {
+  const q = new URLSearchParams(location.hash.slice(1));
+  for (const k of ['headline', 'eyebrow', 'theme', 'format']) if (q.get(k)) state[k] = q.get(k);
+  if (q.get('seed')) state.seed = +q.get('seed');
+} catch (e) {}
+// Tweakable look. Saved in the URL hash so a link brings back the same settings.
+const DEFAULTS = {
+  path: false, lineW: 40,                                   // pathway weight in px at 1080 wide (pixel scales with it)
+  flare: true, flareEvery: .5, flareTravel: 4, flareLen: 520, flareStrength: .45, flareGlow: 1.4,
+  field: true, fieldSpacing: 54.5, fieldRows: 35, fieldSize: 37, fieldOpacity: .11, fieldFade: 'none', fieldColor: 'accent', fieldIdle: 0,
+  wave: true, waveDir: 'diag', waveEvery: 1, waveTravel: 8.6, waveWidth: .42, waveStrength: 0, shimmer: .11, waveGlow: false,
+  pattern: 'off', patSpacing: 36, patSize: 2.5, patOpacity: .21, patFade: 'none',
+  amb: false, ambCount: 80, ambSize: .8, ambSpeed: 1, ambHold: .5, ambTurn: .75, ambOpacity: .17,
+  grain: true, grainAmt: 1.15, grainSize: 1.25, grainMove: true,
+  photo: 'card', photoTint: 0, photoSize: 1.15,
+  loop: false, recLen: 8,
+};
+const DEFAULT_PHOTO = 'tvbxqXI5mmo'; // Unsplash id shown on first load
+const opts = { ...DEFAULTS };
+try {
+  const o = JSON.parse(new URLSearchParams(location.hash.slice(1)).get('o') || '{}');
+  for (const k in o) if (k in DEFAULTS && typeof o[k] === typeof DEFAULTS[k]) opts[k] = o[k];
+} catch (e) {}
+if (!THEMES[state.theme]) state.theme = 'cream';
+if (!FORMATS[state.format]) state.format = 'story';
+
+/* ---------- Easing ---------- */
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, start, dur) => clamp((t - start) / dur);
+const easeInOut = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const easeOut = x => 1 - Math.pow(1 - x, 4);
+
+function rng(seed) { let a = seed * 9301 + 49297 | 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+/* ---------- Layout ---------- */
+let L; // computed layout for current state
+function layout() {
+  const F = FORMATS[state.format], W = F.w, H = F.h;
+  canvas.width = W; canvas.height = H;
+  const M = Math.round(W * .08);
+  const S = Math.max(1, opts.lineW * W / 1080); // pathway stroke (matches the T's weight-to-pixel ratio)
+  const R = S * .95;                      // bend radius, from the T's curve
+  const PX = S * 1.5;                     // pixel length, from the T's crossbar block
+  const top = Math.max(M, Math.round(H * .085));
+
+  // Headline: wrap and fit.
+  const maxLines = H / W > 1.5 ? 5 : H / W > 1.1 ? 4 : 3;
+  let size = Math.round(W * .105), lines;
+  for (let i = 0; i < 20; i++) {
+    ctx.font = `500 ${size}px Selecta, system-ui, sans-serif`; ctx.letterSpacing = `${-.025 * size}px`;
+    lines = wrap(state.headline || ' ', W - 2 * M);
+    if (lines.length <= maxLines) break;
+    size = Math.round(size * .93);
+  }
+  const lh = Math.round(size * 1.04);
+  const eyebrowSize = Math.round(W * .028);
+  const headTop = top + (state.eyebrow ? eyebrowSize * 2.6 : 0);
+  const headBottom = headTop + lines.length * lh;
+
+  const logoW = Math.round(W * .26), logoH = logoW * 106 / 565;
+  const logoY = H - M - logoH;
+
+  // Pathway band between the headline and the wordmark.
+  const y0 = headBottom + Math.max(S * 1.6, H * .06);
+  const y1 = logoY - Math.max(S * 1.4, H * .05);
+  const route = makeRoute(W, M, S, R, PX, y0, y1, state.seed);
+
+  L = { W, H, M, S, R, PX, top, size, lh, lines, eyebrowSize, headTop, logoW, logoH, logoY, route, y0, y1 };
+  const pad = 40, sc = logoW / 565;
+  logoCanvas.width = Math.ceil(logoW + pad * 2); logoCanvas.height = Math.ceil(logoH + pad * 2);
+  L.logo = { pad, sc };
+  buildPattern();
+}
+
+/* ---------- Pattern: dot grid or line grid, drawn once per layout, faded with a mask ---------- */
+const patCanvas = document.createElement('canvas');
+let patReady = false;
+function buildPattern() {
+  patReady = opts.pattern !== 'off';
+  if (!patReady) return;
+  const { W, H } = L, th = THEMES[state.theme];
+  patCanvas.width = W; patCanvas.height = H;
+  const g = patCanvas.getContext('2d'), sp = opts.patSpacing;
+  g.clearRect(0, 0, W, H); g.globalCompositeOperation = 'source-over';
+  g.fillStyle = g.strokeStyle = th.text;
+  const ox = (W % sp) / 2, oy = (H % sp) / 2;
+  if (opts.pattern === 'dots') {
+    for (let x = ox; x <= W; x += sp) for (let y = oy; y <= H; y += sp) {
+      g.beginPath(); g.arc(x, y, opts.patSize, 0, Math.PI * 2); g.fill();
+    }
+  } else {
+    g.lineWidth = Math.max(1, opts.patSize * .5); g.beginPath();
+    for (let x = ox; x <= W; x += sp) { g.moveTo(x, 0); g.lineTo(x, H); }
+    for (let y = oy; y <= H; y += sp) { g.moveTo(0, y); g.lineTo(W, y); }
+    g.stroke();
+  }
+  // Fade, like the dot field and the corner grid on thatch.com
+  const a = v => `rgba(0,0,0,${v})`;
+  let grad = null;
+  if (opts.patFade === 'top') { grad = g.createRadialGradient(W / 2, -H * .05, 0, W / 2, -H * .05, H * .62); grad.addColorStop(0, a(1)); grad.addColorStop(.45, a(.6)); grad.addColorStop(1, a(0)); }
+  if (opts.patFade === 'corner') { grad = g.createRadialGradient(W, H, 0, W, H, W * 1.1); grad.addColorStop(0, a(1)); grad.addColorStop(.5, a(.5)); grad.addColorStop(1, a(0)); }
+  if (opts.patFade === 'edges') { const m = Math.max(W, H) * .62; grad = g.createRadialGradient(W / 2, H / 2, m * .3, W / 2, H / 2, m); grad.addColorStop(0, a(0)); grad.addColorStop(1, a(1)); }
+  if (grad) { g.globalCompositeOperation = 'destination-in'; g.fillStyle = grad; g.fillRect(0, 0, W, H); }
+}
+
+/* ---------- Ambient pixels: T blocks that step along a grid and sometimes turn ---------- */
+let blocks = [];
+function ambGeom() { const u = 54 * opts.ambSize, len = u * 1.5; return { u, len, cell: len * 2.2 }; }
+function ensureBlocks() {
+  const { cell } = ambGeom(), cols = Math.ceil(L.W / cell) + 2, rows = Math.ceil(L.H / cell) + 2;
+  if (blocks.length === opts.ambCount && blocks.cols === cols && blocks.rows === rows) return;
+  blocks = Array.from({ length: opts.ambCount }, () => {
+    const dir = Math.random() < .5 ? 0 : 1;
+    return { cx: Math.floor(Math.random() * cols), cy: Math.floor(Math.random() * rows), dir, prev: dir,
+             p: Math.random(), rate: .7 + Math.random() * .6 };
+  });
+  blocks.cols = cols; blocks.rows = rows;
+}
+function stepBlocks(dt) {
+  if (!opts.amb) return;
+  ensureBlocks();
+  for (const b of blocks) {
+    b.p += dt * opts.ambSpeed * b.rate;
+    while (b.p >= 1) {
+      b.p -= 1;
+      if (b.dir === 0) b.cx = (b.cx + 1) % blocks.cols; else b.cy = (b.cy + 1) % blocks.rows;
+      b.prev = b.dir;
+      if (Math.random() < opts.ambTurn) b.dir ^= 1;
+    }
+  }
+}
+function drawBlocks(color) {
+  if (!opts.amb) return;
+  ensureBlocks();
+  const { u, len, cell } = ambGeom(), h = opts.ambHold;
+  ctx.fillStyle = color; ctx.globalAlpha = opts.ambOpacity;
+  for (const b of blocks) {
+    const m = h > 0 ? easeInOut(clamp(b.p / (1 - h * .9))) : b.p;   // hold = pause between steps
+    const x = (b.cx + (b.dir === 0 ? m : 0)) * cell - cell, y = (b.cy + (b.dir === 1 ? m : 0)) * cell - cell;
+    const ang = (b.prev + (b.dir - b.prev) * easeOut(clamp(b.p / .3))) * Math.PI / 2;
+    ctx.save(); ctx.translate(x, y); ctx.rotate(ang); ctx.fillRect(-len / 2, -u / 2, len, u); ctx.restore();
+  }
+  ctx.globalAlpha = 1;
+}
+
+/* ---------- Pixel field + wave ---------- */
+const DIRS = { ltr: [1, 0], rtl: [-1, 0], diag: [.7071, .7071], rise: [.7071, -.7071] };
+function hash2(i, j) { const s = Math.sin(i * 127.1 + j * 311.7) * 43758.5453; return s - Math.floor(s); }
+function waveState(clock) {
+  if (!opts.wave) return null;
+  const { W, H } = L, v = DIRS[opts.waveDir] || DIRS.ltr, w = opts.waveWidth * W;
+  const ps = [[0, 0], [W, 0], [0, H], [W, H]].map(([x, y]) => x * v[0] + y * v[1]);
+  const pmin = Math.min(...ps), pmax = Math.max(...ps);
+  const cycle = opts.waveEvery + opts.waveTravel, ph = clock % cycle;
+  if (ph >= opts.waveTravel) return null;
+  return { v, w, pc: (W / 2) * v[0] + (H / 2) * v[1], front: pmin - 2 * w + (pmax - pmin + 4 * w) * (ph / opts.waveTravel) };
+}
+function fadeAt(mode, x, y) {
+  const { W, H } = L;
+  if (mode === 'top') { const r = Math.hypot(x - W / 2, y + H * .05) / (H * .62); return r < .45 ? 1 - .4 * r / .45 : clamp(.6 * (1 - (r - .45) / .55)); }
+  if (mode === 'corner') { const r = Math.hypot(x - W, y - H) / (W * 1.1); return r < .5 ? 1 - r : clamp(1 - r); }
+  if (mode === 'edges') { const m = Math.max(W, H) * .62; return clamp((Math.hypot(x - W / 2, y - H / 2) - m * .3) / (m * .7)); }
+  return 1;
+}
+function drawField(th, clock, gA, wv) {
+  if (!opts.field) return;
+  const { W, H } = L, sp = opts.fieldSpacing, sr = opts.fieldRows, u = opts.fieldSize, len = u * 1.5, k = opts.waveStrength;
+  const cols = Math.ceil(W / sp) + 1, rows = Math.ceil(H / sr) + 1, ox = (W - (cols - 1) * sp) / 2, oy = (H - (rows - 1) * sr) / 2;
+  ctx.fillStyle = opts.fieldColor === 'accent' ? col(th.path) : th.text;
+  const idle = opts.fieldIdle * sp * .06;
+  for (let i = 0; i < cols; i++) for (let j = 0; j < rows; j++) {
+    const x = ox + i * sp, y = oy + j * sr, h = hash2(i, j), h2 = hash2(j + 7, i + 3);
+    const f = fadeAt(opts.fieldFade, x, y);
+    let a = 0, d = 0;
+    if (wv) { d = x * wv.v[0] + y * wv.v[1] - wv.front; a = Math.exp(-(d * d) / (wv.w * wv.w)); }
+    // idle: each pixel bobs a little on its own
+    let dx = Math.sin(clock * .8 + h * 20) * idle, dy = Math.cos(clock * .7 + h2 * 31) * idle;
+    if (a > .001) { // wave: pixels ahead of the front get nudged forward, behind it pulled back, plus a little scatter
+      const push = k * sp * .35 * a * (d / wv.w);
+      dx += wv.v[0] * push + (h - .5) * a * k * sp * .3;
+      dy += wv.v[1] * push + (h2 - .5) * a * k * sp * .3;
+    }
+    const alpha = opts.fieldOpacity * f * gA + a * opts.shimmer * (.5 + .5 * Math.sin(clock * 18 + h * 40)) * (.4 + .6 * f);
+    if (alpha < .004) continue;
+    const rot = a * k * (h - .5) * .7, sc = 1 + a * k * .35, c = Math.cos(rot) * sc, s = Math.sin(rot) * sc;
+    ctx.globalAlpha = Math.min(1, alpha);
+    ctx.setTransform(c, s, -s, c, x + dx, y + dy);
+    ctx.fillRect(-len / 2, -u / 2, len, u);
+  }
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1;
+}
+
+/* ---------- Photo ---------- */
+let photo = null, photoCleared = false; // { img, credit, id, track }
+function drawCover(img, x, y, w, h) {
+  const s = Math.max(w / img.naturalWidth, h / img.naturalHeight), iw = img.naturalWidth * s, ih = img.naturalHeight * s;
+  ctx.drawImage(img, x + (w - iw) / 2, y + (h - ih) / 2, iw, ih);
+}
+
+function wrap(text, maxW) {
+  const out = [];
+  for (const para of text.split('\n')) {
+    let line = '';
+    for (const word of para.split(/\s+/).filter(Boolean)) {
+      const test = line ? line + ' ' + word : word;
+      if (ctx.measureText(test).width > maxW && line) { out.push(line); line = word; } else line = test;
+    }
+    out.push(line);
+  }
+  return out;
+}
+
+// A route of right and down runs. Every turn gets a pixel that continues the run past the bend,
+// the way the T's crossbar block continues past its curve.
+function makeRoute(W, M, S, R, PX, y0, y1, seed) {
+  const r = rng(seed);
+  const minDrop = 2 * R + S * .4;
+  const room = y1 - y0 - PX - S;
+  let k = Math.max(0, Math.min(2, Math.floor(room / minDrop)));
+  if (k > 1) k = 1 + Math.floor(r() * k);             // 1..k turns down
+  const xmin = M + R + S, xmax = W - M - PX - S;
+  const xs = [], ys = [];
+  for (let i = 0; i < k; i++) {
+    const a = xmin + (xmax - xmin) * i / k, b = xmin + (xmax - xmin) * (i + 1) / k - (2 * R + S);
+    xs.push(a + r() * Math.max(0, b - a));
+  }
+  // Start in the top fifth of the band, end in the bottom fifth, drops share the rest unevenly.
+  const bottom = y0 + room;
+  const start = y0 + r() * Math.max(0, room - k * minDrop) * .2;
+  const end = k ? bottom - r() * Math.max(0, bottom - start - k * minDrop) * .2 : start;
+  const w = Array.from({ length: k }, () => .6 + r()), sw = w.reduce((x, y) => x + y, 0);
+  const spare = Math.max(0, end - start - k * minDrop);
+  ys.push(start);
+  for (let i = 0; i < k; i++) ys.push(ys[i] + minDrop + spare * w[i] / sw);
+  const pts = [[-S * 2, ys[0]]];
+  const corners = [];
+  for (let i = 0; i < k; i++) {
+    pts.push([xs[i], ys[i]]); corners.push({ x: xs[i], y: ys[i], dir: 'right' });
+    pts.push([xs[i], ys[i + 1]]); corners.push({ x: xs[i], y: ys[i + 1], dir: 'down' });
+  }
+  pts.push([W + S * 2, ys[k]]);
+
+  // Path with rounded corners + arc-length position of each corner.
+  const path = new Path2D(); path.moveTo(...pts[0]);
+  let len = 0;
+  for (let i = 1; i < pts.length - 1; i++) {
+    path.arcTo(pts[i][0], pts[i][1], pts[i + 1][0], pts[i + 1][1], R);
+    const seg = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+    len += seg - (i === 1 ? R : 2 * R);
+    corners[i - 1].at = len + Math.PI * R / 4;
+    len += Math.PI * R / 2;
+  }
+  path.lineTo(...pts[pts.length - 1]);
+  const last = pts.length - 1;
+  len += Math.hypot(pts[last][0] - pts[last - 1][0], pts[last][1] - pts[last - 1][1]) - (k ? R : 0);
+  return { path, len, corners };
+}
+
+/* ---------- Timeline ---------- */
+const DUR = 6;
+const T = { bg: [0, .4], path: [.25, 2.3], eyebrow: [.45, .6], head: [.6, .9], headStagger: .09, logo: [2.15, .45], logoStagger: .075 };
+
+function draw(t, clock = performance.now() / 1000) {
+  const th = THEMES[state.theme], { W, H, M, S, R, PX } = L;
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+
+  // Background (+ photo backdrop under a tint of the theme color)
+  ctx.fillStyle = col(th.bg); ctx.fillRect(0, 0, W, H);
+  if (photo && opts.photo === 'backdrop') {
+    drawCover(photo.img, 0, 0, W, H);
+    ctx.globalAlpha = opts.photoTint; ctx.fillStyle = col(th.bg); ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1;
+  }
+  // Drifting grainy gradient
+  const gA = easeOut(prog(t, ...T.bg));
+  const blobs = [[.85 + .04 * Math.sin(t * .5), .18 + .03 * Math.cos(t * .4), .75, th.glow[0]],
+                 [.1 + .05 * Math.cos(t * .35), .92 + .02 * Math.sin(t * .6), .8, th.glow[1]]];
+  const waveLight = opts.field && opts.wave && opts.waveGlow;
+  if (!waveLight) for (const [bx, by, br, c] of blobs) {
+    const g = ctx.createRadialGradient(bx * W, by * H, 0, bx * W, by * H, br * Math.max(W, H));
+    g.addColorStop(0, c + 'e6'); g.addColorStop(1, c + '00');
+    ctx.globalAlpha = gA * (th.glowA || 1); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  }
+  ctx.globalAlpha = 1;
+
+  const wv = opts.field ? waveState(clock) : null;
+  if (waveLight && wv) { // the glow rides the wave instead of drifting
+    const cx = W / 2 + wv.v[0] * (wv.front - wv.pc), cy = H / 2 + wv.v[1] * (wv.front - wv.pc), r = wv.w * 2.6;
+    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+    g.addColorStop(0, th.glow[0] + 'e6'); g.addColorStop(1, th.glow[0] + '00');
+    ctx.globalAlpha = gA * (th.glowA || 1); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1;
+  }
+
+  // Pattern
+  if (patReady) { ctx.globalAlpha = opts.patOpacity * gA; ctx.drawImage(patCanvas, 0, 0); ctx.globalAlpha = 1; }
+
+  // Pixel field: a grid of T pixels that a wave passes through
+  drawField(th, clock, gA, wv);
+
+  // Ambient pixels (always moving, independent of the intro)
+  drawBlocks(col(th.path));
+
+  // Photo card, sitting in the pathway band so the route crosses in front of it
+  if (photo && opts.photo === 'card') {
+    const e = easeOut(prog(t, .35, .9)), bandH = L.y1 - L.y0;
+    const cw = Math.min(W * .5 * opts.photoSize, W - 2 * M), ch = Math.min(cw * 1.1, bandH + S * 2);
+    const x = W - M - cw, y = L.y0 + (bandH - ch) / 2;
+    ctx.save(); ctx.globalAlpha = e;
+    ctx.translate(x + cw / 2, y + ch / 2); ctx.scale(.94 + .06 * e, .94 + .06 * e); ctx.translate(-cw / 2, -ch / 2);
+    ctx.beginPath(); ctx.roundRect(0, 0, cw, ch, W * .03); ctx.clip();
+    drawCover(photo.img, 0, 0, cw, ch);
+    ctx.restore();
+  }
+
+  // Grain
+  if (opts.grain && opts.grainAmt > 0) {
+    const pat = grainPats[opts.grainMove ? Math.floor(clock * 12) % 4 : 0];
+    pat.setTransform(new DOMMatrix([opts.grainSize, 0, 0, opts.grainSize, 0, 0]));
+    ctx.globalAlpha = Math.min(1, th.grain * opts.grainAmt); ctx.globalCompositeOperation = 'overlay';
+    ctx.fillStyle = pat; ctx.fillRect(0, 0, W, H);
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  }
+
+  // Pathway
+  const rt = L.route, p = easeInOut(prog(t, ...T.path)), drawn = rt.len * p;
+  if (opts.path) {
+  ctx.strokeStyle = col(th.path); ctx.lineWidth = S; ctx.lineCap = 'butt'; ctx.lineJoin = 'round';
+  ctx.setLineDash([rt.len, rt.len + 10]); ctx.lineDashOffset = rt.len - drawn;
+  ctx.stroke(rt.path); ctx.setLineDash([]);
+
+  // Pixels pop as the pathway passes each turn
+  ctx.fillStyle = col(th.path);
+  for (const c of rt.corners) {
+    if (drawn < c.at) continue;
+    const e = easeOut(clamp((drawn - c.at) / (rt.len * .08)));
+    if (c.dir === 'right') ctx.fillRect(c.x + S / 2, c.y - S / 2, PX * e, S);
+    else ctx.fillRect(c.x - S / 2, c.y + S / 2, S, PX * e);
+  }
+
+  // Light flare: a soft highlight that runs the length of the route every few seconds
+  if (opts.flare && p >= 1) {
+    const cycle = opts.flareEvery + opts.flareTravel, ph = clock % cycle;
+    if (ph < opts.flareTravel) {
+      const fl = opts.flareLen, head = easeInOut(ph / opts.flareTravel) * (rt.len + fl), N = 16;
+      ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'butt';
+      ctx.strokeStyle = '#fff'; ctx.shadowColor = '#fff'; ctx.shadowBlur = Math.max(S, 5) * opts.flareGlow;
+      ctx.lineWidth = S < 10 ? S : S * .6;  // thin lines: the flare fills the line
+      for (let i = 0; i < N; i++) {                 // stacked dashes = bright head, fading tail
+        const seg = fl * (i + 1) / N;
+        ctx.globalAlpha = opts.flareStrength * 1.8 / N;
+        ctx.setLineDash([seg, rt.len * 3 + fl]); ctx.lineDashOffset = -(head - seg);
+        ctx.stroke(rt.path);
+      }
+      ctx.restore(); ctx.setLineDash([]);
+    }
+  }
+  }
+
+  // Eyebrow
+  if (state.eyebrow) {
+    ctx.globalAlpha = easeOut(prog(t, ...T.eyebrow));
+    ctx.font = `500 ${L.eyebrowSize}px Selecta, system-ui, sans-serif`; ctx.letterSpacing = `${L.eyebrowSize * .12}px`;
+    ctx.fillStyle = col(th.text); ctx.textBaseline = 'top';
+    ctx.fillText(state.eyebrow.toUpperCase(), M, L.top);
+    ctx.globalAlpha = 1;
+  }
+
+  // Headline: each line rises out of its own clip
+  ctx.font = `500 ${L.size}px Selecta, system-ui, sans-serif`; ctx.letterSpacing = `${-.025 * L.size}px`;
+  ctx.fillStyle = col(th.text); ctx.textBaseline = 'alphabetic';
+  L.lines.forEach((line, i) => {
+    const e = easeOut(prog(t, T.head[0] + i * T.headStagger, T.head[1]));
+    const y = L.headTop + i * L.lh;
+    ctx.save(); ctx.beginPath(); ctx.rect(0, y - L.lh * .1, W, L.lh * 1.12); ctx.clip();
+    ctx.fillText(line, M - L.size * .04, y + L.size * .86 + (1 - e) * L.lh);
+    ctx.restore();
+  });
+
+  // Wordmark draws on, stroke by stroke (same mask method as thatch.com)
+  const { pad, sc } = L.logo;
+  lctx.setTransform(1, 0, 0, 1, 0, 0); lctx.globalCompositeOperation = 'source-over';
+  lctx.clearRect(0, 0, logoCanvas.width, logoCanvas.height);
+  lctx.setTransform(sc, 0, 0, sc, pad, pad);
+  lctx.strokeStyle = '#fff'; lctx.lineCap = 'butt';
+  let any = false;
+  for (const s of strokes) {
+    const e = easeInOut(prog(t, T.logo[0] + s.seq * T.logoStagger + s.sub * .05, T.logo[1]));
+    if (e <= 0) continue; any = true;
+    lctx.lineWidth = s.w; lctx.setLineDash([s.len, s.len + 1]); lctx.lineDashOffset = s.len * (1 - e);
+    lctx.stroke(s.path);
+  }
+  if (any) {
+    lctx.setLineDash([]); lctx.globalCompositeOperation = 'source-in';
+    lctx.fillStyle = col(th.logo); lctx.fill(logoFill);
+    ctx.drawImage(logoCanvas, M - pad, L.logoY - pad);
+  }
+}
+
+/* ---------- Loop ---------- */
+// Our own clocks, so Pause can freeze everything: intro time (resets on replay) and effects time.
+let tIntro = 0, clock = 0, paused = false, recording = null, last = performance.now();
+function frame(now) {
+  const dt = Math.min(.1, (now - last) / 1000); last = now;
+  if (!paused) {
+    tIntro += dt; clock += dt; stepBlocks(dt);
+    if (!recording && opts.loop && tIntro > DUR + .6) tIntro = 0;
+  }
+  draw(Math.min(tIntro, DUR), clock);
+  if (recording && tIntro >= opts.recLen) recording.stop();
+  requestAnimationFrame(frame);
+}
+const replay = () => { tIntro = 0; };
+function setPaused(v) { paused = v; $('pause').textContent = v ? 'Play' : 'Pause'; $('pause').setAttribute('aria-pressed', v); }
+
+/* ---------- UI ---------- */
+const $ = id => document.getElementById(id);
+function syncUI() {
+  $('headline').value = state.headline; $('eyebrow').value = state.eyebrow;
+  document.querySelectorAll('#themes button').forEach(b => b.setAttribute('aria-pressed', b.dataset.k === state.theme));
+  document.querySelectorAll('#formats button').forEach(b => b.setAttribute('aria-pressed', b.dataset.k === state.format));
+  document.querySelectorAll('#presets button').forEach((b, i) => b.setAttribute('aria-pressed',
+    PRESETS[i].headline === state.headline && PRESETS[i].theme === state.theme));
+  controls.forEach(f => f());
+}
+function update(re = true) {
+  layout(); syncUI();
+  const changed = {};
+  for (const k in opts) if (opts[k] !== DEFAULTS[k]) changed[k] = opts[k];
+  const h = { headline: state.headline, eyebrow: state.eyebrow, theme: state.theme, format: state.format, seed: state.seed };
+  if (Object.keys(changed).length) h.o = JSON.stringify(changed);
+  if (photo) h.ph = photo.id || 'own'; else if (photoCleared) h.ph = 'none';
+  try { history.replaceState(null, '', '#' + new URLSearchParams(h)); } catch (e) {}
+  if (re) replay();
+}
+
+/* ---------- Controls ---------- */
+const controls = []; // each has a sync() so presets / hash loads show the right values
+function slider(box, key, name, min, max, step, fmt = v => v) {
+  const d = document.createElement('div'); d.className = 'ctl';
+  d.innerHTML = `<span>${name}</span><input type="range" min="${min}" max="${max}" step="${step}" aria-label="${name}"><output></output>`;
+  const [inp, out] = [d.querySelector('input'), d.querySelector('output')];
+  const sync = () => { inp.value = opts[key]; out.textContent = fmt(+opts[key]);
+    inp.style.setProperty('--fill', ((opts[key] - min) / (max - min) * 100) + '%'); };
+  inp.oninput = () => { opts[key] = +inp.value; sync(); update(false); };
+  $(box).appendChild(d); controls.push(sync);
+}
+function toggle(box, key, name) {
+  const d = document.createElement('label'); d.className = 'ctl tog';
+  d.style.cssText = 'text-transform:none;letter-spacing:0;font-weight:400';
+  d.innerHTML = `<span>${name}</span><input type="checkbox">`;
+  const inp = d.querySelector('input');
+  inp.onchange = () => { opts[key] = inp.checked; update(false); };
+  $(box).appendChild(d); controls.push(() => { inp.checked = opts[key]; });
+}
+function choice(box, key, name, list) {
+  const d = document.createElement('div'); d.className = 'ctl wide';
+  d.innerHTML = `<span>${name}</span><div class="row"></div>`;
+  const btns = list.map(([v, l]) => { const b = document.createElement('button'); b.textContent = l;
+    b.onclick = () => { opts[key] = v; update(false); }; d.querySelector('.row').appendChild(b); return [v, b]; });
+  $(box).appendChild(d); controls.push(() => btns.forEach(([v, b]) => b.setAttribute('aria-pressed', opts[key] === v)));
+}
+const x = v => v.toFixed(2).replace(/0$/, '') + '×', pct = v => Math.round(v * 100) + '%', sec = v => v.toFixed(1) + 's';
+
+toggle('c-path', 'path', 'Show line');
+slider('c-path', 'lineW', 'Line weight', 2, 110, 1, v => v + 'px');
+
+toggle('c-flare', 'flare', 'On');
+slider('c-flare', 'flareEvery', 'Every', .5, 8, .1, sec);
+slider('c-flare', 'flareTravel', 'Travel time', .4, 4, .1, sec);
+slider('c-flare', 'flareLen', 'Length', 40, 1000, 10, v => v + 'px');
+slider('c-flare', 'flareStrength', 'Strength', .1, 1.5, .05, pct);
+slider('c-flare', 'flareGlow', 'Glow', 0, 3, .1, x);
+
+choice('c-pattern', 'pattern', 'Type', [['off', 'Off'], ['dots', 'Dots'], ['grid', 'Grid']]);
+choice('c-pattern', 'patFade', 'Fade', [['none', 'None'], ['top', 'Top'], ['corner', 'Corner'], ['edges', 'Edges']]);
+slider('c-pattern', 'patSpacing', 'Spacing', 16, 120, 1);
+slider('c-pattern', 'patSize', 'Dot / line', 1, 8, .5);
+slider('c-pattern', 'patOpacity', 'Opacity', .02, .6, .01, pct);
+
+toggle('c-field', 'field', 'On');
+slider('c-field', 'fieldSize', 'Pixel size', 2, 40, 1, v => v + 'px');
+slider('c-field', 'fieldSpacing', 'Columns', 3, 140, .5, v => v + 'px');
+slider('c-field', 'fieldRows', 'Rows', 2, 140, .5, v => v + 'px');
+{ const d = document.createElement('div'); d.className = 'row'; d.style.margin = '4px 0 6px 102px';
+  const b = document.createElement('button'); b.textContent = 'Close gaps'; b.title = 'Space the grid so the pixels touch';
+  b.onclick = () => { opts.fieldSpacing = opts.fieldSize * 1.5; opts.fieldRows = opts.fieldSize; update(false); };
+  d.appendChild(b); $('c-field').appendChild(d); }
+slider('c-field', 'fieldOpacity', 'Opacity', 0, .8, .01, pct);
+choice('c-field', 'fieldColor', 'Color', [['text', 'Ink'], ['accent', 'Accent']]);
+choice('c-field', 'fieldFade', 'Fade', [['none', 'None'], ['top', 'Top'], ['corner', 'Corner'], ['edges', 'Edges']]);
+slider('c-field', 'fieldIdle', 'Idle drift', 0, 1.5, .05, x);
+toggle('c-field', 'wave', 'Wave');
+choice('c-field', 'waveDir', 'Direction', [['ltr', '→'], ['rtl', '←'], ['diag', '↘'], ['rise', '↗']]);
+slider('c-field', 'waveEvery', 'Every', 0, 8, .1, sec);
+slider('c-field', 'waveTravel', 'Travel time', 1, 10, .1, sec);
+slider('c-field', 'waveWidth', 'Width', .05, .5, .01, pct);
+slider('c-field', 'waveStrength', 'Disturb', 0, 2, .05, x);
+slider('c-field', 'shimmer', 'Shimmer', 0, 1, .01, pct);
+toggle('c-field', 'waveGlow', 'Glow rides wave');
+
+toggle('c-amb', 'amb', 'On');
+slider('c-amb', 'ambCount', 'Count', 2, 80, 1);
+slider('c-amb', 'ambSize', 'Size', .15, 1.2, .05, x);
+slider('c-amb', 'ambSpeed', 'Speed', .05, 2, .05, v => v.toFixed(2) + '/s');
+slider('c-amb', 'ambHold', 'Pause', 0, .9, .05, pct);
+slider('c-amb', 'ambTurn', 'Turns', 0, 1, .05, pct);
+slider('c-amb', 'ambOpacity', 'Opacity', .02, 1, .01, pct);
+
+toggle('c-grain', 'grain', 'On');
+toggle('c-grain', 'grainMove', 'Moving');
+slider('c-grain', 'grainAmt', 'Amount', 0, 3, .05, x);
+slider('c-grain', 'grainSize', 'Size', 1, 4, .25, x);
+
+choice('c-photo', 'photo', 'Use as', [['off', 'Off'], ['card', 'Card'], ['backdrop', 'Backdrop']]);
+slider('c-photo', 'photoTint', 'Tint', 0, 1, .01, pct);
+slider('c-photo', 'photoSize', 'Card size', .5, 1.6, .05, x);
+
+toggle('c-export', 'loop', 'Loop intro');
+slider('c-export', 'recLen', 'Video length', 4, 20, 1, v => v + 's');
+
+/* ---------- Unsplash ---------- */
+// Pull a specific photo by link (or search and pick one). Follows the API guidelines:
+// hotlink the returned image URL, credit the photographer, and ping the download endpoint on export.
+const KEY_STORE = 'pathways.unsplashKey';
+try { $('usKey').value = localStorage.getItem(KEY_STORE) || ''; } catch (e) {}
+$('usKey').onchange = () => { try { localStorage.setItem(KEY_STORE, $('usKey').value.trim()); } catch (e) {} };
+const say = m => { $('status').textContent = m; };
+// On alexanderprins.com the site's /api/unsplash helper holds the key, so the browser never sees it.
+// Anywhere else (a local copy), the page falls back to a key pasted into the panel.
+const API = '/api/unsplash';
+let proxy = false;
+const ready = fetch(API).then(r => r.ok ? r.json() : null).then(j => { proxy = !!(j && j.ok); }, () => {})
+  .then(() => { $('usKeyRow').hidden = proxy; });
+async function unsplash(kind, val) { // kind: 'photo' (val = id) or 'search' (val = words)
+  await ready;
+  let r;
+  if (proxy) r = await fetch(`${API}?${kind === 'photo' ? 'id' : 'q'}=${encodeURIComponent(val)}`);
+  else {
+    const key = $('usKey').value.trim();
+    if (!key) { $('d-photo').open = true; throw new Error('Add your Unsplash Access Key first.'); }
+    const path = kind === 'photo' ? '/photos/' + encodeURIComponent(val) : '/search/photos?per_page=12&query=' + encodeURIComponent(val);
+    r = await fetch('https://api.unsplash.com' + path, { headers: { Authorization: 'Client-ID ' + key, 'Accept-Version': 'v1' } });
+  }
+  if (r.status === 401) throw new Error('Unsplash rejected the key.');
+  if (r.status === 429) throw new Error('Unsplash search is resting for the hour. Try again soon.');
+  if (r.status === 404) throw new Error('No Unsplash photo at that link.');
+  if (!r.ok) throw new Error('Unsplash error ' + r.status + '.');
+  return r.json();
+}
+function photoId(s) { // accepts a full link, a slug-ID, or a bare ID
+  s = s.trim(); const m = s.match(/photos\/([^/?#]+)/); const seg = m ? m[1] : s;
+  return seg.length > 11 && seg[seg.length - 12] === '-' ? seg.slice(-11) : seg;
+}
+function loadImg(src) {
+  return new Promise((res, rej) => { const i = new Image(); i.crossOrigin = 'anonymous';
+    i.onload = () => res(i); i.onerror = () => rej(new Error('Image failed to load.')); i.src = src; });
+}
+const utm = '?utm_source=thatch_pathways&utm_medium=referral';
+async function useUnsplash(p) {
+  say('Loading photo…');
+  const img = await loadImg(p.urls.raw + '&w=2160&fm=jpg&q=85');
+  photo = { img, id: p.id, track: p.links.download_location };
+  $('credit').innerHTML = `Photo by <a href="${p.user.links.html}${utm}" target="_blank" rel="noopener">${p.user.name.replace(/</g, '')}</a> on <a href="https://unsplash.com/${utm}" target="_blank" rel="noopener">Unsplash</a>`;
+  if (opts.photo === 'off') opts.photo = 'card';
+  update(false); say('');
+}
+$('usLoad').onclick = async () => { try { await useUnsplash(await unsplash('photo', photoId($('usLink').value))); } catch (e) { say(e.message); } };
+$('usLink').onkeydown = e => { if (e.key === 'Enter') $('usLoad').click(); };
+$('usSearch').onclick = async () => {
+  try {
+    const q = $('usQuery').value.trim(); if (!q) return;
+    const r = await unsplash('search', q);
+    $('usThumbs').innerHTML = '';
+    for (const p of r.results) { const im = document.createElement('img'); im.src = p.urls.thumb; im.alt = p.alt_description || '';
+      im.title = 'Photo by ' + p.user.name; im.onclick = () => useUnsplash(p).catch(e => say(e.message)); $('usThumbs').appendChild(im); }
+    if (!r.results.length) say('No results.');
+  } catch (e) { say(e.message); }
+};
+$('usQuery').onkeydown = e => { if (e.key === 'Enter') $('usSearch').click(); };
+$('upBtn').onclick = () => $('upFile').click();
+$('upFile').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  photo = { img: await loadImg(URL.createObjectURL(f)) }; $('credit').textContent = 'Your own image: ' + f.name;
+  if (opts.photo === 'off') opts.photo = 'card';
+  update(false);
+};
+$('phClear').onclick = () => { photo = null; photoCleared = true; $('credit').textContent = ''; update(false); };
+function trackDownload() { // Unsplash asks apps to report when a photo is used
+  if (!photo || !photo.track) return;
+  if (proxy) fetch(`${API}?track=${encodeURIComponent(photo.id)}`).catch(() => {});
+  else fetch(photo.track, { headers: { Authorization: 'Client-ID ' + $('usKey').value.trim() } }).catch(() => {});
+}
+try { const ph = new URLSearchParams(location.hash.slice(1)).get('ph') || DEFAULT_PHOTO;
+  if (ph !== 'none' && ph !== 'own') ready.then(() => { if (proxy || $('usKey').value) unsplash('photo', ph).then(useUnsplash).catch(e => say(e.message)); });
+} catch (e) {}
+PRESETS.forEach(p => { const b = document.createElement('button'); b.textContent = p.label;
+  b.onclick = () => { Object.assign(state, p); update(); }; $('presets').appendChild(b); });
+Object.entries(THEMES).forEach(([k, th]) => { const b = document.createElement('button'); b.className = 'swatch';
+  b.dataset.k = k; b.title = th.name; b.setAttribute('aria-label', th.name);
+  b.style.background = th.bg === 'red' ? C.red : th.bg; b.style.borderColor = '#ffffff33';
+  b.onclick = () => { state.theme = k; update(false); }; $('themes').appendChild(b); });
+Object.entries(FORMATS).forEach(([k, f]) => { const b = document.createElement('button'); b.textContent = f.name; b.dataset.k = k;
+  b.onclick = () => { state.format = k; update(); }; $('formats').appendChild(b); });
+$('headline').oninput = e => { state.headline = e.target.value; update(false); };
+$('eyebrow').oninput = e => { state.eyebrow = e.target.value; update(false); };
+$('shuffle').onclick = () => { state.seed = Math.floor(Math.random() * 9999); update(); };
+$('replay').onclick = replay;
+$('pause').onclick = () => setPaused(!paused);
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' && !/INPUT|TEXTAREA|BUTTON/.test(document.activeElement.tagName)) { e.preventDefault(); setPaused(!paused); }
+});
+
+$('png').onclick = () => {
+  draw(Math.min(tIntro, DUR), clock); trackDownload();
+  canvas.toBlob(b => download(b, `thatch-pathways-${state.theme}-${FORMATS[state.format].name.replace(':', 'x')}.png`));
+};
+$('rec').onclick = () => {
+  if (recording) return;
+  const types = ['video/mp4;codecs=avc1.640028', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm'];
+  const type = types.find(t => window.MediaRecorder && MediaRecorder.isTypeSupported(t));
+  if (!type) { $('status').textContent = 'This browser cannot record video. Try Chrome.'; return; }
+  const chunks = [], mr = new MediaRecorder(canvas.captureStream(60), { mimeType: type, videoBitsPerSecond: 16e6 });
+  mr.ondataavailable = e => e.data.size && chunks.push(e.data);
+  mr.onstop = () => {
+    recording = null; $('rec').textContent = 'Record video';
+    const ext = type.startsWith('video/mp4') ? 'mp4' : 'webm';
+    download(new Blob(chunks, { type }), `thatch-pathways-${state.theme}-${FORMATS[state.format].name.replace(':', 'x')}.${ext}`);
+    $('status').textContent = `Saved ${ext.toUpperCase()}, ${opts.recLen}s.`;
+  };
+  trackDownload();
+  recording = mr; $('rec').textContent = 'Recording…'; $('status').textContent = '';
+  setPaused(false); replay(); mr.start();
+};
+function download(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
+
+Promise.all(['500 100px Selecta', '400 13px Selecta', '700 13px Selecta'].map(f => document.fonts.load(f))).catch(() => {}).finally(() => {
+  update(); requestAnimationFrame(frame);
+});
+</script>
+</body>
+</html>
